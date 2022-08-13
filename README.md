@@ -27,7 +27,6 @@ There are 3 types of nodes in a behaviour tree:
 * [Composites](#composites)
 
 ### Leaves
----
 Leaves are the simplest node type: they can't have any child nodes, but they're the ones that execute actions. For example, take a look at the `GoToPosition` node:
 
 ```csharp
@@ -54,7 +53,6 @@ public sealed class GoToPosition : Leaf
 It takes `NavMeshAgent` and `Vector3` (or `Transform`) in its constructor and when it comes to evaluation it sets the agent's destination to what was assigned and returns `NodeState.Success`. You can *easily* create **your own** leaf nodes by creating a new class and making it inherit from `Leaf`.
 
 ### Decorators
----
 A decorator is a node that doesn't have any functionality of its own, but instead it can cancel or prevent execution of other nodes.
 Right now there are only two types of decorators: `Conditional` and `ExecuteNTimes`.
 
@@ -83,7 +81,6 @@ public override NodeState Execute(IBlackboard blackboard)
 You can also call `Reset()` to set the `Counter` value to 0.
 
 ### Composites
----
 A composite is a node that doesn't have any functionality of its own, but instead can have multiple child nodes and process them in its own way. The two main types of composites (and the only ones implemented for the moment) are `Sequence` and `Selector`.
 
 `Sequence` executes every of its child nodes **from left to right**. If the nodes that's being executed returns either `Failure` or `Running`, the Sequence won't execute further until that node returns `Success`.
