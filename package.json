@@ -1,0 +1,19 @@
+{
+  "name": "com.derrixx.behaviourtrees",
+  "version": "0.1.0",
+  "description": "An easy to use code-only behaviour tree system, made by programmer for programmers",
+  "displayName": "Behaviour Trees",
+  "author": {
+    "name": "Eugene Zagaevsky",
+    "email": "derrixxco@gmail.com"
+  },
+  "keywords": [
+    "ai",
+    "behaviour",
+    "tree",
+    "state machine",
+    "node canvas",
+    "blackboard"
+  ],
+  "type": "library"
+}
