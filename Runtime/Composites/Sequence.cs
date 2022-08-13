@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Derrixx.BehaviourTrees.Composites
+namespace Derrixx.BehaviourTrees.Runtime.Composites
 {
     public sealed class Sequence : Composite
     {
@@ -13,11 +13,11 @@ namespace Derrixx.BehaviourTrees.Composites
         {
         }
 
-        public override NodeState Evaluate(IBlackboard blackboard)
+        public override NodeState Execute(IBlackboard blackboard)
         {
             foreach (Node node in Children)
             {
-                state = node.Evaluate(blackboard);
+                state = node.Execute(blackboard);
                 
                 switch (state)
                 {

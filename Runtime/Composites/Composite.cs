@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Derrixx.BehaviourTrees.Composites
+namespace Derrixx.BehaviourTrees.Runtime.Composites
 {
     public abstract class Composite : Node
     {
@@ -20,7 +20,7 @@ namespace Derrixx.BehaviourTrees.Composites
 
         protected IReadOnlyCollection<Node> Children => _children;
 
-        public override NodeState Evaluate(IBlackboard blackboard)
+        public override NodeState Execute(IBlackboard blackboard)
         {
             return NodeState.Failure;
         }

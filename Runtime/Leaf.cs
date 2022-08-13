@@ -1,4 +1,4 @@
-﻿namespace Derrixx.BehaviourTrees
+﻿namespace Derrixx.BehaviourTrees.Runtime
 {
     public abstract class Leaf : Node
     {

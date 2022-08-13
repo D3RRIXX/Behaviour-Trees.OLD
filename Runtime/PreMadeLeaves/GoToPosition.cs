@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-namespace Derrixx.BehaviourTrees.PreMadeLeaves
+namespace Derrixx.BehaviourTrees.Runtime.PreMadeLeaves
 {
     public sealed class GoToPosition : Leaf
     {
@@ -20,7 +20,7 @@ namespace Derrixx.BehaviourTrees.PreMadeLeaves
             _destination = destination.position;
         }
 
-        public override NodeState Evaluate(IBlackboard blackboard)
+        public override NodeState Execute(IBlackboard blackboard)
         {
             _agent.SetDestination(_destination);
             

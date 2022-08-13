@@ -1,6 +1,6 @@
-﻿namespace Derrixx.BehaviourTrees
+﻿namespace Derrixx.BehaviourTrees.Runtime.Decorators
 {
-    public sealed class ExecuteNTimes : Node
+    public sealed class ExecuteNTimes : Decorator
     {
         private readonly int _limit;
         private readonly Node _child;
@@ -13,14 +13,13 @@
             _child = child;
         }
 
-        public override NodeState Evaluate(IBlackboard blackboard)
+        public override NodeState Execute(IBlackboard blackboard)
         {
             if (Counter >= _limit)
                 return NodeState.Success;
                 
             Counter++;
-            
-            return _child.Evaluate(blackboard);
+            return _child.Execute(blackboard);
         }
 
         public void Reset() => Counter = 0;

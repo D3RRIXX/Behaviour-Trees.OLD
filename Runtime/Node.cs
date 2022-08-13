@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees
+namespace Derrixx.BehaviourTrees.Runtime
 {
     public enum NodeState
     {
@@ -36,7 +36,7 @@ namespace Derrixx.BehaviourTrees
             Debug.Log(root.PrintNode(0));
         }
 
-        public abstract NodeState Evaluate(IBlackboard blackboard);
+        public abstract NodeState Execute(IBlackboard blackboard);
 
         protected internal virtual string PrintNode(int nodeLevel)
         {
