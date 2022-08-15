@@ -9,7 +9,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Decorators
 
         public Conditional(string name, Func<bool> condition) : base(name)
         {
-            if (!name.Contains('?'))
+            if (!name.Contains("?"))
                 Debug.LogWarning($"Please add \'?\' to \"{name}\" node for better code readability");
             
             _condition = condition ?? throw new ArgumentNullException(nameof(condition), ErrorLog(name));

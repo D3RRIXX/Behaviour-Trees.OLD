@@ -17,5 +17,6 @@
   ],
   "type": "library",
   "changelogURL": "https://github.com/D3RRIXX/Behaviour-Trees/blob/main/CHANGELOG.md",
-  "license": "LICENSE.md"
+  "license": "LICENSE.md",
+  "unity": "2020.1"
 }
