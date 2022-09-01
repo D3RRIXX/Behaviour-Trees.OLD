@@ -13,7 +13,7 @@ Key features:
 
 Installing
 ---
-Simply copy `https://github.com/D3RRIXX/Behaviour-Trees.git` into Unity Package Manager. **Images TBA**
+Simply copy `https://github.com/D3RRIXX/Behaviour-Trees.git?path=src` into Unity Package Manager. **Images TBA**
 
 How to use
 ---
