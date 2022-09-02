@@ -9,7 +9,6 @@
         public ExecuteNTimes(int n, Node child) : base($"Execute {n} times", child)
         {
             _limit = n;
-            _child = child;
         }
 
         public override NodeState Execute(IBlackboard blackboard)
@@ -18,7 +17,7 @@
                 return NodeState.Success;
                 
             Counter++;
-            return _child.Execute(blackboard);
+            return Child.Execute(blackboard);
         }
 
         public void Reset() => Counter = 0;
@@ -26,7 +25,7 @@
         protected internal override string PrintNode(int nodeLevel)
         {
             string output = base.PrintNode(nodeLevel);
-            output += _child.PrintNode(nodeLevel + 1);
+            output += Child.PrintNode(nodeLevel + 1);
             
             return output;
         }
