@@ -3,11 +3,10 @@
     public sealed class ExecuteNTimes : Decorator
     {
         private readonly int _limit;
-        private readonly Node _child;
         
         public int Counter { get; private set; }
         
-        public ExecuteNTimes(int n, Node child) : base($"Execute {n} times")
+        public ExecuteNTimes(int n, Node child) : base($"Execute {n} times", child)
         {
             _limit = n;
             _child = child;
