@@ -2,10 +2,13 @@
 {
     public abstract class Decorator : Node
     {
-        private protected Decorator(string name) : base(name)
+        protected Node Child { get; }
+
+        private protected Decorator(string name, Node child) : base(name)
         {
+            Child = child;
         }
-        
+
         protected internal override string Color => "lime";
     }
 }

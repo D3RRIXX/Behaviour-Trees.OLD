@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Derrixx.BehaviourTrees.Runtime.Decorators
 {
-    public sealed class Conditional : Decorator
+    public sealed class Conditional : Leaf
     {
         private readonly Func<bool> _condition;
 

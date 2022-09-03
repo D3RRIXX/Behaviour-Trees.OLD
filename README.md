@@ -53,15 +53,22 @@ public sealed class GoToPosition : Leaf
 It takes `NavMeshAgent` and `Vector3` (or `Transform`) in its constructor and when it comes to evaluation it sets the agent's destination to what was assigned and returns `NodeState.Success`. You can *easily* create **your own** leaf nodes by creating a new class and making it inherit from `Leaf`.
 
 ### Decorators
-A decorator is a node that doesn't have any functionality of its own, but instead it can cancel or prevent execution of other nodes.
-Right now there are only two types of decorators: `Conditional` and `ExecuteNTimes`.
+A decorator is a node that doesn't have any functionality of its own, but instead it can cancel or prevent execution of other nodes and can have only one child node.
+Right now there are only two types of decorators: `Inverter` and `ExecuteNTimes`.
 
-`Conditional` takes `Func<bool>()` in constructor and returns either `Success` or `Failure` depending on the method's return value.
+`Inverter` (obviously) inverts the result of its child node's execution.
 
 ```csharp
 public override NodeState Execute(IBlackboard blackboard)
 {
-    return _condition() ? NodeState.Success : NodeState.Failure;
+    NodeState output = Child.Execute(blackboard) switch
+	{
+		NodeState.Failure => NodeState.Success,
+		NodeState.Success => NodeState.Failure,
+		_ => NodeState.Running
+	};
+
+	return output;
 }
 ```
 
@@ -72,8 +79,8 @@ public override NodeState Execute(IBlackboard blackboard)
 {
     if (Counter >= _limit)
         return NodeState.Success;
-                
-    Counter++;           
+
+    Counter++;
     return _child.Execute(blackboard);
 }
 ```
