@@ -10,7 +10,8 @@ Key features:
 ## Table of contents:
 - [Installing](#installing)
 - [Introduction](#introduction)
-- [Using with Pure C#](#using-with-pure-c)
+- [Using MonoBehaviours](#using-monobehaviours)
+- [Using Pure C#](#using-with-pure-c)
 
 Installing
 ---
