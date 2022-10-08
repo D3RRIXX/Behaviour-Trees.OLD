@@ -1,16 +1,23 @@
+using Derrixx.BehaviourTrees.Runtime;
+using Derrixx.BehaviourTrees.Runtime.Behaviours;
 using UnityEngine;
 
 public class BehaviourTest : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private NodeBehaviour rootNode;
+
+    private void Awake()
     {
-        
+        rootNode.InjectBlackboard(new TestBlackboard());        
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        rootNode.Execute();
     }
+}
+
+public class TestBlackboard : IBlackboard
+{
+    
 }

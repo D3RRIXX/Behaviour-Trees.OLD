@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Derrixx.BehaviourTrees.Runtime.Composites
+namespace Derrixx.BehaviourTrees.Runtime.Pure.Composites
 {
     public sealed class Selector : Composite
     {
-        public Selector(string name, IEnumerable<Node> children) : base($"{name} (Selector)", children)
+        public Selector(string name, IEnumerable<INode> children) : base($"{name} (Selector)", children)
         {
         }
         
-        public Selector(IEnumerable<Node> children) : base("Sequence", children)
+        public Selector(IEnumerable<INode> children) : base("Sequence", children)
         {
         }
 
-        public override NodeState Execute(IBlackboard blackboard)
+        public override NodeState Execute()
         {
-            foreach (Node node in Children)
+            foreach (INode node in Children)
             {
-                state = node.Execute(blackboard);
+                state = node.Execute();
                 
                 switch (state)
                 {

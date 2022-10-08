@@ -9,17 +9,18 @@ Key features:
 
 ## Table of contents:
 - [Installing](#installing)
-- [How to use](#how-to-use)
+- [Introduction](#introduction)
+- [Using with Pure C#](#using-with-pure-c)
 
 Installing
 ---
-Simply copy `https://github.com/D3RRIXX/Behaviour-Trees.git?path=src` into Unity Package Manager. **Images TBA**
+Simply copy `https://github.com/D3RRIXX/Behaviour-Trees.git?path=src/Behaviour-Trees/Assets/Plugins/BehaviourTrees` into Unity Package Manager. **Images TBA**
 
-How to use
+Introduction
 ---
 Create a behaviour class, for example `EnemyBehaviour`. Inside of it you'll nest nodes inside each other to create your very own behaviour tree!
 
-Each node implements `Execute(IBlackboard)` method, which returns either of the three evaluation states: `Running, Failure` or `Success`.
+Each node implements `Execute()` method, which returns either of the three evaluation states: `Running, Failure` or `Success`.
 
 There are 3 types of nodes in a behaviour tree:
 * [Leaves](#leaves)
@@ -41,7 +42,7 @@ public sealed class GoToPosition : Leaf
         _destination = destination;
     }
 
-    public override NodeState Execute(IBlackboard blackboard)
+    public override NodeState Execute()
     {
         _agent.SetDestination(_destination);
     
@@ -59,7 +60,7 @@ Right now there are only two types of decorators: `Inverter` and `ExecuteNTimes`
 `Inverter` (obviously) inverts the result of its child node's execution.
 
 ```csharp
-public override NodeState Execute(IBlackboard blackboard)
+public override NodeState Execute()
 {
     NodeState output = Child.Execute(blackboard) switch
 	{
@@ -75,7 +76,7 @@ public override NodeState Execute(IBlackboard blackboard)
 `ExecuteNTimes` takes a single child node and the amount of times it will execute.
 
 ```csharp
-public override NodeState Execute(IBlackboard blackboard)
+public override NodeState Execute()
 {
     if (Counter >= _limit)
         return NodeState.Success;
@@ -93,3 +94,19 @@ A composite is a node that doesn't have any functionality of its own, but instea
 `Sequence` executes every of its child nodes **from left to right**. If the nodes that's being executed returns either `Failure` or `Running`, the Sequence won't execute further until that node returns `Success`.
 
 `Selector` works similarly to `Sequence` with the difference that it keeps executing its children until either of them returns `Success`.
+
+
+You may implement Behaviour Trees in two ways: using MonoBehaviours or Pure C#.
+
+### Using MonoBehaviours
+---
+To create a new node that you can to a GameObject, create a new script which would derive from `NodeBehaviour` type
+
+You have the same basic nodes implemented as MonoBehaviours, such as: `SequenceBehaviour`, `SelectorBehaviour`.
+
+The advantage of using `NodeBehaviour`s is that you don't have to specify the node hierarchy in code but rather simply use the transform hierarchy.
+
+### Using Pure C#
+---
+
+WIP
