@@ -11,7 +11,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Pure
     {
         private readonly string _name;
 
-        protected NodeState state;
+        protected NodeState State;
 
         public INode Parent { get; set; }
 
@@ -22,7 +22,11 @@ namespace Derrixx.BehaviourTrees.Runtime.Pure
 
         protected internal virtual string Color => "silver";
 
+        public virtual void OnNodeEnter() { }
+        public virtual void OnNodeExit() { }
+
         public abstract NodeState Execute();
+
         public abstract void InjectBlackboard(IBlackboard blackboard);
 
         public void PrintTree()

@@ -1,38 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace Derrixx.BehaviourTrees.Runtime.Pure.Composites
 {
     public sealed class Sequence : Composite
     {
-        public Sequence(string name, IEnumerable<INode> children) : base($"{name} (Sequence)", children)
-        {
-        }
-        
-        public Sequence(IEnumerable<INode> children) : base("Sequence", children)
+        public Sequence(string name, IEnumerable<INode> children, bool dynamic) 
+            : base($"{name} (Sequence)", children, dynamic)
         {
         }
 
-        public override NodeState Execute()
+        public Sequence(IEnumerable<INode> children, bool dynamic) : base("Sequence", children, dynamic)
         {
-            foreach (INode node in Children)
+        }
+
+        protected override bool ShouldBreak(NodeState state)
+        {
+            switch (state)
             {
-                state = node.Execute();
-                
-                switch (state)
-                {
-                    case NodeState.Failure:
-                    case NodeState.Running:
-                        return state;
-                    case NodeState.Success:
-                        continue;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                case NodeState.Failure:
+                case NodeState.Running:
+                    return true;
+                default:
+                    return false;
             }
-
-            state = NodeState.Success;
-            return state;
         }
     }
 }

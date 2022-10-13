@@ -7,7 +7,16 @@ namespace DefaultNamespace
 {
 	public class TestNode : NodeBehaviour
 	{
+		[SerializeField] private NodeState returnValue;
+		[SerializeField] private bool printSomethingOnNodeEnter;
+		
 		private TestBlackboard _blackboard;
+
+		public override void OnNodeEnter()
+		{
+			if (printSomethingOnNodeEnter)
+				Debug.Log($"Entered node {name}", this);
+		}
 
 		public override void InjectBlackboard(IBlackboard blackboard)
 		{
@@ -16,8 +25,7 @@ namespace DefaultNamespace
 
 		public override NodeState Execute()
 		{
-			Debug.Log(name + _blackboard);
-			return NodeState.Success;
+			return returnValue;
 		}
 	}
 }

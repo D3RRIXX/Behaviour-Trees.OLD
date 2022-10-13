@@ -12,6 +12,9 @@ namespace Derrixx.BehaviourTrees.Runtime.Behaviours
 
 	public abstract class CompositeBehaviour<T> : CompositeBehaviour where T : Composite
 	{
+		[Tooltip("Will this composite re-run all previous nodes on each execution?")]
+		[SerializeField] private bool dynamic = true;
+		
 		private Composite _composite;
 
 		private void Start()
@@ -50,7 +53,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Behaviours
 
 		private Composite CreateCompositeNode(IEnumerable<INode> children)
 		{
-			return (Composite)Activator.CreateInstance(typeof(T), name, children);
+			return (Composite)Activator.CreateInstance(typeof(T), name, children, dynamic);
 		}
 	}
 }

@@ -63,7 +63,7 @@ Right now there are only two types of decorators: `Inverter` and `ExecuteNTimes`
 ```csharp
 public override NodeState Execute()
 {
-    NodeState output = Child.Execute(blackboard) switch
+    NodeState output = Child.Execute() switch
 	{
 		NodeState.Failure => NodeState.Success,
 		NodeState.Success => NodeState.Failure,
@@ -83,7 +83,7 @@ public override NodeState Execute()
         return NodeState.Success;
 
     Counter++;
-    return _child.Execute(blackboard);
+    return _child.Execute();
 }
 ```
 

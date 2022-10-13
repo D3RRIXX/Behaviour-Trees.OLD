@@ -211,6 +211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9473edb78e434b54bfe72cdd627b0ee3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  returnValue: 2
+  printSomethingOnNodeEnter: 1
 --- !u!1 &412944183
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,6 +256,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9473edb78e434b54bfe72cdd627b0ee3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  returnValue: 2
+  printSomethingOnNodeEnter: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,6 +463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69a091d4e0294ea789c7c9a613007a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dynamic: 1
 --- !u!4 &1329481894
 Transform:
   m_ObjectHideFlags: 0
@@ -519,3 +524,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9473edb78e434b54bfe72cdd627b0ee3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  returnValue: 1
+  printSomethingOnNodeEnter: 0
