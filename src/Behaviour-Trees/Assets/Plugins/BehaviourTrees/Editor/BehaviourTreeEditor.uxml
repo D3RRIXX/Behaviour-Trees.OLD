@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="BehaviourTreeEditor.uss" />
+    <uie:Toolbar>
+        <uie:ToolbarMenu display-tooltip-when-elided="true" text="Assets " />
+    </uie:Toolbar>
+    <Derrixx.BehaviourTrees.Editor.SplitView fixed-pane-initial-dimension="200">
+        <ui:VisualElement name="left-panel">
+            <ui:Label text="Inspector" display-tooltip-when-elided="true" enable-rich-text="false" style="background-color: rgba(32, 32, 32, 255);" />
+            <Derrixx.BehaviourTrees.Editor.InspectorView />
+        </ui:VisualElement>
+        <ui:VisualElement name="right-panel">
+            <Derrixx.BehaviourTrees.Editor.BehaviourTreeView focusable="true" style="flex-direction: column-reverse; flex-grow: 1;">
+                <ui:Label text="Tree View" display-tooltip-when-elided="true" style="background-color: rgba(32, 32, 32, 255);" />
+            </Derrixx.BehaviourTrees.Editor.BehaviourTreeView>
+        </ui:VisualElement>
+    </Derrixx.BehaviourTrees.Editor.SplitView>
+</ui:UXML>
