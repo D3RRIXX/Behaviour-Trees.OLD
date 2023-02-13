@@ -17,5 +17,9 @@
   ],
   "changelogURL": "https://github.com/D3RRIXX/Behaviour-Trees/blob/main/CHANGELOG.md",
   "license": "LICENSE.md",
-  "unity": "2020.1"
+  "unity": "2020.1",
+  "dependencies": {
+    "com.unity.ui" : "1.0.*",
+    "com.unity.ui.builder" : "1.0.*"
+  }
 }
