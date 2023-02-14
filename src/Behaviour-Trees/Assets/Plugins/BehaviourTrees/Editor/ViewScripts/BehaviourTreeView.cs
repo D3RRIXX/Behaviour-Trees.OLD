@@ -44,7 +44,7 @@ namespace Derrixx.BehaviourTrees.Editor
 				Regex regex = new Regex(pattern);
 				
 				TypeCache.TypeCollection types = TypeCache.GetTypesDerivedFrom(baseType);
-				foreach (Type type in types)
+				foreach (Type type in types.Where(type => !type.IsAbstract))
 				{
 					evt.menu.AppendAction(string.Format(actionName, regex.Match(baseType.Name).Value, regex.Match(type.Name).Value), _ => CreateNode(type));
 				}
@@ -67,12 +67,24 @@ namespace Derrixx.BehaviourTrees.Editor
 			{
 				CreateNodeView(node);
 			}
+
+			foreach (Node node in _tree.Nodes)
+			foreach (Node child in node.GetChildren())
+			{
+				NodeView parentView = FindNodeView(node);
+				NodeView childView = FindNodeView(child);
+
+				Edge edge = parentView.Output.ConnectTo(childView.Input);
+				AddElement(edge);
+			}
 		}
+
+		private NodeView FindNodeView(Node node) => GetNodeByGuid(node.Guid) as NodeView;
 
 		public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
 		{
 			return ports.ToList()
-				.Where(endPort => endPort.direction != startPort.direction && endPort.node != startPort.node)
+				.Where(endPort => endPort.direction != startPort.direction && endPort.node != startPort.node && endPort.portType == startPort.portType)
 				.ToList();
 		}
 
@@ -82,8 +94,27 @@ namespace Derrixx.BehaviourTrees.Editor
 			{
 				foreach (GraphElement graphElement in graphViewChange.elementsToRemove)
 				{
-					if (graphElement is NodeView nodeView)
-						_tree.DeleteNode(nodeView.Node);
+					switch (graphElement)
+					{
+						case NodeView nodeView:
+							_tree.DeleteNode(nodeView.Node);
+							break;
+						case Edge edge:
+							NodeView parentView = (NodeView)edge.output.node;
+							NodeView childView = (NodeView)edge.input.node;
+							parentView.Node.RemoveChild(childView.Node);
+							break;
+					}
+				}
+			}
+
+			if (graphViewChange.edgesToCreate != null)
+			{
+				foreach (Edge edge in graphViewChange.edgesToCreate)
+				{
+					NodeView parentView = (NodeView)edge.output.node;
+					NodeView childView = (NodeView)edge.input.node;
+					parentView.Node.AddChild(childView.Node);
 				}
 			}
 			

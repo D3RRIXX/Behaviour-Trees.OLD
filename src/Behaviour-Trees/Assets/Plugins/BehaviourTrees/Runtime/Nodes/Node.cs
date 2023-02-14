@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Derrixx.BehaviourTrees.Runtime.Nodes
 {
-    public abstract class Node : ScriptableObject
+    public abstract partial class Node : ScriptableObject
     {
         public enum State
         {
@@ -13,23 +13,6 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 
         public State CurrentState { get; set; } = State.Running;
         public bool Started { get; set; }
-
-#if UNITY_EDITOR
-        [SerializeField, HideInInspector] private string guid;
-        [SerializeField, HideInInspector] private Vector2 position;
-
-        internal string Guid
-        {
-            get => guid;
-            set => guid = value;
-        }
-        
-        public Vector2 Position
-        {
-            get => position;
-            set => position = value;
-        }
-#endif
 
         public State Update()
         {

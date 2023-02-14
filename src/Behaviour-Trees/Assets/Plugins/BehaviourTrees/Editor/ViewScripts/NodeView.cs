@@ -12,6 +12,7 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			Node = node;
 			title = node.name;
+			viewDataKey = node.Guid;
 
 			style.left = node.Position.x;
 			style.top = node.Position.x;
@@ -22,22 +23,19 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		public Node Node { get; }
 		public Port Input { get; private set; }
-		public Port Output { get; set; }
+		public Port Output { get; private set; }
 
 		public override void SetPosition(Rect newPos)
 		{
 			base.SetPosition(newPos);
-			
-			Vector2 nodePosition = Node.Position;
-			nodePosition.x = newPos.xMin;
-			nodePosition.y = newPos.yMin;
 
-			Node.Position = nodePosition;
+			Node.Position.x = newPos.xMin;
+			Node.Position.y = newPos.yMin;
 		}
 
 		private void CreateInputPorts()
 		{
-			Input = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
+			Input = InstantiatePort(Direction.Input, Port.Capacity.Single);
 
 			if (Input == null)
 				return;
@@ -53,12 +51,12 @@ namespace Derrixx.BehaviourTrees.Editor
 
 			Port.Capacity capacity = Node switch
 			{
-				CompositeNode compositeNode => Port.Capacity.Multi,
-				DecoratorNode decoratorNode => Port.Capacity.Single,
+				CompositeNode _ => Port.Capacity.Multi,
+				DecoratorNode _ => Port.Capacity.Single,
 				_ => throw new ArgumentOutOfRangeException(nameof(Node))
 			};
 
-			Output = InstantiatePort(Orientation.Horizontal, Direction.Output, capacity, typeof(bool));
+			Output = InstantiatePort(Direction.Output, capacity);
 			
 			if (Output == null)
 				return;
@@ -66,5 +64,8 @@ namespace Derrixx.BehaviourTrees.Editor
 			Output.portName = string.Empty;
 			outputContainer.Add(Output);
 		}
+
+		private Port InstantiatePort(Direction direction, Port.Capacity capacity)
+			=> InstantiatePort(Orientation.Horizontal, direction, capacity, typeof(Node));
 	}
 }

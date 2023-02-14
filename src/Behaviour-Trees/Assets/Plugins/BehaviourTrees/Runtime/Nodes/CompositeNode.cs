@@ -5,6 +5,6 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 {
 	public abstract class CompositeNode : Node
 	{
-		[SerializeField] protected List<Node> Children = new List<Node>();
+		[SerializeField] public List<Node> Children = new List<Node>();
 	}
 }
