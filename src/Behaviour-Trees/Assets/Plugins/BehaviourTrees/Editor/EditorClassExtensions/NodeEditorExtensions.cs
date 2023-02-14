@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
+using UnityEditor;
 
 namespace Derrixx.BehaviourTrees.Editor.EditorClassExtensions
 {
@@ -7,6 +8,11 @@ namespace Derrixx.BehaviourTrees.Editor.EditorClassExtensions
 	{
 		public static void AddChild(this Node parent, Node child)
 		{
+			bool changeHappened = !(parent is ActionNode);
+			if (!changeHappened)
+				return;
+			
+			Undo.RecordObject(parent, "Behaviour Tree (Add Child)");
 			switch (parent)
 			{
 				case DecoratorNode decorator:
@@ -16,10 +22,17 @@ namespace Derrixx.BehaviourTrees.Editor.EditorClassExtensions
 					composite.Children.Add(child);
 					break;
 			}
+			
+			EditorUtility.SetDirty(parent);
 		}
 
 		public static void RemoveChild(this Node parent, Node child)
 		{
+			bool changeHappened = !(parent is ActionNode);
+			if (!changeHappened)
+				return;
+			
+			Undo.RecordObject(parent, "Behaviour Tree (Remove Child)");
 			switch (parent)
 			{
 				case DecoratorNode decorator:
@@ -29,6 +42,8 @@ namespace Derrixx.BehaviourTrees.Editor.EditorClassExtensions
 					composite.Children.Remove(child);
 					break;
 			}
+			
+			EditorUtility.SetDirty(parent);
 		}
 
 		public static List<Node> GetChildren(this Node node) => node switch

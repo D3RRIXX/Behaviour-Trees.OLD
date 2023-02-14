@@ -1,5 +1,6 @@
 using System;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -33,8 +34,12 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 		{
 			base.SetPosition(newPos);
 			
+			Undo.RecordObject(Node, "Behaviour Tree (Set Position)");
+			
 			Node.Position.x = newPos.xMin;
 			Node.Position.y = newPos.yMin;
+			
+			EditorUtility.SetDirty(Node);
 		}
 
 		public override void OnSelected()

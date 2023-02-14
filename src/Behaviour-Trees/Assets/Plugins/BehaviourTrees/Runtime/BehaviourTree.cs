@@ -48,9 +48,12 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			node.name = type.Name;
 			node.Guid = GUID.Generate().ToString();
 			
+			Undo.RecordObject(this, "Behaviour Tree (Create Node)");
 			nodes.Add(node);
 			
 			AssetDatabase.AddObjectToAsset(node, this);
+			Undo.RegisterCreatedObjectUndo(node, "Behaviour Tree (Create Node)");
+			
 			EditorUtility.SetDirty(this);
 			AssetDatabase.SaveAssets();
 
@@ -59,9 +62,10 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 
 		public void DeleteNode(Node node)
 		{
+			Undo.RecordObject(this, "Behaviour Tree (Delete Node)");
 			nodes.Remove(node);
 			
-			AssetDatabase.RemoveObjectFromAsset(node);
+			Undo.DestroyObjectImmediate(node);
 			AssetDatabase.SaveAssets();
 		}
 	}

@@ -31,6 +31,14 @@ namespace Derrixx.BehaviourTrees.Editor
 
 			StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Plugins/BehaviourTrees/Editor/BehaviourTreeEditor.uss");
 			styleSheets.Add(styleSheet);
+
+			Undo.undoRedoPerformed += OnUndoRedo;
+		}
+
+		private void OnUndoRedo()
+		{
+			PopulateView(_tree);
+			AssetDatabase.Refresh();
 		}
 
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -91,6 +99,8 @@ namespace Derrixx.BehaviourTrees.Editor
 				Edge edge = parentView.Output.ConnectTo(childView.Input);
 				AddElement(edge);
 			}
+			
+			UpdateNodesActiveState();
 		}
 
 		private NodeView FindNodeView(Node node) => GetNodeByGuid(node.Guid) as NodeView;
@@ -104,54 +114,92 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
 		{
-			if (graphViewChange.elementsToRemove != null)
-			{
-				foreach (GraphElement graphElement in graphViewChange.elementsToRemove)
-				{
-					switch (graphElement)
-					{
-						case NodeView nodeView:
-							_tree.DeleteNode(nodeView.Node);
-							break;
-						case Edge edge:
-							NodeView parentView = (NodeView)edge.output.node;
-							NodeView childView = (NodeView)edge.input.node;
-							parentView.Node.RemoveChild(childView.Node);
-							
-							childView.AddToClassList(StyleClassNames.INACTIVE_NODE);
-							break;
-					}
-				}
-			}
-
-			if (graphViewChange.edgesToCreate != null)
-			{
-				foreach (Edge edge in graphViewChange.edgesToCreate)
-				{
-					NodeView parentView = (NodeView)edge.output.node;
-					NodeView childView = (NodeView)edge.input.node;
-					parentView.Node.AddChild(childView.Node);
-					
-					childView.RemoveFromClassList(StyleClassNames.INACTIVE_NODE);
-				}
-			}
+			RemoveElementsFromGraph(graphViewChange);
+			CreateEdges(graphViewChange);
+			UpdateNodesActiveState();
 			
 			return graphViewChange;
+		}
+
+		private static void CreateEdges(GraphViewChange graphViewChange)
+		{
+			if (graphViewChange.edgesToCreate == null)
+				return;
+			
+			foreach (Edge edge in graphViewChange.edgesToCreate)
+			{
+				NodeView parentView = (NodeView)edge.output.node;
+				NodeView childView = (NodeView)edge.input.node;
+				parentView.Node.AddChild(childView.Node);
+			}
+		}
+
+		private void RemoveElementsFromGraph(GraphViewChange graphViewChange)
+		{
+			if (graphViewChange.elementsToRemove == null)
+				return;
+			
+			foreach (GraphElement graphElement in graphViewChange.elementsToRemove)
+			{
+				switch (graphElement)
+				{
+					case NodeView nodeView:
+						_tree.DeleteNode(nodeView.Node);
+						break;
+					case Edge edge:
+						NodeView parentView = (NodeView)edge.output.node;
+						NodeView childView = (NodeView)edge.input.node;
+						parentView.Node.RemoveChild(childView.Node);
+						break;
+				}
+			}
+		}
+
+		private void UpdateNodesActiveState()
+		{
+			const string className = StyleClassNames.INACTIVE_NODE;
+
+			void SetNodeInactive(NodeView nodeView)
+			{
+				if (!nodeView.ClassListContains(className))
+					nodeView.AddToClassList(className);
+			}
+
+			void SetNodeActive(NodeView nodeView)
+			{
+				if (nodeView.ClassListContains(className))
+					nodeView.RemoveFromClassList(className);
+			}
+
+			foreach (NodeView nodeView in _tree.Nodes.Select(FindNodeView))
+			{
+				bool isConnected = _tree.RootNode.IsConnectedWith(nodeView.Node);
+				if (isConnected)
+				{
+					SetNodeActive(nodeView);
+				}
+				else
+				{
+					SetNodeInactive(nodeView);
+				}
+			}
 		}
 
 		private void CreateNode(Type type)
 		{
 			Node node = _tree.CreateNode(type);
 			CreateNodeView(node);
+			UpdateNodesActiveState();
 		}
 
 		private void CreateNodeView(Node node)
 		{
 			NodeView nodeView = new NodeView(node)
 			{
-				OnNodeSelected = OnNodeSelected
+				OnNodeSelected = OnNodeSelected,
 			};
 			
+			nodeView.AddToClassList(StyleClassNames.INACTIVE_NODE);
 			AddElement(nodeView);
 		}
 	}
