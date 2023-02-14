@@ -1,5 +1,4 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="BehaviourTreeEditor.uss" />
     <uie:Toolbar>
         <uie:ToolbarMenu display-tooltip-when-elided="true" text="Assets " />
     </uie:Toolbar>
@@ -10,8 +9,8 @@
         </ui:VisualElement>
         <ui:VisualElement name="right-panel">
             <Derrixx.BehaviourTrees.Editor.BehaviourTreeView focusable="true" style="flex-direction: column-reverse; flex-grow: 1;">
-                <ui:Label text="BEHAVIOUR TREE" display-tooltip-when-elided="true" style="-unity-text-align: lower-right; opacity: 0.3; font-size: 40px; -unity-font-style: bold; white-space: nowrap; top: auto; position: absolute; left: auto; right: 15px; bottom: 20px;" />
-                <ui:Label text="Behaviour Tree Name" display-tooltip-when-elided="true" name="tree-name" style="background-color: rgba(32, 32, 32, 255); -unity-text-align: middle-center; height: 23px; font-size: 16px;" />
+                <ui:Label text="BEHAVIOUR TREE" display-tooltip-when-elided="true" picking-mode="Ignore" style="-unity-text-align: lower-right; opacity: 0.3; font-size: 40px; -unity-font-style: bold; white-space: nowrap; top: auto; position: absolute; left: auto; right: 15px; bottom: 20px;" />
+                <ui:Label text="Behaviour Tree Name" display-tooltip-when-elided="true" name="tree-name" style="background-color: rgb(32, 32, 32); -unity-text-align: middle-center; height: 23px; font-size: 16px;" />
             </Derrixx.BehaviourTrees.Editor.BehaviourTreeView>
         </ui:VisualElement>
     </Derrixx.BehaviourTrees.Editor.SplitView>

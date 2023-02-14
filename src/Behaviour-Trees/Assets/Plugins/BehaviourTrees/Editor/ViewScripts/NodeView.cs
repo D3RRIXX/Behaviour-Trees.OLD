@@ -10,6 +10,8 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 {
 	public class NodeView : UnityEditor.Experimental.GraphView.Node
 	{
+		private readonly Label _executionOrderLabel;
+		
 		public Action<NodeView> OnNodeSelected;
 
 		public NodeView(Node node) : base("Assets/Plugins/BehaviourTrees/Editor/UIBuilder/NodeView.uxml")
@@ -18,6 +20,8 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			title = node.name;
 			viewDataKey = node.Guid;
 
+			_executionOrderLabel = this.Q<Label>("execution-order");
+			
 			style.left = node.Position.x;
 			style.top = node.Position.y;
 
@@ -46,6 +50,11 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 		{
 			base.OnSelected();
 			OnNodeSelected?.Invoke(this);
+		}
+
+		public void UpdateExecutionOrderLabel(int? order)
+		{
+			_executionOrderLabel.text = order?.ToString() ?? string.Empty;
 		}
 
 		private void SetupClass()

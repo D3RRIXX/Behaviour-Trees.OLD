@@ -50,18 +50,15 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			void AppendCreateSubclassNodesActions(Type baseType, Func<Type, bool> additionalCondition = null)
 			{
-				const string pattern = @"([A-Z])\w+(?=Node)";
 				const string actionName = "Create Node/{0}/{1}";
 
-				Regex regex = new Regex(pattern);
-				
 				TypeCache.TypeCollection types = TypeCache.GetTypesDerivedFrom(baseType);
 				foreach (Type type in types.Where(type => !type.IsAbstract))
 				{
 					if (additionalCondition?.Invoke(type) == false)
 						continue;
 					
-					evt.menu.AppendAction(string.Format(actionName, regex.Match(baseType.Name).Value, regex.Match(type.Name).Value), _ => CreateNode(type));
+					evt.menu.AppendAction(string.Format(actionName, Node.GetNodeName(baseType), Node.GetNodeName(type)), _ => CreateNode(type));
 				}
 			}
 			
@@ -171,17 +168,26 @@ namespace Derrixx.BehaviourTrees.Editor
 					nodeView.RemoveFromClassList(className);
 			}
 
+			List<NodeView> activeViews = new List<NodeView>();
 			foreach (NodeView nodeView in _tree.Nodes.Select(FindNodeView))
 			{
 				bool isConnected = _tree.RootNode.IsConnectedWith(nodeView.Node);
 				if (isConnected)
 				{
+					activeViews.Add(nodeView);
 					SetNodeActive(nodeView);
 				}
 				else
 				{
 					SetNodeInactive(nodeView);
+					nodeView.UpdateExecutionOrderLabel(null);
 				}
+			}
+			
+			_tree.UpdateExecutionOrder();
+			foreach (NodeView nodeView in activeViews)
+			{
+				nodeView.UpdateExecutionOrderLabel(nodeView.Node.ExecutionOrder);
 			}
 		}
 

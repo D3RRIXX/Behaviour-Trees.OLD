@@ -20,6 +20,14 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			return clone;
 		}
 
+		internal sealed override void SetExecutionOrder(ref int order)
+		{
+			base.SetExecutionOrder(ref order);
+
+			if (_child)
+				_child.SetExecutionOrder(ref order);
+		}
+
 		public sealed override bool IsConnectedWith(Node other)
 		{
 			if (_child != null && _child.IsConnectedWith(other))

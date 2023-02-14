@@ -39,13 +39,19 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 		
 		public T CreateNode<T>() where T : Node => CreateNode(typeof(T)) as T;
 
+		public void UpdateExecutionOrder()
+		{
+			int executionOrder = 0;
+			RootNode.SetExecutionOrder(ref executionOrder);
+		}
+
 		public Node CreateNode(Type type)
 		{
 			Assert.IsTrue(type.IsSubclassOf(typeof(Node)));
 			
 			Node node = CreateInstance(type) as Node;
 			node.hideFlags = HideFlags.HideInHierarchy;
-			node.name = type.Name;
+			node.name = Node.GetNodeName(node.GetType());
 			node.Guid = GUID.Generate().ToString();
 			
 			Undo.RecordObject(this, "Behaviour Tree (Create Node)");
