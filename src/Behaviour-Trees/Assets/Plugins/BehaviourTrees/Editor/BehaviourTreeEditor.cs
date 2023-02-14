@@ -1,6 +1,7 @@
 using Derrixx.BehaviourTrees.Editor.ViewScripts;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEditor;
+using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -17,6 +18,18 @@ namespace Derrixx.BehaviourTrees.Editor
         {
             BehaviourTreeEditor wnd = GetWindow<BehaviourTreeEditor>();
             wnd.titleContent = new GUIContent("BehaviourTreeEditor");
+        }
+
+        [OnOpenAsset]
+        public static bool OnOpenAsset(int instanceId, int line)
+        {
+            if (Selection.activeObject is BehaviourTree)
+            {
+                OpenWindow();
+                return true;
+            }
+
+            return false;
         }
 
         public void CreateGUI()
