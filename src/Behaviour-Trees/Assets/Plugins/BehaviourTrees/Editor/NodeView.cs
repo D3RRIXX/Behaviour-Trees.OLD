@@ -8,6 +8,8 @@ namespace Derrixx.BehaviourTrees.Editor
 {
 	public class NodeView : UnityEditor.Experimental.GraphView.Node
 	{
+		public Action<NodeView> OnNodeSelected;
+
 		public NodeView(Node node)
 		{
 			Node = node;
@@ -15,7 +17,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			viewDataKey = node.Guid;
 
 			style.left = node.Position.x;
-			style.top = node.Position.x;
+			style.top = node.Position.y;
 
 			CreateInputPorts();
 			CreateOutputPorts();
@@ -28,9 +30,15 @@ namespace Derrixx.BehaviourTrees.Editor
 		public override void SetPosition(Rect newPos)
 		{
 			base.SetPosition(newPos);
-
+			
 			Node.Position.x = newPos.xMin;
 			Node.Position.y = newPos.yMin;
+		}
+
+		public override void OnSelected()
+		{
+			base.OnSelected();
+			OnNodeSelected?.Invoke(this);
 		}
 
 		private void CreateInputPorts()

@@ -5,12 +5,13 @@
     </uie:Toolbar>
     <Derrixx.BehaviourTrees.Editor.SplitView fixed-pane-initial-dimension="200">
         <ui:VisualElement name="left-panel">
-            <ui:Label text="Inspector" display-tooltip-when-elided="true" enable-rich-text="false" style="background-color: rgba(32, 32, 32, 255);" />
+            <ui:Label text="Inspector" display-tooltip-when-elided="true" enable-rich-text="false" style="background-color: rgb(32, 32, 32);" />
             <Derrixx.BehaviourTrees.Editor.InspectorView />
         </ui:VisualElement>
         <ui:VisualElement name="right-panel">
             <Derrixx.BehaviourTrees.Editor.BehaviourTreeView focusable="true" style="flex-direction: column-reverse; flex-grow: 1;">
-                <ui:Label text="Tree View" display-tooltip-when-elided="true" style="background-color: rgba(32, 32, 32, 255);" />
+                <ui:Label text="BEHAVIOUR TREE" display-tooltip-when-elided="true" style="-unity-text-align: lower-right; opacity: 0.3; font-size: 40px; -unity-font-style: bold; white-space: nowrap; top: auto; position: absolute; left: auto; right: 15px; bottom: 20px;" />
+                <ui:Label text="Behaviour Tree Name" display-tooltip-when-elided="true" name="tree-name" style="background-color: rgba(32, 32, 32, 255); -unity-text-align: middle-center; height: 23px; font-size: 16px;" />
             </Derrixx.BehaviourTrees.Editor.BehaviourTreeView>
         </ui:VisualElement>
     </Derrixx.BehaviourTrees.Editor.SplitView>

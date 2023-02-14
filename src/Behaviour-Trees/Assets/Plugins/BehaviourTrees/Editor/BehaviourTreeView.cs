@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Derrixx.BehaviourTrees.Editor.EditorClassExtensions;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -16,9 +17,13 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		private BehaviourTree _tree;
 
+		public Action<NodeView> OnNodeSelected; 
+
 		public BehaviourTreeView()
 		{
 			Insert(0, new GridBackground());
+			
+			
 
 			this.AddManipulator(new ContentDragger());
 			this.AddManipulator(new ContentZoomer());
@@ -129,7 +134,11 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		private void CreateNodeView(Node node)
 		{
-			NodeView nodeView = new NodeView(node);
+			NodeView nodeView = new NodeView(node)
+			{
+				OnNodeSelected = OnNodeSelected
+			};
+			
 			AddElement(nodeView);
 		}
 	}

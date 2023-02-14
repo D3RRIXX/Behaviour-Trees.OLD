@@ -1,47 +1,60 @@
-using Derrixx.BehaviourTrees.Editor;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class BehaviourTreeEditor : EditorWindow
+namespace Derrixx.BehaviourTrees.Editor
 {
-    private BehaviourTreeView _behaviourTreeView;
-    private InspectorView _inspectorView;
-
-    [MenuItem("Window/Derrixx/Behaviour Trees/Behaviour Tree Editor")]
-    public static void OpenWindow()
+    public class BehaviourTreeEditor : EditorWindow
     {
-        BehaviourTreeEditor wnd = GetWindow<BehaviourTreeEditor>();
-        wnd.titleContent = new GUIContent("BehaviourTreeEditor");
-    }
+        private BehaviourTreeView _behaviourTreeView;
+        private InspectorView _inspectorView;
+        private Label _namelabel;
 
-    public void CreateGUI()
-    {
-        // Each editor window contains a root VisualElement object
-        VisualElement root = rootVisualElement;
+        [MenuItem("Window/Derrixx/Behaviour Trees/Behaviour Tree Editor")]
+        public static void OpenWindow()
+        {
+            BehaviourTreeEditor wnd = GetWindow<BehaviourTreeEditor>();
+            wnd.titleContent = new GUIContent("BehaviourTreeEditor");
+        }
 
-        // Import UXML
-        var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Plugins/BehaviourTrees/Editor/BehaviourTreeEditor.uxml");
-        visualTree.CloneTree(root);
+        public void CreateGUI()
+        {
+            // Each editor window contains a root VisualElement object
+            VisualElement root = rootVisualElement;
 
-        // A stylesheet can be added to a VisualElement.
-        // The style will be applied to the VisualElement and all of its children.
-        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Plugins/BehaviourTrees/Editor/BehaviourTreeEditor.uss");
-        root.styleSheets.Add(styleSheet);
+            // Import UXML
+            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Plugins/BehaviourTrees/Editor/BehaviourTreeEditor.uxml");
+            visualTree.CloneTree(root);
 
-        _behaviourTreeView = root.Q<BehaviourTreeView>();
-        _inspectorView = root.Q<InspectorView>();
-        
-        OnSelectionChange();
-    }
+            // A stylesheet can be added to a VisualElement.
+            // The style will be applied to the VisualElement and all of its children.
+            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Plugins/BehaviourTrees/Editor/BehaviourTreeEditor.uss");
+            root.styleSheets.Add(styleSheet);
 
-    private void OnSelectionChange()
-    {
-        BehaviourTree tree = Selection.activeObject as BehaviourTree;
-        if (!tree)
-            return;
+            _behaviourTreeView = root.Q<BehaviourTreeView>();
+            _behaviourTreeView.OnNodeSelected = OnNodeSelectionChange;
+            
+            _inspectorView = root.Q<InspectorView>();
 
-        _behaviourTreeView.PopulateView(tree);
+            _namelabel = root.Q<Label>("tree-name");
+
+            OnSelectionChange();
+        }
+
+        private void OnNodeSelectionChange(NodeView nodeView)
+        {
+            _inspectorView.UpdateSelection(nodeView);
+        }
+
+        private void OnSelectionChange()
+        {
+            BehaviourTree tree = Selection.activeObject as BehaviourTree;
+            if (!tree)
+                return;
+
+            _behaviourTreeView.PopulateView(tree);
+            _namelabel.text = tree.name;
+        }
     }
 }

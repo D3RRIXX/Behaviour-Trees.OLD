@@ -4,7 +4,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 {
 	public abstract class DecoratorNode : Node
 	{
-		[SerializeField] private Node _child;
+		[SerializeField, HideInInspector] private Node _child;
 		
 		public Node Child
 		{

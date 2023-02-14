@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 
-namespace Derrixx.BehaviourTrees.Editor
+namespace Derrixx.BehaviourTrees.Editor.EditorClassExtensions
 {
 	internal static class NodeEditorExtensions
 	{

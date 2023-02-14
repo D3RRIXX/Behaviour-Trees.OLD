@@ -1,0 +1,23 @@
+using UnityEngine;
+using UnityEngine.UIElements;
+
+namespace Derrixx.BehaviourTrees.Editor
+{
+	public class InspectorView : VisualElement
+	{
+		private UnityEditor.Editor _editor;
+
+		public new class UxmlFactory : UxmlFactory<InspectorView, UxmlTraits> { }
+
+		public void UpdateSelection(NodeView nodeView)
+		{
+			Clear();
+
+			Object.DestroyImmediate(_editor);
+			
+			_editor = UnityEditor.Editor.CreateEditor(nodeView.Node);
+			var container = new IMGUIContainer(() => _editor.OnInspectorGUI());
+			Add(container);
+		}
+	}
+}
