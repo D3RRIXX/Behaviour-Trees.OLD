@@ -14,7 +14,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 		
 		public Node.State TreeState = Node.State.Running;
 
-		public IReadOnlyList<Node> Nodes => nodes;
+		public IEnumerable<Node> Nodes => nodes;
 		
 		public RootNode RootNode
 		{
@@ -30,6 +30,13 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			return TreeState;
 		}
 
+		public BehaviourTree Clone()
+		{
+			BehaviourTree tree = Instantiate(this);
+			tree.RootNode = (RootNode)RootNode.Clone();
+			return tree;
+		}
+		
 		public T CreateNode<T>() where T : Node => CreateNode(typeof(T)) as T;
 
 		public Node CreateNode(Type type)
