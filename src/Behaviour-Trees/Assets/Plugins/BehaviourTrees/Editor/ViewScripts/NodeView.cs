@@ -52,9 +52,9 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			OnNodeSelected?.Invoke(this);
 		}
 
-		public void UpdateExecutionOrderLabel(int? order)
+		public void UpdateExecutionOrderLabel(int order)
 		{
-			_executionOrderLabel.text = order?.ToString() ?? string.Empty;
+			_executionOrderLabel.text = order.ToString();
 		}
 
 		private void SetupClass()

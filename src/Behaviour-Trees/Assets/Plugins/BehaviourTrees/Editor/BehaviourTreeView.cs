@@ -180,7 +180,6 @@ namespace Derrixx.BehaviourTrees.Editor
 				else
 				{
 					SetNodeInactive(nodeView);
-					nodeView.UpdateExecutionOrderLabel(null);
 				}
 			}
 			

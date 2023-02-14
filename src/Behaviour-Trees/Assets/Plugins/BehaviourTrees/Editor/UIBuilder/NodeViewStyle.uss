@@ -108,3 +108,7 @@
 .root #input {
     min-height: 20px;
 }
+
+.inactive #execution-order {
+    display: none;
+}

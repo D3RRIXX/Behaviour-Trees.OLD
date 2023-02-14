@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <Style src="NodeViewStyle.uss" />
-    <ui:VisualElement name="node-border" style="overflow: hidden;">
+    <ui:VisualElement name="node-border" style="overflow: visible;">
         <ui:VisualElement name="contents">
             <ui:VisualElement name="top">
                 <ui:VisualElement name="input" />
