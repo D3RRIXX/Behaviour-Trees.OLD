@@ -15,5 +15,10 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			
 			return clone;
 		}
+
+		public sealed override bool IsConnectedWith(Node other)
+		{
+			return base.IsConnectedWith(other) || Children.Any(x => x.IsConnectedWith(other));
+		}
 	}
 }

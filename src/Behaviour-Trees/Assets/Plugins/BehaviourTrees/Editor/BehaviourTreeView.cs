@@ -38,9 +38,9 @@ namespace Derrixx.BehaviourTrees.Editor
 			SetupCreateNodeActions(evt);
 		}
 
-		private  void SetupCreateNodeActions(ContextualMenuPopulateEvent evt)
+		private void SetupCreateNodeActions(ContextualMenuPopulateEvent evt)
 		{
-			void AppendCreateSubclassNodesActions(Type baseType)
+			void AppendCreateSubclassNodesActions(Type baseType, Func<Type, bool> additionalCondition = null)
 			{
 				const string pattern = @"([A-Z])\w+(?=Node)";
 				const string actionName = "Create Node/{0}/{1}";
@@ -50,12 +50,15 @@ namespace Derrixx.BehaviourTrees.Editor
 				TypeCache.TypeCollection types = TypeCache.GetTypesDerivedFrom(baseType);
 				foreach (Type type in types.Where(type => !type.IsAbstract))
 				{
+					if (additionalCondition?.Invoke(type) == false)
+						continue;
+					
 					evt.menu.AppendAction(string.Format(actionName, regex.Match(baseType.Name).Value, regex.Match(type.Name).Value), _ => CreateNode(type));
 				}
 			}
 			
 			AppendCreateSubclassNodesActions(typeof(ActionNode));
-			AppendCreateSubclassNodesActions(typeof(DecoratorNode));
+			AppendCreateSubclassNodesActions(typeof(DecoratorNode), x => x != typeof(RootNode));
 			AppendCreateSubclassNodesActions(typeof(CompositeNode));
 		}
 
@@ -114,6 +117,8 @@ namespace Derrixx.BehaviourTrees.Editor
 							NodeView parentView = (NodeView)edge.output.node;
 							NodeView childView = (NodeView)edge.input.node;
 							parentView.Node.RemoveChild(childView.Node);
+							
+							childView.AddToClassList(StyleClassNames.INACTIVE_NODE);
 							break;
 					}
 				}
@@ -126,6 +131,8 @@ namespace Derrixx.BehaviourTrees.Editor
 					NodeView parentView = (NodeView)edge.output.node;
 					NodeView childView = (NodeView)edge.input.node;
 					parentView.Node.AddChild(childView.Node);
+					
+					childView.RemoveFromClassList(StyleClassNames.INACTIVE_NODE);
 				}
 			}
 			

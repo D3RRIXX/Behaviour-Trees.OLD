@@ -2,6 +2,7 @@ using System;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Node = Derrixx.BehaviourTrees.Runtime.Nodes.Node;
 
 namespace Derrixx.BehaviourTrees.Editor.ViewScripts
@@ -10,7 +11,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 	{
 		public Action<NodeView> OnNodeSelected;
 
-		public NodeView(Node node)
+		public NodeView(Node node) : base("Assets/Plugins/BehaviourTrees/Editor/UIBuilder/NodeView.uxml")
 		{
 			Node = node;
 			title = node.name;
@@ -19,6 +20,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			style.left = node.Position.x;
 			style.top = node.Position.y;
 
+			SetupClass();
 			CreateInputPorts();
 			CreateOutputPorts();
 		}
@@ -41,17 +43,29 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			OnNodeSelected?.Invoke(this);
 		}
 
+		private void SetupClass()
+		{
+			string className = Node switch
+			{
+				ActionNode _ => "action",
+				CompositeNode _ => "composite",
+				RootNode _ => "root",
+				DecoratorNode _ => "decorator",
+				_ => null
+			};
+			
+			AddToClassList(className);
+		}
+
 		private void CreateInputPorts()
 		{
 			if (Node is RootNode)
 				return;
 			
-			Input = InstantiatePort(Direction.Input, Port.Capacity.Single);
-
-			if (Input == null)
+			if (!TryInstantiatePort(Direction.Input, Port.Capacity.Single, FlexDirection.Column, out Port input))
 				return;
-			
-			Input.portName = string.Empty;
+
+			Input = input;
 			inputContainer.Add(Input);
 		}
 
@@ -67,16 +81,23 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 				_ => throw new ArgumentOutOfRangeException(nameof(Node))
 			};
 
-			Output = InstantiatePort(Direction.Output, capacity);
-			
-			if (Output == null)
+			if (!TryInstantiatePort(Direction.Output, capacity, FlexDirection.ColumnReverse, out Port output))
 				return;
 
-			Output.portName = string.Empty;
+			Output = output;
 			outputContainer.Add(Output);
 		}
 
-		private Port InstantiatePort(Direction direction, Port.Capacity capacity)
-			=> InstantiatePort(Orientation.Horizontal, direction, capacity, typeof(Node));
+		private bool TryInstantiatePort(Direction direction, Port.Capacity capacity, FlexDirection flexDirection, out Port port)
+		{
+			port = InstantiatePort(Orientation.Vertical, direction, capacity, typeof(Node));
+			if (port == null)
+				return false;
+			
+			port.style.flexDirection = flexDirection;
+			port.portName = string.Empty;
+			
+			return true;
+		}
 	}
 }

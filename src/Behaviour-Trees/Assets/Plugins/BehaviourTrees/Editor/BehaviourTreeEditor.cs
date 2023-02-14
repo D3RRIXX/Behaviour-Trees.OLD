@@ -11,13 +11,13 @@ namespace Derrixx.BehaviourTrees.Editor
     {
         private BehaviourTreeView _behaviourTreeView;
         private InspectorView _inspectorView;
-        private Label _namelabel;
+        private Label _nameLabel;
 
         [MenuItem("Window/Derrixx/Behaviour Trees/Behaviour Tree Editor")]
         public static void OpenWindow()
         {
             BehaviourTreeEditor wnd = GetWindow<BehaviourTreeEditor>();
-            wnd.titleContent = new GUIContent("BehaviourTreeEditor");
+            wnd.titleContent = new GUIContent("Behaviour Tree Editor");
         }
 
         [OnOpenAsset]
@@ -34,16 +34,18 @@ namespace Derrixx.BehaviourTrees.Editor
 
         public void CreateGUI()
         {
+            const string path = "Assets/Plugins/BehaviourTrees/Editor/";
+            
             // Each editor window contains a root VisualElement object
             VisualElement root = rootVisualElement;
 
             // Import UXML
-            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Plugins/BehaviourTrees/Editor/BehaviourTreeEditor.uxml");
+            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path + "UIBuilder/BehaviourTreeEditor.uxml");
             visualTree.CloneTree(root);
 
             // A stylesheet can be added to a VisualElement.
             // The style will be applied to the VisualElement and all of its children.
-            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Plugins/BehaviourTrees/Editor/BehaviourTreeEditor.uss");
+            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path + "BehaviourTreeEditor.uss");
             root.styleSheets.Add(styleSheet);
 
             _behaviourTreeView = root.Q<BehaviourTreeView>();
@@ -51,7 +53,7 @@ namespace Derrixx.BehaviourTrees.Editor
             
             _inspectorView = root.Q<InspectorView>();
 
-            _namelabel = root.Q<Label>("tree-name");
+            _nameLabel = root.Q<Label>("tree-name");
 
             OnSelectionChange();
         }
@@ -68,7 +70,7 @@ namespace Derrixx.BehaviourTrees.Editor
                 return;
 
             _behaviourTreeView.PopulateView(tree);
-            _namelabel.text = tree.name;
+            _nameLabel.text = tree.name;
         }
     }
 }
