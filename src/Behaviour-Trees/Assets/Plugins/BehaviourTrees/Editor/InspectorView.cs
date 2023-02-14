@@ -1,3 +1,4 @@
+using Derrixx.BehaviourTrees.Editor.ViewScripts;
 using UnityEngine;
 using UnityEngine.UIElements;
 

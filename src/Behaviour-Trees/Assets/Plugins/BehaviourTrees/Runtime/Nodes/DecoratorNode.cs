@@ -11,5 +11,13 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			get => _child;
 			set => _child = value;
 		}
+
+		public sealed override Node Clone()
+		{
+			DecoratorNode clone = (DecoratorNode)base.Clone();
+			clone.Child = Child.Clone();
+			
+			return clone;
+		}
 	}
 }

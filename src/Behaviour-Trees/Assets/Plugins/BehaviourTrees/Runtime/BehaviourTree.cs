@@ -10,11 +10,17 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 	public class BehaviourTree : ScriptableObject
 	{
 		[SerializeField, HideInInspector] private List<Node> nodes = new List<Node>();
+		[SerializeField, HideInInspector] private RootNode rootNode;
 		
-		public Node RootNode;
 		public Node.State TreeState = Node.State.Running;
 
 		public IReadOnlyList<Node> Nodes => nodes;
+		
+		public RootNode RootNode
+		{
+			get => rootNode;
+			set => rootNode = value;
+		}
 
 		public Node.State Update()
 		{
@@ -24,7 +30,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			return TreeState;
 		}
 
-		public Node CreateNode<T>() where T : Node => CreateNode(typeof(T));
+		public T CreateNode<T>() where T : Node => CreateNode(typeof(T)) as T;
 
 		public Node CreateNode(Type type)
 		{
@@ -38,6 +44,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			nodes.Add(node);
 			
 			AssetDatabase.AddObjectToAsset(node, this);
+			EditorUtility.SetDirty(this);
 			AssetDatabase.SaveAssets();
 
 			return node;

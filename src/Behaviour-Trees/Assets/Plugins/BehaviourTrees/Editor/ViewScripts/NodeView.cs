@@ -4,7 +4,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Node = Derrixx.BehaviourTrees.Runtime.Nodes.Node;
 
-namespace Derrixx.BehaviourTrees.Editor
+namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 {
 	public class NodeView : UnityEditor.Experimental.GraphView.Node
 	{
@@ -43,6 +43,9 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		private void CreateInputPorts()
 		{
+			if (Node is RootNode)
+				return;
+			
 			Input = InstantiatePort(Direction.Input, Port.Capacity.Single);
 
 			if (Input == null)

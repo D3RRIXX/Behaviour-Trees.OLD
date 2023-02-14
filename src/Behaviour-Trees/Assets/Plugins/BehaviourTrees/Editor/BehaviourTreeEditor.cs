@@ -1,3 +1,4 @@
+using Derrixx.BehaviourTrees.Editor.ViewScripts;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEditor;
 using UnityEngine;
@@ -50,7 +51,7 @@ namespace Derrixx.BehaviourTrees.Editor
         private void OnSelectionChange()
         {
             BehaviourTree tree = Selection.activeObject as BehaviourTree;
-            if (!tree)
+            if (!tree || !AssetDatabase.CanOpenForEdit(tree))
                 return;
 
             _behaviourTreeView.PopulateView(tree);

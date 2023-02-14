@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Derrixx.BehaviourTrees.Editor.EditorClassExtensions;
+using Derrixx.BehaviourTrees.Editor.ViewScripts;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -22,8 +23,6 @@ namespace Derrixx.BehaviourTrees.Editor
 		public BehaviourTreeView()
 		{
 			Insert(0, new GridBackground());
-			
-			
 
 			this.AddManipulator(new ContentDragger());
 			this.AddManipulator(new ContentZoomer());
@@ -67,6 +66,13 @@ namespace Derrixx.BehaviourTrees.Editor
 			graphViewChanged -= OnGraphViewChanged;
 			DeleteElements(graphElements);
 			graphViewChanged += OnGraphViewChanged;
+
+			if (tree.RootNode == null)
+			{
+				tree.RootNode = tree.CreateNode<RootNode>();
+				EditorUtility.SetDirty(tree);
+				AssetDatabase.SaveAssets();
+			}
 
 			foreach (Node node in _tree.Nodes)
 			{

@@ -32,9 +32,11 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 
             return CurrentState;
         }
-        
+
         protected virtual void OnStart() { }
         protected virtual void OnFinish() { }
         protected abstract State OnUpdate();
+        
+        public virtual Node Clone() => Instantiate(this);
     }
 }
