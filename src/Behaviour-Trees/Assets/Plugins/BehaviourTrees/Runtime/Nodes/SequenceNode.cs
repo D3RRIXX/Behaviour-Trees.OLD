@@ -14,6 +14,9 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 
 		protected override State OnUpdate()
 		{
+			if (Children.Count == 0)
+				return State.Success;
+			
 			Node currentChild = Children[_current];
 
 			State updateResult = currentChild.Update();

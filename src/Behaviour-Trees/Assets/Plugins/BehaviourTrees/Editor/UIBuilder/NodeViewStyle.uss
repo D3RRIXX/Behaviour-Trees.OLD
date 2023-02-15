@@ -112,3 +112,27 @@
 .inactive #execution-order {
     display: none;
 }
+
+#node-state {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.running #node-state {
+    background-color: rgba(213, 229, 10, 255);
+}
+
+.success #node-state {
+    background-color: rgba(22, 255, 0, 255);
+}
+
+.failure #node-state {
+    background-color: rgba(255, 0, 0, 255);
+}

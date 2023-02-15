@@ -18,10 +18,11 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 
         // public new string name => string.IsNullOrEmpty(customName) ? GetNodeName(GetType()) : customName;
         
-        public State CurrentState { get; set; } = State.Running;
-        public bool Started { get; set; }
+        public State CurrentState { get; private set; } = State.Running;
+        public bool Started { get; private set; }
 
         public int ExecutionOrder => executionOrder;
+        public virtual string GetDescription() => GetNodeName(GetType());
 
         public State Update()
         {

@@ -11,6 +11,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 	public class NodeView : UnityEditor.Experimental.GraphView.Node
 	{
 		private readonly Label _executionOrderLabel;
+		private readonly Label _description;
 		
 		public Action<NodeView> OnNodeSelected;
 
@@ -21,6 +22,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			viewDataKey = node.Guid;
 
 			_executionOrderLabel = this.Q<Label>("execution-order");
+			_description = this.Q<Label>("description");
 			
 			style.left = node.Position.x;
 			style.top = node.Position.y;
@@ -28,6 +30,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			SetupClass();
 			CreateInputPorts();
 			CreateOutputPorts();
+			UpdateDescription();
 		}
 
 		public Node Node { get; }
@@ -44,6 +47,33 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			Node.Position.y = newPos.yMin;
 			
 			EditorUtility.SetDirty(Node);
+		}
+
+		public void UpdateDescription() => _description.text = Node.GetDescription();
+		
+		public void SortChildren()
+		{
+			if (Node is CompositeNode compositeNode)
+				compositeNode.Children.Sort((a, b) => a.Position.x < b.Position.x ? -1 : 1);
+		}
+
+		public void UpdateState()
+		{
+			if (!Application.isPlaying)
+				return;
+			
+			RemoveFromClassList(StyleClassNames.RUNNING);
+			RemoveFromClassList(StyleClassNames.FAILURE);
+			RemoveFromClassList(StyleClassNames.SUCCESS);
+			
+			string className = Node.CurrentState switch
+			{
+				Node.State.Running when Node.Started => StyleClassNames.RUNNING,
+				Node.State.Failure => StyleClassNames.FAILURE,
+				Node.State.Success => StyleClassNames.SUCCESS,
+			};
+			
+			AddToClassList(className);
 		}
 
 		public override void OnSelected()
@@ -104,7 +134,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 		private bool TryInstantiatePort(Direction direction, Port.Capacity capacity, FlexDirection flexDirection, out Port port)
 		{
-			port = InstantiatePort(Orientation.Vertical, direction, capacity, typeof(Node));
+			port = InstantiatePort(Orientation.Vertical, direction, capacity, typeof(Runtime.Nodes.Node));
 			if (port == null)
 				return false;
 			

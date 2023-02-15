@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Derrixx.BehaviourTrees.Editor.ViewScripts;
@@ -15,6 +14,8 @@ namespace Derrixx.BehaviourTrees.Editor
         private BehaviourTreeView _behaviourTreeView;
         private InspectorView _inspectorView;
         private Label _nameLabel;
+
+        private bool _isViewingRuntimeTree;
 
         [MenuItem("Window/Derrixx/Behaviour Trees/Behaviour Tree Editor")]
         public static void OpenWindow()
@@ -33,6 +34,35 @@ namespace Derrixx.BehaviourTrees.Editor
             }
 
             return false;
+        }
+
+        private void OnEnable()
+        {
+            EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+        }
+
+        private void OnDisable()
+        {
+            EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+        }
+
+        private void OnInspectorUpdate()
+        {
+            if (_isViewingRuntimeTree && Application.isPlaying)
+                _behaviourTreeView?.UpdateNodeStates();
+        }
+
+        private void OnPlayModeStateChanged(PlayModeStateChange stateChange)
+        {
+            switch (stateChange)
+            {
+                case PlayModeStateChange.EnteredEditMode:
+                    OnSelectionChange();
+                    break;
+                case PlayModeStateChange.EnteredPlayMode:
+                    OnSelectionChange();
+                    break;
+            }
         }
 
         public void CreateGUI()
@@ -68,50 +98,41 @@ namespace Derrixx.BehaviourTrees.Editor
 
         private void OnSelectionChange()
         {
-            BehaviourTree tree = Selection.activeObject as BehaviourTree;
-
-            if (!tree && Selection.activeGameObject != null)
-            {
-                TryFindBehaviourTreeField(Selection.activeGameObject, out tree);
-            }
-
-            if (tree == null)
+            _isViewingRuntimeTree = false;
+            if (!TryGetBehaviourTreeTarget(out BehaviourTree tree, out bool treeIsAttachedToObject))
                 return;
 
             if (!Application.isPlaying && !AssetDatabase.CanOpenForEdit(tree))
                 return;
-            
+
+            _isViewingRuntimeTree = treeIsAttachedToObject;
             _behaviourTreeView.PopulateView(tree);
             _nameLabel.text = tree.name;
         }
 
-        private static bool TryFindBehaviourTreeField(GameObject target, out BehaviourTree tree)
+        private static bool TryGetBehaviourTreeTarget(out BehaviourTree tree, out bool treeIsAttachedToObject)
         {
-            var fields = target.GetComponents<MonoBehaviour>()
-                .Select(x => x.GetType())
-                .SelectMany(x => x.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic));
-
-            foreach (MonoBehaviour component in target.GetComponents<MonoBehaviour>())
-            foreach (FieldInfo field in component.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
-            {
-                if (field.FieldType == typeof(BehaviourTree))
-                {
-                    tree = (BehaviourTree)field.GetValue(component);
-                    return true;
-                }
-            }
+            tree = Selection.activeObject as BehaviourTree;
+            treeIsAttachedToObject = false;
             
-            // foreach (FieldInfo field in fields)
-            // {
-            //     if (field.FieldType == typeof(BehaviourTree))
-            //     {
-            //         tree = (BehaviourTree)field.GetValue(target);
-            //         return true;
-            //     }
-            // }
+            if (tree != null)
+                return true;
 
-            tree = null;
-            return false;
+            GameObject target = Selection.activeGameObject;
+            if (target == null)
+                return false;
+
+            treeIsAttachedToObject = true;
+            tree = GetBehaviourTreeField(target);
+            return tree != null;
+        }
+
+        private static BehaviourTree GetBehaviourTreeField(GameObject target)
+        {
+            return (from component in target.GetComponents<MonoBehaviour>()
+                from field in component.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                where field.FieldType == typeof(BehaviourTree)
+                select (BehaviourTree)field.GetValue(component)).FirstOrDefault();
         }
     }
 }

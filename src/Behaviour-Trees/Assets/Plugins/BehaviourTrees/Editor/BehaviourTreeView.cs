@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Derrixx.BehaviourTrees.Editor.EditorClassExtensions;
 using Derrixx.BehaviourTrees.Editor.ViewScripts;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEditor;
@@ -44,6 +43,14 @@ namespace Derrixx.BehaviourTrees.Editor
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			SetupCreateNodeActions(evt);
+		}
+
+		public void UpdateNodeStates()
+		{
+			foreach (NodeView nodeView in _tree.Nodes.Select(FindNodeView))
+			{
+				nodeView.UpdateState();
+			}
 		}
 
 		private void SetupCreateNodeActions(ContextualMenuPopulateEvent evt)
@@ -96,7 +103,7 @@ namespace Derrixx.BehaviourTrees.Editor
 				Edge edge = parentView.Output.ConnectTo(childView.Input);
 				AddElement(edge);
 			}
-			
+
 			UpdateNodesActiveState();
 		}
 
@@ -113,12 +120,24 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			RemoveElementsFromGraph(graphViewChange);
 			CreateEdges(graphViewChange);
+
+			if (graphViewChange.movedElements != null)
+				SortChildNodesByXPos();
+			
 			UpdateNodesActiveState();
 			
 			return graphViewChange;
 		}
 
-		private static void CreateEdges(GraphViewChange graphViewChange)
+		private void SortChildNodesByXPos()
+		{
+			foreach (NodeView nodeView in _tree.Nodes.Select(FindNodeView))
+			{
+				nodeView.SortChildren();
+			}
+		}
+
+		private void CreateEdges(GraphViewChange graphViewChange)
 		{
 			if (graphViewChange.edgesToCreate == null)
 				return;
@@ -129,6 +148,8 @@ namespace Derrixx.BehaviourTrees.Editor
 				NodeView childView = (NodeView)edge.input.node;
 				parentView.Node.AddChild(childView.Node);
 			}
+			
+			SortChildNodesByXPos();
 		}
 
 		private void RemoveElementsFromGraph(GraphViewChange graphViewChange)
@@ -194,6 +215,7 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			Node node = _tree.CreateNode(type);
 			CreateNodeView(node);
+			
 			UpdateNodesActiveState();
 		}
 

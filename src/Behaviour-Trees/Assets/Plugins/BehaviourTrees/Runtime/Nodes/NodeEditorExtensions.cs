@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEditor;
 
-namespace Derrixx.BehaviourTrees.Editor.EditorClassExtensions
+namespace Derrixx.BehaviourTrees.Runtime.Nodes
 {
-	internal static class NodeEditorExtensions
+	public static class NodeEditorExtensions
 	{
 		public static void AddChild(this Node parent, Node child)
 		{

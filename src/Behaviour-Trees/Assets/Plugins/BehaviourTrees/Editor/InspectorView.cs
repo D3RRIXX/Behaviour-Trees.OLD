@@ -19,8 +19,11 @@ namespace Derrixx.BehaviourTrees.Editor
 			_editor = UnityEditor.Editor.CreateEditor(nodeView.Node);
 			var container = new IMGUIContainer(() =>
 			{
-				if (_editor.target)
-					_editor.OnInspectorGUI();
+				if (!_editor.target)
+					return;
+				
+				_editor.OnInspectorGUI();
+				nodeView.UpdateDescription();
 			});
 			Add(container);
 		}

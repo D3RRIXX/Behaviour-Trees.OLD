@@ -33,7 +33,12 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 		public BehaviourTree Clone()
 		{
 			BehaviourTree tree = Instantiate(this);
-			tree.RootNode = (RootNode)RootNode.Clone();
+			tree.name = $"{name} (Runtime)";
+			
+			tree.RootNode = (RootNode)tree.RootNode.Clone();
+			tree.nodes = new List<Node>();
+			TraverseNodes(tree.RootNode, tree.nodes.Add);
+			
 			return tree;
 		}
 		
@@ -56,8 +61,12 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			
 			Undo.RecordObject(this, "Behaviour Tree (Create Node)");
 			nodes.Add(node);
+
+			if (!Application.isPlaying)
+			{
+				AssetDatabase.AddObjectToAsset(node, this);
+			}
 			
-			AssetDatabase.AddObjectToAsset(node, this);
 			Undo.RegisterCreatedObjectUndo(node, "Behaviour Tree (Create Node)");
 			
 			EditorUtility.SetDirty(this);
@@ -73,6 +82,18 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			
 			Undo.DestroyObjectImmediate(node);
 			AssetDatabase.SaveAssets();
+		}
+
+		private void TraverseNodes(Node node, Action<Node> visitor)
+		{
+			if (!node)
+				return;
+			
+			visitor.Invoke(node);
+			foreach (Node child in node.GetChildren())
+			{
+				TraverseNodes(child, visitor);
+			}
 		}
 	}
 }

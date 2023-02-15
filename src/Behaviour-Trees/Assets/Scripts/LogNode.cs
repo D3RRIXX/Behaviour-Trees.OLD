@@ -27,5 +27,10 @@ namespace DefaultNamespace
 			Debug.Log($"OnUpdate {message}");
 			return State.Success;
 		}
+
+		public override string GetDescription()
+		{
+			return $"Print \"{message}\"";
+		}
 	}
 }
