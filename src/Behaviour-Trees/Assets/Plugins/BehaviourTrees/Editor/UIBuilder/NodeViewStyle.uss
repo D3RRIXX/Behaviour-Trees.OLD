@@ -1,8 +1,8 @@
 #node-border {
-    border-left-color: rgba(255, 0, 0, 255);
-    border-right-color: rgba(255, 0, 0, 255);
-    border-top-color: rgba(255, 0, 0, 255);
-    border-bottom-color: rgba(255, 0, 0, 255);
+    border-left-color: rgb(255, 0, 0);
+    border-right-color: rgb(255, 0, 0);
+    border-top-color: rgb(255, 0, 0);
+    border-bottom-color: rgb(255, 0, 0);
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0;
@@ -54,10 +54,10 @@
     border-right-width: 1px;
     border-top-width: 1px;
     border-bottom-width: 1px;
-    border-left-color: rgba(39, 255, 0, 255);
-    border-right-color: rgba(39, 255, 0, 255);
-    border-top-color: rgba(39, 255, 0, 255);
-    border-bottom-color: rgba(39, 255, 0, 255);
+    border-left-color: rgb(39, 255, 0);
+    border-right-color: rgb(39, 255, 0);
+    border-top-color: rgb(39, 255, 0);
+    border-bottom-color: rgb(39, 255, 0);
 }
 
 :hover:selected > #selection-border {
@@ -86,19 +86,19 @@
 
 #divider {
     min-height: 1px;
-    background-color: rgba(76, 76, 76, 255);
+    background-color: rgb(76, 76, 76);
 }
 
 .action #input {
-    background-color: rgba(231, 76, 60, 255);
+    background-color: rgb(231, 76, 60);
 }
 
 .composite #input {
-    background-color: rgba(99, 99, 99, 255);
+    background-color: rgb(99, 99, 99);
 }
 
 .decorator #input {
-    background-color: rgba(41, 128, 185, 255);
+    background-color: rgb(142, 68, 173);
 }
 
 .inactive #contents {

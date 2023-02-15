@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 namespace Derrixx.BehaviourTrees.Runtime.Nodes
 {
 	[CreateAssetMenu(fileName = "New Behaviour Tree", menuName = "Derrixx/Behaviour Trees/Behaviour Tree", order = -100)]
-	public class BehaviourTree : ScriptableObject
+	public sealed class BehaviourTree : ScriptableObject
 	{
 		[SerializeField, HideInInspector] private List<Node> nodes = new List<Node>();
 		[SerializeField, HideInInspector] private RootNode rootNode;

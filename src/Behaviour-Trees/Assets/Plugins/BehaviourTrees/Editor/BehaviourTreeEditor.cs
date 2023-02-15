@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Derrixx.BehaviourTrees.Editor.ViewScripts;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEditor;
@@ -66,11 +69,49 @@ namespace Derrixx.BehaviourTrees.Editor
         private void OnSelectionChange()
         {
             BehaviourTree tree = Selection.activeObject as BehaviourTree;
-            if (!tree || !AssetDatabase.CanOpenForEdit(tree))
+
+            if (!tree && Selection.activeGameObject != null)
+            {
+                TryFindBehaviourTreeField(Selection.activeGameObject, out tree);
+            }
+
+            if (tree == null)
                 return;
 
+            if (!Application.isPlaying && !AssetDatabase.CanOpenForEdit(tree))
+                return;
+            
             _behaviourTreeView.PopulateView(tree);
             _nameLabel.text = tree.name;
+        }
+
+        private static bool TryFindBehaviourTreeField(GameObject target, out BehaviourTree tree)
+        {
+            var fields = target.GetComponents<MonoBehaviour>()
+                .Select(x => x.GetType())
+                .SelectMany(x => x.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic));
+
+            foreach (MonoBehaviour component in target.GetComponents<MonoBehaviour>())
+            foreach (FieldInfo field in component.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+            {
+                if (field.FieldType == typeof(BehaviourTree))
+                {
+                    tree = (BehaviourTree)field.GetValue(component);
+                    return true;
+                }
+            }
+            
+            // foreach (FieldInfo field in fields)
+            // {
+            //     if (field.FieldType == typeof(BehaviourTree))
+            //     {
+            //         tree = (BehaviourTree)field.GetValue(target);
+            //         return true;
+            //     }
+            // }
+
+            tree = null;
+            return false;
         }
     }
 }
