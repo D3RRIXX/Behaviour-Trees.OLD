@@ -1,16 +1,18 @@
 using System;
 using System.Collections.Generic;
+using Derrixx.BehaviourTrees.Runtime.BlackboardScripts;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace Derrixx.BehaviourTrees.Runtime.Nodes
 {
-	[CreateAssetMenu(fileName = "New Behaviour Tree", menuName = "Derrixx/Behaviour Trees/Behaviour Tree", order = -100)]
+	[CreateAssetMenu(fileName = "New Behaviour Tree", menuName = "Derrixx/Behaviour Trees/Behaviour Tree")]
 	public sealed class BehaviourTree : ScriptableObject
 	{
 		[SerializeField, HideInInspector] private List<Node> nodes = new List<Node>();
 		[SerializeField, HideInInspector] private RootNode rootNode;
+		[SerializeField] private Blackboard blackboard;
 		
 		public Node.State TreeState = Node.State.Running;
 
@@ -21,6 +23,8 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			get => rootNode;
 			set => rootNode = value;
 		}
+		
+		public Blackboard Blackboard => blackboard;
 
 		public Node.State Update()
 		{

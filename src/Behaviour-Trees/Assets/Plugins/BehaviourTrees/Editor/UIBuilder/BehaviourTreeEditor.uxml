@@ -1,11 +1,18 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="/Assets/Plugins/BehaviourTrees/Editor/BehaviourTreeEditor.uss" />
     <uie:Toolbar>
         <uie:ToolbarMenu display-tooltip-when-elided="true" text="Assets " />
     </uie:Toolbar>
     <Derrixx.BehaviourTrees.Editor.SplitView fixed-pane-initial-dimension="200">
-        <ui:VisualElement name="left-panel">
-            <ui:Label text="Inspector" display-tooltip-when-elided="true" enable-rich-text="false" style="background-color: rgb(32, 32, 32);" />
-            <Derrixx.BehaviourTrees.Editor.InspectorView />
+        <ui:VisualElement name="left-panel" style="width: 300px;">
+            <ui:VisualElement name="inspector">
+                <ui:Label text="Inspector" display-tooltip-when-elided="true" enable-rich-text="false" style="background-color: rgb(32, 32, 32);" />
+                <Derrixx.BehaviourTrees.Editor.InspectorView class="view" />
+            </ui:VisualElement>
+            <ui:VisualElement style="position: absolute; bottom: 0; width: 100%; height: 50%; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 2px;">
+                <ui:Label text="Blackboard" display-tooltip-when-elided="true" enable-rich-text="false" style="background-color: rgb(32, 32, 32);" />
+                <ui:IMGUIContainer name="blackboard" class="view" />
+            </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="right-panel">
             <Derrixx.BehaviourTrees.Editor.BehaviourTreeView focusable="true" style="flex-direction: column-reverse; flex-grow: 1;">

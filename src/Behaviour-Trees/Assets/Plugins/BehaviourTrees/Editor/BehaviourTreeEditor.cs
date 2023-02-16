@@ -13,9 +13,15 @@ namespace Derrixx.BehaviourTrees.Editor
     {
         private BehaviourTreeView _behaviourTreeView;
         private InspectorView _inspectorView;
+        private IMGUIContainer _blackboardContainer;
         private Label _nameLabel;
 
+        private SerializedObject _treeObject;
+        
+        private SerializedProperty _blackboardProperty;
+        
         private bool _isViewingRuntimeTree;
+        private UnityEditor.Editor _blackboardEditor;
 
         [MenuItem("Window/Derrixx/Behaviour Trees/Behaviour Tree Editor")]
         public static void OpenWindow()
@@ -85,6 +91,25 @@ namespace Derrixx.BehaviourTrees.Editor
             _behaviourTreeView.OnNodeSelected = OnNodeSelectionChange;
             
             _inspectorView = root.Q<InspectorView>();
+            _blackboardContainer = root.Q<IMGUIContainer>();
+            _blackboardContainer.onGUIHandler = () =>
+            {
+	            _treeObject.Update();
+	            EditorGUILayout.PropertyField(_blackboardProperty, new GUIContent("Selected Blackboard"));
+	            _treeObject.ApplyModifiedProperties();
+
+	            Object targetObject = _blackboardProperty.objectReferenceValue;
+	            if (!targetObject)
+		            return;
+	            
+	            if (_blackboardEditor == null || _blackboardEditor.target != targetObject)
+	            {
+		            _blackboardEditor = UnityEditor.Editor.CreateEditor(targetObject);
+	            }
+
+	            EditorGUILayout.Space(15);
+	            _blackboardEditor.DrawDefaultInspector();
+            };
 
             _nameLabel = root.Q<Label>("tree-name");
 
@@ -104,6 +129,12 @@ namespace Derrixx.BehaviourTrees.Editor
 
             if (!Application.isPlaying && !AssetDatabase.CanOpenForEdit(tree))
                 return;
+
+            _blackboardProperty?.Dispose();
+            _treeObject?.Dispose();
+            
+            _treeObject = new SerializedObject(tree);
+            _blackboardProperty = _treeObject.FindProperty("blackboard");
 
             _isViewingRuntimeTree = treeIsAttachedToObject;
             _behaviourTreeView.PopulateView(tree);

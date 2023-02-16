@@ -51,7 +51,9 @@ MonoBehaviour:
   - {fileID: -7977289142859364971}
   - {fileID: 3010473755710944428}
   - {fileID: 7471476595050566445}
+  - {fileID: 6659744024000582233}
   rootNode: {fileID: 3425977208524895994}
+  blackboard: {fileID: 11400000, guid: c4b1e7c844fab1646ae677f838ec3b27, type: 2}
   TreeState: 0
 --- !u!114 &2483811504098391436
 MonoBehaviour:
@@ -104,6 +106,22 @@ MonoBehaviour:
   Guid: 0b9fbf3813a10464aa9af464bd96f5f1
   Position: {x: 0, y: 10}
   _child: {fileID: 2483811504098391436}
+--- !u!114 &6659744024000582233
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c668406357240019a866599a3e382ca, type: 3}
+  m_Name: Failure
+  m_EditorClassIdentifier: 
+  executionOrder: 0
+  Guid: d395d561d08c2f04fb704eeea7637255
+  Position: {x: -388, y: 131}
+  kills: {fileID: 165631121050455902, guid: c4b1e7c844fab1646ae677f838ec3b27, type: 2}
 --- !u!114 &7471476595050566445
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -121,3 +139,4 @@ MonoBehaviour:
   Position: {x: -265, y: 24}
   _child: {fileID: 0}
   timesToRepeat: 1
+  repeatInfinitely: 0
