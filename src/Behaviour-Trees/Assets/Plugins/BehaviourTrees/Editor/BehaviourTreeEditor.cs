@@ -21,7 +21,7 @@ namespace Derrixx.BehaviourTrees.Editor
         private SerializedProperty _blackboardProperty;
         
         private bool _isViewingRuntimeTree;
-        private UnityEditor.Editor _blackboardEditor;
+        private BlackboardEditor _blackboardEditor;
 
         [MenuItem("Window/Derrixx/Behaviour Trees/Behaviour Tree Editor")]
         public static void OpenWindow()
@@ -101,14 +101,18 @@ namespace Derrixx.BehaviourTrees.Editor
 	            Object targetObject = _blackboardProperty.objectReferenceValue;
 	            if (!targetObject)
 		            return;
-	            
-	            if (_blackboardEditor == null || _blackboardEditor.target != targetObject)
+
+	            bool editorIsNull = _blackboardEditor == null;
+	            if (editorIsNull || _blackboardEditor.target != targetObject)
 	            {
-		            _blackboardEditor = UnityEditor.Editor.CreateEditor(targetObject);
+		            if (editorIsNull)
+			            DestroyImmediate(_blackboardEditor);
+		            
+		            _blackboardEditor = (BlackboardEditor)UnityEditor.Editor.CreateEditor(targetObject, typeof(BlackboardEditor));
 	            }
 
 	            EditorGUILayout.Space(15);
-	            _blackboardEditor.DrawDefaultInspector();
+	            _blackboardEditor.OnInspectorGUI();
             };
 
             _nameLabel = root.Q<Label>("tree-name");
