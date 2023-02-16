@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   executionOrder: 0
   Guid: 0b9fbf3813a10464aa9af464bd96f5f1
-  Position: {x: 0, y: 11}
+  Position: {x: 0, y: 10}
   _child: {fileID: 2483811504098391436}
 --- !u!114 &7471476595050566445
 MonoBehaviour:
@@ -118,6 +118,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   executionOrder: 0
   Guid: 2743c40a57fadb646a5f650cacc71d69
-  Position: {x: 0, y: 0}
+  Position: {x: -265, y: 24}
   _child: {fileID: 0}
   timesToRepeat: 1
