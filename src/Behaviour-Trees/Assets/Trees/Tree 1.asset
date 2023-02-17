@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   executionOrder: 0
   Guid: bb80f7cf94234374082596433aa0d2e7
-  Position: {x: -415, y: 157.48001}
+  Position: {x: -448, y: 120}
   behaviourTree: {fileID: 11400000}
   kills: {fileID: 0}
 --- !u!114 &-7977289142859364971
@@ -145,5 +145,5 @@ MonoBehaviour:
   Position: {x: -265, y: 24}
   behaviourTree: {fileID: 0}
   _child: {fileID: 0}
-  timesToRepeat: 1
+  timesToRepeat: 40
   repeatInfinitely: 0

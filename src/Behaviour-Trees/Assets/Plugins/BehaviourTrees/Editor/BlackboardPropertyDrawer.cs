@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Derrixx.BehaviourTrees.Runtime.BlackboardScripts;
+using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEditor;
 using UnityEngine;
