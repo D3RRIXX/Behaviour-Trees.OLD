@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Derrixx.BehaviourTrees.Runtime.BlackboardScripts;
 using UnityEditor;
@@ -8,7 +9,7 @@ using UnityEngine.Assertions;
 namespace Derrixx.BehaviourTrees.Runtime.Nodes
 {
 	[CreateAssetMenu(fileName = "New Behaviour Tree", menuName = "Derrixx/Behaviour Trees/Behaviour Tree")]
-	public sealed class BehaviourTree : ScriptableObject
+	public sealed class BehaviourTree : ScriptableObject, IEnumerable<Node>
 	{
 		[SerializeField, HideInInspector] private List<Node> nodes = new List<Node>();
 		[SerializeField, HideInInspector] private RootNode rootNode;
@@ -16,8 +17,6 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 		
 		public Node.State TreeState = Node.State.Running;
 
-		public IEnumerable<Node> Nodes => nodes;
-		
 		public RootNode RootNode
 		{
 			get => rootNode;
@@ -41,7 +40,11 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			
 			tree.RootNode = (RootNode)tree.RootNode.Clone();
 			tree.nodes = new List<Node>();
-			TraverseNodes(tree.RootNode, tree.nodes.Add);
+			TraverseNodes(tree.RootNode, node =>
+			{
+				tree.nodes.Add(node);
+				node.BehaviourTree = tree;
+			});
 			
 			return tree;
 		}
@@ -62,6 +65,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			node.hideFlags = HideFlags.HideInHierarchy;
 			node.name = Node.GetNodeName(node.GetType());
 			node.Guid = GUID.Generate().ToString();
+			node.BehaviourTree = this;
 			
 			Undo.RecordObject(this, "Behaviour Tree (Create Node)");
 			nodes.Add(node);
@@ -99,5 +103,8 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 				TraverseNodes(child, visitor);
 			}
 		}
+
+		public IEnumerator<Node> GetEnumerator() => nodes.GetEnumerator();
+		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 	}
 }

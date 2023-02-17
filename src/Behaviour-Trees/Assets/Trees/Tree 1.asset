@@ -1,5 +1,22 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8389808971986069468
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c668406357240019a866599a3e382ca, type: 3}
+  m_Name: Failure
+  m_EditorClassIdentifier: 
+  executionOrder: 0
+  Guid: bb80f7cf94234374082596433aa0d2e7
+  Position: {x: -415, y: 157.48001}
+  behaviourTree: {fileID: 11400000}
+  kills: {fileID: 0}
 --- !u!114 &-7977289142859364971
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15,6 +32,7 @@ MonoBehaviour:
   executionOrder: 4
   Guid: f79eb63a699906249869c66f4cc5678c
   Position: {x: 59, y: 249}
+  behaviourTree: {fileID: 0}
   message: New
 --- !u!114 &-105642422854040135
 MonoBehaviour:
@@ -31,6 +49,7 @@ MonoBehaviour:
   executionOrder: 3
   Guid: 9c05901f28b04fd48aeaeea70df3d07f
   Position: {x: -139, y: 249}
+  behaviourTree: {fileID: 0}
   message: 
 --- !u!114 &11400000
 MonoBehaviour:
@@ -51,7 +70,7 @@ MonoBehaviour:
   - {fileID: -7977289142859364971}
   - {fileID: 3010473755710944428}
   - {fileID: 7471476595050566445}
-  - {fileID: 6659744024000582233}
+  - {fileID: -8389808971986069468}
   rootNode: {fileID: 3425977208524895994}
   blackboard: {fileID: 11400000, guid: c4b1e7c844fab1646ae677f838ec3b27, type: 2}
   TreeState: 0
@@ -70,6 +89,7 @@ MonoBehaviour:
   executionOrder: 1
   Guid: 27fd620325635c64e942366be710e027
   Position: {x: 0, y: 120}
+  behaviourTree: {fileID: 0}
   Children:
   - {fileID: 3010473755710944428}
   - {fileID: -105642422854040135}
@@ -89,6 +109,7 @@ MonoBehaviour:
   executionOrder: 2
   Guid: b23bf089b0b70cb49814e54fb5dd220f
   Position: {x: -340, y: 249}
+  behaviourTree: {fileID: 0}
   message: 
 --- !u!114 &3425977208524895994
 MonoBehaviour:
@@ -105,23 +126,8 @@ MonoBehaviour:
   executionOrder: 0
   Guid: 0b9fbf3813a10464aa9af464bd96f5f1
   Position: {x: 0, y: 10}
+  behaviourTree: {fileID: 0}
   _child: {fileID: 2483811504098391436}
---- !u!114 &6659744024000582233
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c668406357240019a866599a3e382ca, type: 3}
-  m_Name: Failure
-  m_EditorClassIdentifier: 
-  executionOrder: 0
-  Guid: d395d561d08c2f04fb704eeea7637255
-  Position: {x: -388, y: 131}
-  kills: {fileID: 165631121050455902, guid: c4b1e7c844fab1646ae677f838ec3b27, type: 2}
 --- !u!114 &7471476595050566445
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -137,6 +143,7 @@ MonoBehaviour:
   executionOrder: 0
   Guid: 2743c40a57fadb646a5f650cacc71d69
   Position: {x: -265, y: 24}
+  behaviourTree: {fileID: 0}
   _child: {fileID: 0}
   timesToRepeat: 1
   repeatInfinitely: 0

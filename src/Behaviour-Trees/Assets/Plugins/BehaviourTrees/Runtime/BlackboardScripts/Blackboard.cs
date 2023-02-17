@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -11,9 +12,19 @@ namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts
 	{
 		[SerializeField] private List<BlackboardProperty> _properties = new List<BlackboardProperty>();
 
+		public IReadOnlyList<BlackboardProperty> Properties => _properties;
+
+		private void Awake()
+		{
+			Debug.Log("Called <color=\"red\">Awake()</color>");
+			AddProperty(typeof(IntBlackboardProperty));
+		}
+
+		public void AddProperty<T>() where T : BlackboardProperty => AddProperty(typeof(T));
+
 		public void AddProperty(Type propertyType)
 		{
-			if (!Application.isPlaying)
+			if (Application.isPlaying)
 			{
 				Debug.LogException(new InvalidOperationException("Can't modify blackboard while in Play Mode!"));
 				return;
@@ -22,8 +33,7 @@ namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts
 			Assert.IsTrue(propertyType.IsSubclassOf(typeof(BlackboardProperty)));
 			
 			BlackboardProperty property = (BlackboardProperty)CreateInstance(propertyType);
-			
-			property.hideFlags = HideFlags.HideInHierarchy;
+			// property.hideFlags = HideFlags.HideInHierarchy;
 			
 			Undo.RecordObject(this, "Blackboard (Add Property)");
 			
@@ -38,7 +48,7 @@ namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts
 
 		public void RemoveProperty(BlackboardProperty property)
 		{
-			if (!Application.isPlaying)
+			if (Application.isPlaying)
 			{
 				Debug.LogException(new InvalidOperationException("Can't modify blackboard while in Play Mode!"));
 				return;

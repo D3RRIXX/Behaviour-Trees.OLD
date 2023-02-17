@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   executionOrder: 0
   Guid: 22e5db30442e1b34890ded4adfdf362d
-  Position: {x: -126, y: 156}
+  Position: {x: 0, y: -1}
   _child: {fileID: 0}
 --- !u!114 &11400000
 MonoBehaviour:

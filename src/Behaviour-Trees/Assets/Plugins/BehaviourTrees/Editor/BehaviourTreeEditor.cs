@@ -92,32 +92,37 @@ namespace Derrixx.BehaviourTrees.Editor
             
             _inspectorView = root.Q<InspectorView>();
             _blackboardContainer = root.Q<IMGUIContainer>();
-            _blackboardContainer.onGUIHandler = () =>
-            {
-	            _treeObject.Update();
-	            EditorGUILayout.PropertyField(_blackboardProperty, new GUIContent("Selected Blackboard"));
-	            _treeObject.ApplyModifiedProperties();
-
-	            Object targetObject = _blackboardProperty.objectReferenceValue;
-	            if (!targetObject)
-		            return;
-
-	            bool editorIsNull = _blackboardEditor == null;
-	            if (editorIsNull || _blackboardEditor.target != targetObject)
-	            {
-		            if (editorIsNull)
-			            DestroyImmediate(_blackboardEditor);
-		            
-		            _blackboardEditor = (BlackboardEditor)UnityEditor.Editor.CreateEditor(targetObject, typeof(BlackboardEditor));
-	            }
-
-	            EditorGUILayout.Space(15);
-	            _blackboardEditor.OnInspectorGUI();
-            };
+            _blackboardContainer.onGUIHandler = DrawBlackboardContainer;
 
             _nameLabel = root.Q<Label>("tree-name");
 
             OnSelectionChange();
+        }
+
+        private void DrawBlackboardContainer()
+        {
+	        if (_blackboardProperty == null)
+		        return;
+
+	        _treeObject.Update();
+	        EditorGUILayout.PropertyField(_blackboardProperty, new GUIContent("Selected Blackboard"));
+	        _treeObject.ApplyModifiedProperties();
+
+	        Object targetObject = _blackboardProperty.objectReferenceValue;
+	        if (!targetObject)
+		        return;
+
+	        bool editorIsNull = _blackboardEditor == null;
+	        if (editorIsNull || _blackboardEditor.target != targetObject)
+	        {
+		        if (editorIsNull)
+			        DestroyImmediate(_blackboardEditor);
+
+		        _blackboardEditor = (BlackboardEditor)UnityEditor.Editor.CreateEditor(targetObject, typeof(BlackboardEditor));
+	        }
+
+	        EditorGUILayout.Space(15);
+	        _blackboardEditor.OnInspectorGUI();
         }
 
         private void OnNodeSelectionChange(NodeView nodeView)
