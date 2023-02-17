@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Derrixx.BehaviourTrees.Runtime.BlackboardScripts;
 using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
@@ -13,7 +14,9 @@ namespace Derrixx.BehaviourTrees.Editor
 	{
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
-			if (!(property.serializedObject.targetObject is Node node))
+			Object targetObject = property.serializedObject.targetObject;
+			
+			if (!(targetObject is Node node))
 			{
 				EditorGUI.PropertyField(position, property, label);
 				return;
@@ -29,9 +32,14 @@ namespace Derrixx.BehaviourTrees.Editor
 			}
 			
 			int index = Mathf.Max(0, ((List<BlackboardProperty>)blackboard.Properties).IndexOf(targetProperty));
-			index = EditorGUI.Popup(position, label.text, index, GetPropertyOptions(blackboard));
+			int newIndex = EditorGUI.Popup(position, label.text, index, GetPropertyOptions(blackboard));
+			if (newIndex != index)
+			{
+				FieldInfo field = targetObject.GetType().GetField(property.name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+				field!.SetValue(targetObject, blackboard.Properties[newIndex]);
+			}
 
-			property.objectReferenceValue = blackboard.Properties[index];
+			EditorUtility.SetDirty(targetObject);
 		}
 
 		private string[] GetPropertyOptions(Blackboard blackboard)

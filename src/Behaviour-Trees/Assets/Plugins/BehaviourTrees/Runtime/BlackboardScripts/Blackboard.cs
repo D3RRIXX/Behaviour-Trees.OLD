@@ -15,15 +15,7 @@ namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts
 
 		public IReadOnlyList<BlackboardProperty> Properties => _properties;
 
-		private void Awake()
-		{
-			Debug.Log("Called <color=\"red\">Awake()</color>");
-			AddProperty(typeof(IntBlackboardProperty));
-		}
-
-		public void AddProperty<T>() where T : BlackboardProperty => AddProperty(typeof(T));
-
-		public void AddProperty(Type propertyType)
+		public void AddProperty(BlackboardProperty.ValueType valueType)
 		{
 			if (Application.isPlaying)
 			{
@@ -31,9 +23,7 @@ namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts
 				return;
 			}
 			
-			Assert.IsTrue(propertyType.IsSubclassOf(typeof(BlackboardProperty)));
-			
-			BlackboardProperty property = (BlackboardProperty)CreateInstance(propertyType);
+			BlackboardProperty property = BlackboardProperty.Create(string.Empty, valueType);
 			// property.hideFlags = HideFlags.HideInHierarchy;
 			
 			Undo.RecordObject(this, "Blackboard (Add Property)");

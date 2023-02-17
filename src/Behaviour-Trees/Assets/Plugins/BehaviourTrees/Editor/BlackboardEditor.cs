@@ -24,6 +24,8 @@ namespace Derrixx.BehaviourTrees.Editor
 				{
 					drawHeaderCallback = rect => EditorGUI.LabelField(rect, "Properties"),
 					drawElementCallback = DrawElements,
+					onAddDropdownCallback = CreateAddDropdown,
+					onRemoveCallback = OnRemove,
 					elementHeight = 70
 				};
 			}
@@ -33,7 +35,14 @@ namespace Derrixx.BehaviourTrees.Editor
 				return;
 			}
 
+			_blackboard = serializedObject.targetObject as Blackboard;
 			_blackboardProperties = FindBlackboardProperties();
+		}
+
+		private void OnRemove(ReorderableList list)
+		{
+			_blackboard.RemoveProperty(_blackboardProperties[list.index]);
+			ReorderableList.defaultBehaviours.DoRemoveButton(list);
 		}
 
 		public override void OnInspectorGUI()
@@ -43,8 +52,27 @@ namespace Derrixx.BehaviourTrees.Editor
 			_propertyList.displayAdd = _propertyList.displayRemove = !Application.isPlaying;
 			_propertyList.DoLayoutList();
 
-			_blackboard = serializedObject.targetObject as Blackboard;
 			serializedObject.ApplyModifiedProperties();
+		}
+
+		private void CreateAddDropdown(Rect buttonRect, ReorderableList list)
+		{
+			var menu = new GenericMenu();
+
+			int i = 0;
+			foreach (string typeName in Enum.GetNames(typeof(BlackboardProperty.ValueType)))
+			{
+				menu.AddItem(new GUIContent(typeName), false, AddProperty, i);
+				i++;
+			}
+
+			menu.ShowAsContext();
+		}
+
+		private void AddProperty(object userData)
+		{
+			_blackboard.AddProperty((BlackboardProperty.ValueType)userData);
+			_propertyList.index++;
 		}
 
 		private void DrawElements(Rect rect, int index, bool isActive, bool isFocused)
@@ -62,9 +90,10 @@ namespace Derrixx.BehaviourTrees.Editor
 			
 			SerializedObject propertyObject = new SerializedObject(property);
 			propertyObject.Update();
-			// object value = targetObject.GetType().GetField("Key").GetValue(targetObject);
 
-			rect.y += 2;
+			if (index > 0)
+				rect.y += 5;
+			
 			DrawPropertyField(rect, propertyObject.FindProperty("_key"));
 			MoveDrawerToNextLine();
 
@@ -78,7 +107,6 @@ namespace Derrixx.BehaviourTrees.Editor
 				return;
 			}
 
-			// DrawPropertyField(rect, propertyObject.FindProperty("_valueType"), 70);
 			MoveDrawerToNextLine();
 			
 			DrawPropertyField(rect, propertyObject.FindProperty("_value"), 40);
