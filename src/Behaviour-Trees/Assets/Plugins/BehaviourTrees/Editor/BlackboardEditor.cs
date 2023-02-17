@@ -26,7 +26,8 @@ namespace Derrixx.BehaviourTrees.Editor
 					drawElementCallback = DrawElements,
 					onAddDropdownCallback = CreateAddDropdown,
 					onRemoveCallback = OnRemove,
-					elementHeight = 70
+					elementHeight = 93
+					// elementHeight = 70
 				};
 			}
 			catch (Exception e)
@@ -97,6 +98,10 @@ namespace Derrixx.BehaviourTrees.Editor
 			DrawPropertyField(rect, propertyObject.FindProperty("_key"));
 			MoveDrawerToNextLine();
 
+			//TODO: Uncomment when implemented synchronization
+			DrawPropertyField(rect, propertyObject.FindProperty("_sync"), label: "Instance Synced");
+			MoveDrawerToNextLine();
+
 			const int offset = 70 + 10;
 			EditorGUI.LabelField(new Rect(rect.x, rect.y, 70, height), "Value Type");
 			
@@ -121,15 +126,16 @@ namespace Derrixx.BehaviourTrees.Editor
 			_blackboard.RemoveProperty(originalProperty);
 		}
 
-		private static void DrawPropertyField(Rect rect, SerializedProperty property, int labelWidth = 30, int offset = 10, string label = null)
+		private static void DrawPropertyField(Rect rect, SerializedProperty property, int labelWidth = 30, int offset = 10, string label = null, GUIContent content = null)
 		{
 			float height = EditorGUIUtility.singleLineHeight;
 			label ??= property.displayName;
+			content ??= GUIContent.none;
 
 			int posOffset = labelWidth + offset;
 
 			EditorGUI.LabelField(new Rect(rect.x, rect.y, labelWidth, height), label);
-			EditorGUI.PropertyField(new Rect(rect.x + posOffset, rect.y, rect.width - posOffset, height), property, GUIContent.none);
+			EditorGUI.PropertyField(new Rect(rect.x + posOffset, rect.y, rect.width - posOffset, height), property, content);
 		}
 
 		private List<BlackboardProperty> FindBlackboardProperties()

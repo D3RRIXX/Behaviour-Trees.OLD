@@ -19,6 +19,11 @@ namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties
 		
 		[SerializeField] private string _key;
 		
+		[Tooltip("Synchronize this property between all blackboard instances?")]
+		[SerializeField] private bool _sync;
+		
+		private BlackboardProperty _runtimeClone;
+
 		public string Key => _key;
 		
 		public abstract ValueType GetValueType { get; }
@@ -26,6 +31,18 @@ namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties
 		private void OnValidate()
 		{
 			name = Key;
+		}
+
+		public BlackboardProperty Clone()
+		{
+			if (!_sync)
+				return Instantiate(this);
+			
+			if (_runtimeClone == null)
+				_runtimeClone = Instantiate(this);
+
+			return _runtimeClone;
+
 		}
 
 		public static BlackboardProperty Create(string key, ValueType valueType)

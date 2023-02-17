@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Derrixx.BehaviourTrees.Runtime.BlackboardScripts;
+using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -40,10 +43,13 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			
 			tree.RootNode = (RootNode)tree.RootNode.Clone();
 			tree.nodes = new List<Node>();
+			tree.blackboard = blackboard.Clone();
+			
 			TraverseNodes(tree.RootNode, node =>
 			{
 				tree.nodes.Add(node);
 				node.BehaviourTree = tree;
+				ReassignBlackboardPropertyReferences(node, tree.blackboard);
 			});
 			
 			return tree;
@@ -92,7 +98,20 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			AssetDatabase.SaveAssets();
 		}
 
-		private void TraverseNodes(Node node, Action<Node> visitor)
+		private static void ReassignBlackboardPropertyReferences(Node node, Blackboard blackboard)
+		{
+			IEnumerable<FieldInfo> fieldInfos = node.GetType()
+				.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+				.Where(x => x.FieldType.IsSubclassOf(typeof(BlackboardProperty)));
+
+			foreach (var fieldInfo in fieldInfos)
+			{
+				BlackboardProperty blackboardProperty = (BlackboardProperty)fieldInfo.GetValue(node);
+				fieldInfo.SetValue(node, blackboard.FindProperty(blackboardProperty.Key));
+			}
+		}
+
+		private static void TraverseNodes(Node node, Action<Node> visitor)
 		{
 			if (!node)
 				return;

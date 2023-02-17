@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts
 {
@@ -14,6 +13,21 @@ namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts
 		[SerializeField] private List<BlackboardProperty> _properties = new List<BlackboardProperty>();
 
 		public IReadOnlyList<BlackboardProperty> Properties => _properties;
+
+		public BlackboardProperty FindProperty(string key) => _properties.FirstOrDefault(x => x.Key == key);
+		public T FindProperty<T>(string key) where T : BlackboardProperty
+			=> _properties.FirstOrDefault(x => x.Key == key && x.GetType() == typeof(T)) as T;
+
+		public Blackboard Clone()
+		{
+			Blackboard clone = Instantiate(this);
+			clone.name = name;
+			clone._properties = _properties.Select(x => x.Clone()).ToList();
+
+			return clone;
+		}
+
+#if UNITY_EDITOR
 
 		public void AddProperty(BlackboardProperty.ValueType valueType)
 		{
@@ -51,5 +65,6 @@ namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts
 			Undo.DestroyObjectImmediate(property);
 			AssetDatabase.SaveAssets();
 		}
+#endif
 	}
 }

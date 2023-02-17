@@ -30,16 +30,20 @@ namespace Derrixx.BehaviourTrees.Editor
 				EditorGUI.LabelField(position, label, new GUIContent("Blackboard is unassigned or empty!"));
 				return;
 			}
+
+			int indexOf = ((List<BlackboardProperty>)blackboard.Properties).IndexOf(targetProperty);
+			bool valueIsUnassigned = indexOf < 0;
 			
-			int index = Mathf.Max(0, ((List<BlackboardProperty>)blackboard.Properties).IndexOf(targetProperty));
+			int index = Mathf.Max(0, indexOf);
 			int newIndex = EditorGUI.Popup(position, label.text, index, GetPropertyOptions(blackboard));
-			if (newIndex != index)
+			
+			if (valueIsUnassigned || newIndex != index)
 			{
 				FieldInfo field = targetObject.GetType().GetField(property.name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 				field!.SetValue(targetObject, blackboard.Properties[newIndex]);
-			}
 
-			EditorUtility.SetDirty(targetObject);
+				EditorUtility.SetDirty(targetObject);
+			}
 		}
 
 		private string[] GetPropertyOptions(Blackboard blackboard)

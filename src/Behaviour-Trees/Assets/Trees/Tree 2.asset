@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aec9dc05e53e4467bc546bc0c1d335dc, type: 3}
-  m_Name: Tree 1
+  m_Name: Tree 2
   m_EditorClassIdentifier: 
   nodes:
   - {fileID: 3425977208524895994}
@@ -108,5 +108,5 @@ MonoBehaviour:
   Position: {x: -327.55002, y: 281.00003}
   behaviourTree: {fileID: 11400000}
   _child: {fileID: -4077299656117618590}
-  timesToRepeat: 15
+  timesToRepeat: 20
   repeatInfinitely: 0

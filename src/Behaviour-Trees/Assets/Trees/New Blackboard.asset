@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: aaaaa
   m_EditorClassIdentifier: 
   _key: aaaaa
+  _sync: 0
   _value: 0
 --- !u!114 &-1011088301211908611
 MonoBehaviour:
@@ -27,6 +28,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: 
+  _sync: 0
   _value: 0
 --- !u!114 &11400000
 MonoBehaviour:
@@ -42,4 +44,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _properties:
   - {fileID: -8225167814091047510}
-  - {fileID: 0}
