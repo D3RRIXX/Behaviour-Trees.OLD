@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4077299656117618590
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f81bde428274ad69b78788a923b5449, type: 3}
+  m_Name: IncrementKills
+  m_EditorClassIdentifier: 
+  executionOrder: 3
+  Guid: b0b7abeb75d22114cb79dbe4e07d8a80
+  Position: {x: -328, y: 405.15997}
+  behaviourTree: {fileID: 11400000}
+  kills: {fileID: -8225167814091047510, guid: c4b1e7c844fab1646ae677f838ec3b27, type: 2}
+--- !u!114 &-3511495057504144028
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b8a88b01edc4bb7a307ac9a2ae93821, type: 3}
+  m_Name: LogKills
+  m_EditorClassIdentifier: 
+  executionOrder: 4
+  Guid: ee942c1e6ea494144b0530f3d7ac2bd7
+  Position: {x: 0, y: 405}
+  behaviourTree: {fileID: 11400000}
+  kills: {fileID: -8225167814091047510, guid: c4b1e7c844fab1646ae677f838ec3b27, type: 2}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aec9dc05e53e4467bc546bc0c1d335dc, type: 3}
+  m_Name: Tree 2
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 3425977208524895994}
+  - {fileID: 2483811504098391436}
+  - {fileID: 5892246292116973799}
+  - {fileID: -4077299656117618590}
+  - {fileID: -3511495057504144028}
+  rootNode: {fileID: 3425977208524895994}
+  blackboard: {fileID: 11400000, guid: c4b1e7c844fab1646ae677f838ec3b27, type: 2}
+  TreeState: 0
+--- !u!114 &2483811504098391436
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0731f51b8a604bc1a5ea75ebc7a2ffc0, type: 3}
+  m_Name: Sequence
+  m_EditorClassIdentifier: 
+  executionOrder: 1
+  Guid: 27fd620325635c64e942366be710e027
+  Position: {x: 0.000008106232, y: 118.70001}
+  behaviourTree: {fileID: 0}
+  Children:
+  - {fileID: 5892246292116973799}
+  - {fileID: -3511495057504144028}
+--- !u!114 &3425977208524895994
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2484c5c616544aebee8883f6f316443, type: 3}
+  m_Name: Root
+  m_EditorClassIdentifier: 
+  executionOrder: 0
+  Guid: 0b9fbf3813a10464aa9af464bd96f5f1
+  Position: {x: 0, y: 10}
+  behaviourTree: {fileID: 0}
+  _child: {fileID: 2483811504098391436}
+--- !u!114 &5892246292116973799
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7c13608d5e849e6a8ae6c2c4c487be4, type: 3}
+  m_Name: Repeat
+  m_EditorClassIdentifier: 
+  executionOrder: 2
+  Guid: 32d9901e4fdb5ea49a546d8c190ac9e4
+  Position: {x: -327.55002, y: 281.00003}
+  behaviourTree: {fileID: 11400000}
+  _child: {fileID: -4077299656117618590}
+  timesToRepeat: 20
+  repeatInfinitely: 0
