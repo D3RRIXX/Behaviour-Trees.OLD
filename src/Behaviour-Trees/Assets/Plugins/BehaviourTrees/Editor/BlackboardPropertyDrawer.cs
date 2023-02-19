@@ -74,7 +74,8 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		private BlackboardProperty[] GetPropertyOptions(Blackboard blackboard)
 		{
-			return (from property in blackboard.Properties where property.GetType() == fieldInfo.FieldType select property).ToArray();
+			return (from property in blackboard.Properties
+				where fieldInfo.FieldType.IsInstanceOfType(property) select property).ToArray();
 		}
 	}
 }
