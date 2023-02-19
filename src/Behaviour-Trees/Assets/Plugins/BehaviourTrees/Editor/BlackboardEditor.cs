@@ -15,6 +15,7 @@ namespace Derrixx.BehaviourTrees.Editor
 		private Blackboard _blackboard;
 		private ReorderableList _propertyList;
 		private List<BlackboardProperty> _blackboardProperties;
+		private SerializedProperty _parent;
 
 		private void OnEnable()
 		{
@@ -26,12 +27,13 @@ namespace Derrixx.BehaviourTrees.Editor
 					drawElementCallback = DrawElements,
 					onAddDropdownCallback = CreateAddDropdown,
 					onRemoveCallback = OnRemove,
-					elementHeight = 93
+					elementHeight = 93,
 					// elementHeight = 70
 				};
 				
 				_blackboard = serializedObject.targetObject as Blackboard;
 				_blackboardProperties = FindBlackboardProperties();
+				_parent = serializedObject.FindProperty("_parent");
 			}
 			catch (Exception)
 			{
@@ -49,6 +51,7 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			serializedObject.Update();
 
+			EditorGUILayout.PropertyField(_parent);
 			_propertyList.displayAdd = _propertyList.displayRemove = !Application.isPlaying;
 			_propertyList.DoLayoutList();
 

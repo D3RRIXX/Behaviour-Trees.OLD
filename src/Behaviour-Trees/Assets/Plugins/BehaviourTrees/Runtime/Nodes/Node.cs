@@ -63,14 +63,12 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 
         protected abstract State OnUpdate();
 
-        private static Regex _nameRegex;
-        
         public static string GetNodeName(Type nodeType)
         {
             const string pattern = @"([A-Z])\w+(?=Node)";
-            _nameRegex ??= new Regex(pattern);
+            var name = Regex.Match(nodeType.Name, pattern).Value;
 
-            return _nameRegex.Match(nodeType.Name).Value;
+            return Regex.Replace(name, "(\\B[A-Z])", " $1");
         }
     }
 }

@@ -10,24 +10,36 @@ namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts
 	[CreateAssetMenu(fileName = "New Blackboard", menuName = "Derrixx/Behaviour Trees/Blackboard", order = 0)]
 	public class Blackboard : ScriptableObject
 	{
+		[SerializeField] private Blackboard _parent;
 		[SerializeField] private List<BlackboardProperty> _properties = new List<BlackboardProperty>();
 
-		public IReadOnlyList<BlackboardProperty> Properties => _properties;
+		public IReadOnlyList<BlackboardProperty> Properties => _parent != null ? _properties.Concat(_parent.Properties).ToList() : _properties;
 
-		public BlackboardProperty FindProperty(string key) => _properties.FirstOrDefault(x => x.Key == key);
+		public BlackboardProperty FindProperty(string key) => Properties.FirstOrDefault(x => x.Key == key);
 		public T FindProperty<T>(string key) where T : BlackboardProperty
-			=> _properties.FirstOrDefault(x => x.Key == key && x.GetType() == typeof(T)) as T;
+			=> Properties.FirstOrDefault(x => x.Key == key && x.GetType() == typeof(T)) as T;
 
 		public Blackboard Clone()
 		{
 			Blackboard clone = Instantiate(this);
 			clone.name = name;
 			clone._properties = _properties.Select(x => x.Clone()).ToList();
+			if (_parent)
+				clone._parent = _parent.Clone();
 
 			return clone;
 		}
 
 #if UNITY_EDITOR
+
+		private void OnValidate()
+		{
+			if (_parent == this)
+			{
+				Debug.LogError("Can't assign self as a parent!", this);
+				_parent = null;
+			}
+		}
 
 		public void AddProperty(BlackboardProperty.ValueType valueType)
 		{

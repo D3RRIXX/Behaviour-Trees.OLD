@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f9ed25a7ab49b59a2f9e218cc98d7c, type: 3}
   m_Name: BB
   m_EditorClassIdentifier: 
+  _parent: {fileID: 11400000, guid: 7d3f2bcb1597ff1429a805fdc68a5677, type: 2}
   _properties: []
