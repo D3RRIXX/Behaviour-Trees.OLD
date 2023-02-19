@@ -38,7 +38,7 @@ namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts
 			}
 			
 			BlackboardProperty property = BlackboardProperty.Create(string.Empty, valueType);
-			// property.hideFlags = HideFlags.HideInHierarchy;
+			property.hideFlags = HideFlags.HideInHierarchy;
 			
 			Undo.RecordObject(this, "Blackboard (Add Property)");
 			

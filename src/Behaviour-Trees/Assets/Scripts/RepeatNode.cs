@@ -1,4 +1,5 @@
 using Derrixx.BehaviourTrees.Runtime.Nodes;
+using Derrixx.BehaviourTrees.Runtime.Nodes.Decorators;
 using UnityEngine;
 
 namespace DefaultNamespace

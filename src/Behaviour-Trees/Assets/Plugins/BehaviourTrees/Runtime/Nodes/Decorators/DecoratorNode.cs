@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Runtime.Nodes
+namespace Derrixx.BehaviourTrees.Runtime.Nodes.Decorators
 {
 	public abstract class DecoratorNode : Node
 	{

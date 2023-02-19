@@ -29,15 +29,14 @@ namespace Derrixx.BehaviourTrees.Editor
 					elementHeight = 93
 					// elementHeight = 70
 				};
+				
+				_blackboard = serializedObject.targetObject as Blackboard;
+				_blackboardProperties = FindBlackboardProperties();
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
-				Debug.Log(serializedObject);
-				return;
+				// ignored
 			}
-
-			_blackboard = serializedObject.targetObject as Blackboard;
-			_blackboardProperties = FindBlackboardProperties();
 		}
 
 		private void OnRemove(ReorderableList list)
@@ -99,7 +98,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			MoveDrawerToNextLine();
 
 			//TODO: Uncomment when implemented synchronization
-			DrawPropertyField(rect, propertyObject.FindProperty("_sync"), label: "Instance Synced");
+			DrawPropertyField(rect, propertyObject.FindProperty("_sync"), label: "Instance Synced", labelWidth: 100);
 			MoveDrawerToNextLine();
 
 			const int offset = 70 + 10;

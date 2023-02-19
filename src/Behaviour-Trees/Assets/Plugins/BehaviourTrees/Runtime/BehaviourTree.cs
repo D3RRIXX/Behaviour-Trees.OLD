@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Derrixx.BehaviourTrees.Runtime.BlackboardScripts;
 using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
+using Derrixx.BehaviourTrees.Runtime.Nodes.Decorators;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;

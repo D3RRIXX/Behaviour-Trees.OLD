@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Derrixx.BehaviourTrees.Runtime.BlackboardScripts;
@@ -6,6 +7,7 @@ using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Derrixx.BehaviourTrees.Editor
 {
@@ -31,24 +33,48 @@ namespace Derrixx.BehaviourTrees.Editor
 				return;
 			}
 
-			int indexOf = ((List<BlackboardProperty>)blackboard.Properties).IndexOf(targetProperty);
+			BlackboardProperty[] options = GetPropertyOptions(blackboard);
+			int indexOf = Array.IndexOf(options, targetProperty);
 			bool valueIsUnassigned = indexOf < 0;
-			
-			int index = Mathf.Max(0, indexOf);
-			int newIndex = EditorGUI.Popup(position, label.text, index, GetPropertyOptions(blackboard));
-			
-			if (valueIsUnassigned || newIndex != index)
-			{
-				FieldInfo field = targetObject.GetType().GetField(property.name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-				field!.SetValue(targetObject, blackboard.Properties[newIndex]);
 
-				EditorUtility.SetDirty(targetObject);
+			if (options.Length == 0)
+			{
+				var style = new GUIStyle
+				{
+					wordWrap = true,
+					normal =
+					{
+						textColor = GUI.skin.label.normal.textColor
+					}
+				};
+
+				EditorGUI.LabelField(position, label, new GUIContent($"Found no properties of type {fieldInfo.FieldType.Name}!"), style);
+				return;
 			}
+
+			int index = Mathf.Max(0, indexOf);
+			BlackboardProperty value = GetPopupValue(position, label, options, index);
+
+			if (!valueIsUnassigned && value == targetProperty)
+				return;
+			
+			FieldInfo field = targetObject.GetType().GetField(property.name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+			field!.SetValue(targetObject, value);
+
+			EditorUtility.SetDirty(targetObject);
 		}
 
-		private string[] GetPropertyOptions(Blackboard blackboard)
+		private static BlackboardProperty GetPopupValue(Rect position, GUIContent label, IReadOnlyList<BlackboardProperty> options, int index)
 		{
-			return (from property in blackboard.Properties where property.GetType() == fieldInfo.FieldType select property.Key).ToArray();
+			string[] keys = (from option in options select option.Key).ToArray();
+			int i = EditorGUI.Popup(position, label.text, index, keys);
+			
+			return options[i];
+		}
+
+		private BlackboardProperty[] GetPropertyOptions(Blackboard blackboard)
+		{
+			return (from property in blackboard.Properties where property.GetType() == fieldInfo.FieldType select property).ToArray();
 		}
 	}
 }
