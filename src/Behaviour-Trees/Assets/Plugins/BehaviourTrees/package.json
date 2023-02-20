@@ -1,6 +1,6 @@
 {
   "name": "com.derrixx.behaviourtrees",
-  "version": "0.3.0",
+  "version": "0.4.1",
   "description": "An easy to use code-only behaviour tree system, made by programmer for programmers",
   "displayName": "Behaviour Trees",
   "author": {
