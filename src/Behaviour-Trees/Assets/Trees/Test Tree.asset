@@ -16,8 +16,8 @@ MonoBehaviour:
   Guid: b17f5765700980e408914618a0289a1d
   Position: {x: 0, y: 221}
   behaviourTree: {fileID: 11400000}
-  _navMeshAgent: {fileID: 0}
-  _destination: {fileID: 0}
+  _navMeshAgent: {fileID: -6544594217046637807, guid: f7280c2c6bf797640a6c2f94a484fcd7, type: 2}
+  _destination: {fileID: -4393848716254695678, guid: f7280c2c6bf797640a6c2f94a484fcd7, type: 2}
   _stoppingDistance: 2
 --- !u!114 &11400000
 MonoBehaviour:
@@ -34,9 +34,28 @@ MonoBehaviour:
   nodes:
   - {fileID: 8572891298179461827}
   - {fileID: -2390467049682078310}
+  - {fileID: 8240872874049706212}
   rootNode: {fileID: 8572891298179461827}
-  blackboard: {fileID: 0}
+  blackboard: {fileID: 11400000, guid: f7280c2c6bf797640a6c2f94a484fcd7, type: 2}
   TreeState: 0
+--- !u!114 &8240872874049706212
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1126130473a1cdc4db28f20e676b1af1, type: 3}
+  m_Name: Selector
+  m_EditorClassIdentifier: 
+  executionOrder: 0
+  Guid: 5a2e7d6ca6bf2ef41b05e381023d6e3e
+  Position: {x: 0, y: 0}
+  behaviourTree: {fileID: 11400000}
+  Children: []
+  _dynamic: 0
 --- !u!114 &8572891298179461827
 MonoBehaviour:
   m_ObjectHideFlags: 1

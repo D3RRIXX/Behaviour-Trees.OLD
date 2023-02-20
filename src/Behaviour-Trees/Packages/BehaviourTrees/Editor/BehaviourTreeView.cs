@@ -31,7 +31,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			this.AddManipulator(new SelectionDragger());
 			this.AddManipulator(new RectangleSelector());
 
-			StyleSheet styleSheet = Resources.Load<StyleSheet>("BehaviourTreeEditor");
+			StyleSheet styleSheet = Resources.Load<StyleSheet>("BehaviourTreeEditorStyle");
 			styleSheets.Add(styleSheet);
 
 			Undo.undoRedoPerformed += OnUndoRedo;
