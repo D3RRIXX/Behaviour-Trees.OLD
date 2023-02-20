@@ -7,7 +7,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes.Decorators
 	{
 		[SerializeField] private BoolBlackboardProperty _condition;
 
-		public override string GetDescription() => _condition == null ? base.GetDescription() : $"Blackboard: {_condition.Key} is Set";
+		public override string GetDescription() => $"Blackboard: {(_condition ? _condition.Key : "Condition" )} is Set";
 
 		protected override bool ConditionValue() => _condition.Value;
 	}

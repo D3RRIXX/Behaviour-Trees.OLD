@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aec9dc05e53e4467bc546bc0c1d335dc, type: 3}
+  m_Name: Test Tree
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 707423525114393380}
+  - {fileID: 374041736439343671}
+  - {fileID: 1424558736496033235}
+  rootNode: {fileID: 707423525114393380}
+  blackboard: {fileID: 0}
+  TreeState: 0
+--- !u!114 &374041736439343671
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ee4e25e0cb4c25bfc4e2c78a383d34, type: 3}
+  m_Name: Is True
+  m_EditorClassIdentifier: 
+  executionOrder: 1
+  Guid: 95f99f3a1ee733a488fdd4a16ad5faec
+  Position: {x: 0, y: 187}
+  behaviourTree: {fileID: 11400000}
+  _child: {fileID: 0}
+  _condition: {fileID: 0}
+--- !u!114 &707423525114393380
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2484c5c616544aebee8883f6f316443, type: 3}
+  m_Name: Root
+  m_EditorClassIdentifier: 
+  executionOrder: 0
+  Guid: 8dffeab1d2b7a0e449164a0cb08a2e14
+  Position: {x: 0, y: 0}
+  behaviourTree: {fileID: 11400000}
+  _child: {fileID: 374041736439343671}
+--- !u!114 &1424558736496033235
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0731f51b8a604bc1a5ea75ebc7a2ffc0, type: 3}
+  m_Name: Sequence
+  m_EditorClassIdentifier: 
+  executionOrder: 0
+  Guid: d8a61c3f45c97b845aeed6036325df14
+  Position: {x: -204.63998, y: 187}
+  behaviourTree: {fileID: 11400000}
+  Children: []
+  _dynamic: 0

@@ -8,6 +8,7 @@ using Derrixx.BehaviourTrees.Runtime.Nodes.Composites;
 using Derrixx.BehaviourTrees.Runtime.Nodes.Decorators;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.UIElements;
 using Node = Derrixx.BehaviourTrees.Runtime.Nodes.Node;
 

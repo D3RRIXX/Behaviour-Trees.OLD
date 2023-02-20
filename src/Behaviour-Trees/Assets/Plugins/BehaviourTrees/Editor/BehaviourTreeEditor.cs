@@ -101,7 +101,7 @@ namespace Derrixx.BehaviourTrees.Editor
 
         private void DrawBlackboardContainer()
         {
-	        if (_blackboardProperty == null)
+	        if (_blackboardProperty == null || _treeObject.targetObject == null)
 		        return;
 
 	        _treeObject.Update();
@@ -136,7 +136,7 @@ namespace Derrixx.BehaviourTrees.Editor
             if (!TryGetBehaviourTreeTarget(out BehaviourTree tree, out bool treeIsAttachedToObject))
                 return;
 
-            if (!Application.isPlaying && !AssetDatabase.CanOpenForEdit(tree))
+            if (!Application.isPlaying && !AssetDatabase.CanOpenForEdit(tree) || !EditorUtility.IsPersistent(tree))
                 return;
 
             _blackboardProperty?.Dispose();

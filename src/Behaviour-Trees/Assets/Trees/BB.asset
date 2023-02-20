@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2958028351449963038
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a907b1f56914d53876d26a36ea29ef4, type: 3}
+  m_Name: Is Okay
+  m_EditorClassIdentifier: 
+  _key: Is Okay
+  _sync: 0
+  _value: 0
+--- !u!114 &-1448380290101885924
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a907b1f56914d53876d26a36ea29ef4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: 
+  _sync: 0
+  _value: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13,4 +43,6 @@ MonoBehaviour:
   m_Name: BB
   m_EditorClassIdentifier: 
   _parent: {fileID: 11400000, guid: 7d3f2bcb1597ff1429a805fdc68a5677, type: 2}
-  _properties: []
+  _properties:
+  - {fileID: -2958028351449963038}
+  - {fileID: -1448380290101885924}
