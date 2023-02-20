@@ -6,7 +6,6 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 	{
 		[SerializeField] private BehaviourTree _behaviourTree;
 
-		private BehaviourTree _clone;
 		private bool _createdClone;
 
 		public BehaviourTree BehaviourTree
@@ -14,9 +13,9 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			get
 			{
 				if (!_createdClone)
-					_clone = CloneTree();
+					_behaviourTree = CloneTree();
 
-				return _clone;
+				return _behaviourTree;
 			}
 		}
 

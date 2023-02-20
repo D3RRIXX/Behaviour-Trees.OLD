@@ -14,7 +14,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 	{
 		private readonly Label _executionOrderLabel;
 		private readonly Label _description;
-		
+
 		public Action<NodeView> OnNodeSelected;
 
 		public NodeView(Node node) : base("Assets/Plugins/BehaviourTrees/Editor/UIBuilder/NodeView.uxml")
@@ -25,7 +25,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 			_executionOrderLabel = this.Q<Label>("execution-order");
 			_description = this.Q<Label>("description");
-			
+
 			style.left = node.Position.x;
 			style.top = node.Position.y;
 
@@ -42,17 +42,17 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 		public override void SetPosition(Rect newPos)
 		{
 			base.SetPosition(newPos);
-			
+
 			Undo.RecordObject(Node, "Behaviour Tree (Set Position)");
-			
+
 			Node.Position.x = newPos.xMin;
 			Node.Position.y = newPos.yMin;
-			
+
 			EditorUtility.SetDirty(Node);
 		}
 
 		public void UpdateDescription() => _description.text = Node.GetDescription();
-		
+
 		public void SortChildren()
 		{
 			if (Node is CompositeNode compositeNode)
@@ -63,7 +63,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 		{
 			if (!Application.isPlaying)
 				return;
-			
+
 			RemoveFromClassList(StyleClassNames.RUNNING);
 			RemoveFromClassList(StyleClassNames.FAILURE);
 			RemoveFromClassList(StyleClassNames.SUCCESS);
@@ -76,7 +76,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 					Node.State.Failure => StyleClassNames.FAILURE,
 					Node.State.Success => StyleClassNames.SUCCESS,
 				};
-			
+
 				AddToClassList(className);
 			}
 			catch (InvalidOperationException) { }
@@ -103,7 +103,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 				DecoratorNode _ => "decorator",
 				_ => null
 			};
-			
+
 			AddToClassList(className);
 		}
 
@@ -111,7 +111,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 		{
 			if (Node is RootNode)
 				return;
-			
+
 			if (!TryInstantiatePort(Direction.Input, Port.Capacity.Single, FlexDirection.Column, out Port input))
 				return;
 
@@ -143,10 +143,10 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			port = InstantiatePort(Orientation.Vertical, direction, capacity, typeof(Runtime.Nodes.Node));
 			if (port == null)
 				return false;
-			
+
 			port.style.flexDirection = flexDirection;
 			port.portName = string.Empty;
-			
+
 			return true;
 		}
 	}

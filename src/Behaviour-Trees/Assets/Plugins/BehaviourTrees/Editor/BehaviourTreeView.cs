@@ -20,7 +20,7 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		private BehaviourTree _tree;
 
-		public Action<NodeView> OnNodeSelected; 
+		public Action<NodeView> OnNodeSelected;
 
 		public BehaviourTreeView()
 		{
@@ -67,11 +67,11 @@ namespace Derrixx.BehaviourTrees.Editor
 				{
 					if (additionalCondition?.Invoke(type) == false)
 						continue;
-					
+
 					evt.menu.AppendAction(string.Format(actionName, Node.GetNodeName(baseType), Node.GetNodeName(type)), _ => CreateNode(type));
 				}
 			}
-			
+
 			AppendCreateSubclassNodesActions(typeof(ActionNode));
 			AppendCreateSubclassNodesActions(typeof(DecoratorNode), x => x != typeof(RootNode));
 			AppendCreateSubclassNodesActions(typeof(CompositeNode));
@@ -126,9 +126,9 @@ namespace Derrixx.BehaviourTrees.Editor
 
 			if (graphViewChange.movedElements != null)
 				SortChildNodesByXPos();
-			
+
 			UpdateNodesActiveState();
-			
+
 			return graphViewChange;
 		}
 
@@ -144,14 +144,14 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			if (graphViewChange.edgesToCreate == null)
 				return;
-			
+
 			foreach (Edge edge in graphViewChange.edgesToCreate)
 			{
 				NodeView parentView = (NodeView)edge.output.node;
 				NodeView childView = (NodeView)edge.input.node;
 				parentView.Node.AddChild(childView.Node);
 			}
-			
+
 			SortChildNodesByXPos();
 		}
 
@@ -159,7 +159,7 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			if (graphViewChange.elementsToRemove == null)
 				return;
-			
+
 			foreach (GraphElement graphElement in graphViewChange.elementsToRemove)
 			{
 				switch (graphElement)
@@ -206,7 +206,7 @@ namespace Derrixx.BehaviourTrees.Editor
 					SetNodeInactive(nodeView);
 				}
 			}
-			
+
 			_tree.UpdateExecutionOrder();
 			foreach (NodeView nodeView in activeViews)
 			{
@@ -218,7 +218,7 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			Node node = _tree.CreateNode(type);
 			CreateNodeView(node);
-			
+
 			UpdateNodesActiveState();
 		}
 
@@ -228,7 +228,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			{
 				OnNodeSelected = OnNodeSelected,
 			};
-			
+
 			nodeView.AddToClassList(StyleClassNames.INACTIVE_NODE);
 			AddElement(nodeView);
 		}
