@@ -136,7 +136,7 @@ namespace Derrixx.BehaviourTrees.Editor
             if (!TryGetBehaviourTreeTarget(out BehaviourTree tree, out bool treeIsAttachedToObject))
                 return;
 
-            if (!Application.isPlaying && !AssetDatabase.CanOpenForEdit(tree) || !EditorUtility.IsPersistent(tree))
+            if (!Application.isPlaying && (!AssetDatabase.CanOpenForEdit(tree) || !EditorUtility.IsPersistent(tree)))
                 return;
 
             _blackboardProperty?.Dispose();

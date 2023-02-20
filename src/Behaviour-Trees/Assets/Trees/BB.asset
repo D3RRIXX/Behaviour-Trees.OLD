@@ -1,35 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2958028351449963038
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a907b1f56914d53876d26a36ea29ef4, type: 3}
-  m_Name: Is Okay
-  m_EditorClassIdentifier: 
-  _key: Is Okay
-  _sync: 0
-  _value: 0
---- !u!114 &-1448380290101885924
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a907b1f56914d53876d26a36ea29ef4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _key: 
-  _sync: 0
-  _value: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42,7 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f9ed25a7ab49b59a2f9e218cc98d7c, type: 3}
   m_Name: BB
   m_EditorClassIdentifier: 
-  _parent: {fileID: 11400000, guid: 7d3f2bcb1597ff1429a805fdc68a5677, type: 2}
+  _parent: {fileID: 0}
   _properties:
-  - {fileID: -2958028351449963038}
-  - {fileID: -1448380290101885924}
+  - {fileID: 2507830745184478466}
+  - {fileID: 6514605670495988072}
+--- !u!114 &2507830745184478466
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 022708799eef4c24ad1325605d0986bb, type: 3}
+  m_Name: Destination
+  m_EditorClassIdentifier: 
+  _key: Destination
+  _sync: 0
+  _value: {x: 0, y: 0, z: 0}
+--- !u!114 &6514605670495988072
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bed38fa66f2240c7b315a96f72c48afe, type: 3}
+  m_Name: Agent
+  m_EditorClassIdentifier: 
+  _key: Agent
+  _sync: 0
+  _value: {fileID: 0}
