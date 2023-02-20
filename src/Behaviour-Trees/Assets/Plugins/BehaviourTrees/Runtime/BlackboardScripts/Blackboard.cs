@@ -19,7 +19,7 @@ namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts
 		public T FindProperty<T>(string key) where T : BlackboardProperty
 			=> Properties.FirstOrDefault(x => x.Key == key && x.GetType() == typeof(T)) as T;
 
-		public Blackboard Clone()
+		internal Blackboard Clone()
 		{
 			Blackboard clone = Instantiate(this);
 			clone.name = name;
@@ -31,7 +31,6 @@ namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts
 		}
 
 #if UNITY_EDITOR
-
 		private void OnValidate()
 		{
 			if (_parent == this)
@@ -41,6 +40,10 @@ namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts
 			}
 		}
 
+		/// <summary>
+		/// INTERNAL EDITOR USE ONLY
+		/// </summary>
+		/// <param name="valueType">Value type that the BlackboardProperty should have</param>
 		public void AddProperty(BlackboardProperty.ValueType valueType)
 		{
 			if (Application.isPlaying)
@@ -63,6 +66,10 @@ namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts
 			AssetDatabase.SaveAssets();
 		}
 
+		/// <summary>
+		/// INTERNAL EDITOR USE ONLY
+		/// </summary>
+		/// <param name="property">Property that should be removed</param>
 		public void RemoveProperty(BlackboardProperty property)
 		{
 			if (Application.isPlaying)

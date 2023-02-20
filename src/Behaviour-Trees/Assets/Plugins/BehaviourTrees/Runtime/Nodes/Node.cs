@@ -64,7 +64,14 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 
         public virtual bool IsConnectedWith(Node other) => this == other;
         
+        /// <summary>
+        /// Gets called when this node starts execution
+        /// </summary>
         protected virtual void OnStart() { }
+        
+        /// <summary>
+        /// Gets called when this node finishes execution
+        /// </summary>
         protected virtual void OnFinish() { }
 
         protected abstract State OnUpdate();

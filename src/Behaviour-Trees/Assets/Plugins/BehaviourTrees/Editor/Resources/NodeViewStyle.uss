@@ -114,7 +114,7 @@
 }
 
 :hover > #execution-order {
-    background-color: rgba(255, 0, 0, 255);
+    background-color: rgb(255, 0, 0);
 }
 
 #node-state {
@@ -139,4 +139,9 @@
 
 .failure #node-state {
     background-color: rgb(255, 0, 0);
+}
+
+.node-label {
+    padding-right: 10px;
+    padding-left: 0;
 }

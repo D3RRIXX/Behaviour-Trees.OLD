@@ -2,6 +2,10 @@ using UnityEngine;
 
 namespace Derrixx.BehaviourTrees.Runtime.Nodes.Decorators
 {
+	/// <summary>
+	/// Node type that operates on a single child. Inherit from this class to create your own decorator nodes.
+	/// <seealso cref="ConditionalNode"/>
+	/// </summary>
 	public abstract class DecoratorNode : Node
 	{
 		[SerializeField, HideInInspector] private Node _child;

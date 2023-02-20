@@ -13,6 +13,9 @@ using UnityEngine.Assertions;
 
 namespace Derrixx.BehaviourTrees.Runtime
 {
+	/// <summary>
+	/// A Behaviour Tree asset. To actually use Behaviour Trees, use <see cref="BehaviourTreeRunner"/>
+	/// </summary>
 	[CreateAssetMenu(fileName = "New Behaviour Tree", menuName = "Derrixx/Behaviour Trees/Behaviour Tree")]
 	public sealed class BehaviourTree : ScriptableObject, IEnumerable<Node>
 	{
@@ -20,8 +23,6 @@ namespace Derrixx.BehaviourTrees.Runtime
 		[SerializeField, HideInInspector] private RootNode rootNode;
 		[SerializeField] private Blackboard blackboard;
 		
-		public Node.State TreeState = Node.State.Running;
-
 		public RootNode RootNode
 		{
 			get => rootNode;
@@ -30,13 +31,12 @@ namespace Derrixx.BehaviourTrees.Runtime
 		
 		public Blackboard Blackboard => blackboard;
 
-		public Node.State Update()
+		internal Node.State Update()
 		{
-			TreeState = RootNode.Update();
-			return TreeState;
+			return RootNode.Update();
 		}
 
-		public BehaviourTree Clone()
+		internal BehaviourTree Clone()
 		{
 			BehaviourTree tree = Instantiate(this);
 			tree.name = $"{name} (Runtime)";

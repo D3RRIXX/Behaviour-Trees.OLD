@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties
 {
+	/// <summary>
+	/// A property which is used to store data between the nodes.
+	/// <seealso cref="Blackboard"/>
+	/// </summary>
 	public abstract class BlackboardProperty : ScriptableObject
 	{
 		public enum ValueType
@@ -33,7 +37,7 @@ namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties
 			name = Key;
 		}
 
-		public BlackboardProperty Clone()
+		internal BlackboardProperty Clone()
 		{
 			if (!_sync)
 				return Instantiate(this);
