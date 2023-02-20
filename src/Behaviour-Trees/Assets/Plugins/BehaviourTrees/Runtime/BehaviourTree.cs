@@ -31,9 +31,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 
 		public Node.State Update()
 		{
-			if (RootNode.CurrentState == Node.State.Running)
-				TreeState = RootNode.Update();
-				
+			TreeState = RootNode.Update();
 			return TreeState;
 		}
 

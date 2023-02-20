@@ -30,7 +30,7 @@ namespace Derrixx.BehaviourTrees.Editor
 					elementHeight = 93,
 					// elementHeight = 70
 				};
-				
+
 				_blackboard = serializedObject.targetObject as Blackboard;
 				_blackboardProperties = FindBlackboardProperties();
 				_parent = serializedObject.FindProperty("_parent");
@@ -90,13 +90,13 @@ namespace Derrixx.BehaviourTrees.Editor
 			BlackboardProperty property = _blackboardProperties[index];
 			if (property == null)
 				return;
-			
+
 			SerializedObject propertyObject = new SerializedObject(property);
 			propertyObject.Update();
 
 			if (index > 0)
 				rect.y += 5;
-			
+
 			DrawPropertyField(rect, propertyObject.FindProperty("_key"));
 			MoveDrawerToNextLine();
 
@@ -106,8 +106,9 @@ namespace Derrixx.BehaviourTrees.Editor
 
 			const int offset = 70 + 10;
 			EditorGUI.LabelField(new Rect(rect.x, rect.y, 70, height), "Value Type");
-			
-			BlackboardProperty.ValueType valueType = (BlackboardProperty.ValueType)EditorGUI.EnumPopup(new Rect(rect.x + offset, rect.y, rect.width - offset, height), property.GetValueType);
+
+			BlackboardProperty.ValueType valueType =
+				(BlackboardProperty.ValueType)EditorGUI.EnumPopup(new Rect(rect.x + offset, rect.y, rect.width - offset, height), property.GetValueType);
 			if (property.GetValueType != valueType)
 			{
 				ChangePropertyTypeAtIndex(property, index, valueType);
@@ -115,9 +116,9 @@ namespace Derrixx.BehaviourTrees.Editor
 			}
 
 			MoveDrawerToNextLine();
-			
+
 			DrawPropertyField(rect, propertyObject.FindProperty("_value"), 40);
-			
+
 			propertyObject.ApplyModifiedProperties();
 		}
 

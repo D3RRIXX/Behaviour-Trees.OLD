@@ -113,6 +113,10 @@
     display: none;
 }
 
+:hover > #execution-order {
+    background-color: rgba(255, 0, 0, 255);
+}
+
 #node-state {
     position: absolute;
     left: 0;
@@ -126,13 +130,13 @@
 }
 
 .running #node-state {
-    background-color: rgba(213, 229, 10, 255);
+    background-color: rgb(213, 229, 10);
 }
 
 .success #node-state {
-    background-color: rgba(22, 255, 0, 255);
+    background-color: rgb(22, 255, 0);
 }
 
 .failure #node-state {
-    background-color: rgba(255, 0, 0, 255);
+    background-color: rgb(255, 0, 0);
 }

@@ -15,13 +15,13 @@ namespace Derrixx.BehaviourTrees.Editor
 			Clear();
 
 			Object.DestroyImmediate(_editor);
-			
+
 			_editor = UnityEditor.Editor.CreateEditor(nodeView.Node);
 			var container = new IMGUIContainer(() =>
 			{
 				if (!_editor.target)
 					return;
-				
+
 				_editor.OnInspectorGUI();
 				nodeView.UpdateDescription();
 			});

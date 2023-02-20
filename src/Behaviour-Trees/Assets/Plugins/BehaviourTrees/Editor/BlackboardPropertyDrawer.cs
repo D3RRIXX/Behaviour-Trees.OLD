@@ -17,7 +17,7 @@ namespace Derrixx.BehaviourTrees.Editor
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
 			Object targetObject = property.serializedObject.targetObject;
-			
+
 			if (!(targetObject is Node node))
 			{
 				EditorGUI.PropertyField(position, property, label);
@@ -57,7 +57,7 @@ namespace Derrixx.BehaviourTrees.Editor
 
 			if (!valueIsUnassigned && value == targetProperty)
 				return;
-			
+
 			FieldInfo field = targetObject.GetType().GetField(property.name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 			field!.SetValue(targetObject, value);
 
@@ -68,14 +68,15 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			string[] keys = (from option in options select option.Key).ToArray();
 			int i = EditorGUI.Popup(position, label.text, index, keys);
-			
+
 			return options[i];
 		}
 
 		private BlackboardProperty[] GetPropertyOptions(Blackboard blackboard)
 		{
 			return (from property in blackboard.Properties
-				where fieldInfo.FieldType.IsInstanceOfType(property) select property).ToArray();
+				where fieldInfo.FieldType.IsInstanceOfType(property)
+				select property).ToArray();
 		}
 	}
 }

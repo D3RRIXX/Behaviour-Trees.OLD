@@ -26,6 +26,14 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes.Composites
 			return base.IsConnectedWith(other) || Children.Any(x => x.IsConnectedWith(other));
 		}
 
+		protected override void OnStart()
+		{
+			foreach (Node child in Children)
+			{
+				child.ResetState();
+			}
+		}
+
 		protected sealed override State OnUpdate()
 		{
 			if (_dynamic)

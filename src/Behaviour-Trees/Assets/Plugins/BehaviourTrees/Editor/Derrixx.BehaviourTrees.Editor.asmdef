@@ -1,18 +1,18 @@
 {
-    "name": "Derrixx.BehaviourTrees.Editor",
-    "rootNamespace": "Derrixx.BehaviourTrees",
-    "references": [
-        "GUID:33d9018bf93831f419bdb9532d67528d"
-    ],
-    "includePlatforms": [
-        "Editor"
-    ],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
+  "name": "Derrixx.BehaviourTrees.Editor",
+  "rootNamespace": "Derrixx.BehaviourTrees",
+  "references": [
+    "GUID:33d9018bf93831f419bdb9532d67528d"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
 }
