@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Derrixx.BehaviourTrees.Editor.ViewScripts;
+using Derrixx.BehaviourTrees.Runtime;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using Derrixx.BehaviourTrees.Runtime.Nodes.Composites;
 using Derrixx.BehaviourTrees.Runtime.Nodes.Decorators;

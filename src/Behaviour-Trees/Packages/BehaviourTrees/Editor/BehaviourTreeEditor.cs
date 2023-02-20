@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Reflection;
 using Derrixx.BehaviourTrees.Editor.ViewScripts;
+using Derrixx.BehaviourTrees.Runtime;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -42,12 +43,12 @@ namespace Derrixx.BehaviourTrees.Editor
 			return false;
 		}
 
-		private void OnEnable()
+		private void OnBecameVisible()
 		{
 			EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
 		}
 
-		private void OnDisable()
+		private void OnBecameInvisible()
 		{
 			EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
 		}

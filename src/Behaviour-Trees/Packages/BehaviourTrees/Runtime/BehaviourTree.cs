@@ -5,12 +5,13 @@ using System.Linq;
 using System.Reflection;
 using Derrixx.BehaviourTrees.Runtime.BlackboardScripts;
 using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
+using Derrixx.BehaviourTrees.Runtime.Nodes;
 using Derrixx.BehaviourTrees.Runtime.Nodes.Decorators;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Derrixx.BehaviourTrees.Runtime.Nodes
+namespace Derrixx.BehaviourTrees.Runtime
 {
 	[CreateAssetMenu(fileName = "New Behaviour Tree", menuName = "Derrixx/Behaviour Trees/Behaviour Tree")]
 	public sealed class BehaviourTree : ScriptableObject, IEnumerable<Node>
@@ -47,13 +48,16 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			TraverseNodes(tree.RootNode, node =>
 			{
 				tree.nodes.Add(node);
+#if UNITY_EDITOR
 				node.BehaviourTree = tree;
+#endif
 				ReassignBlackboardPropertyReferences(node, tree.blackboard);
 			});
 			
 			return tree;
 		}
 		
+#if UNITY_EDITOR
 		public T CreateNode<T>() where T : Node => CreateNode(typeof(T)) as T;
 
 		public void UpdateExecutionOrder()
@@ -69,10 +73,8 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			Node node = CreateInstance(type) as Node;
 			node.hideFlags = HideFlags.HideInHierarchy;
 			node.name = Node.GetNodeName(node.GetType());
-#if UNITY_EDITOR
 			node.Guid = GUID.Generate().ToString();
 			node.BehaviourTree = this;
-#endif
 			
 			Undo.RecordObject(this, "Behaviour Tree (Create Node)");
 			nodes.Add(node);
@@ -98,6 +100,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			Undo.DestroyObjectImmediate(node);
 			AssetDatabase.SaveAssets();
 		}
+#endif
 
 		private static void ReassignBlackboardPropertyReferences(Node node, Blackboard blackboard)
 		{

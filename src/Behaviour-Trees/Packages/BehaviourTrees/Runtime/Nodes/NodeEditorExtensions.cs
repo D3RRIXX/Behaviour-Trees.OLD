@@ -7,6 +7,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 {
 	public static class NodeEditorExtensions
 	{
+#if UNITY_EDITOR
 		public static void AddChild(this Node parent, Node child)
 		{
 			bool changeHappened = !(parent is ActionNode);
@@ -46,6 +47,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			
 			EditorUtility.SetDirty(parent);
 		}
+#endif
 
 		public static List<Node> GetChildren(this Node node) => node switch
 		{
