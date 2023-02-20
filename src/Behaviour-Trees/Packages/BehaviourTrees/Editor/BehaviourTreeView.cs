@@ -68,7 +68,10 @@ namespace Derrixx.BehaviourTrees.Editor
 					if (additionalCondition?.Invoke(type) == false)
 						continue;
 
-					evt.menu.AppendAction(string.Format(actionName, Node.GetNodeName(baseType), Node.GetNodeName(type)), _ => CreateNode(type));
+					evt.menu.AppendAction(string.Format(actionName, Node.GetNodeName(baseType), Node.GetNodeName(type)), _ =>
+					{
+						CreateNode(type, evt.originalMousePosition);
+					});
 				}
 			}
 
@@ -214,15 +217,19 @@ namespace Derrixx.BehaviourTrees.Editor
 			}
 		}
 
-		private void CreateNode(Type type)
+		private void CreateNode(Type type, Vector2 mousePosition)
 		{
 			Node node = _tree.CreateNode(type);
-			CreateNodeView(node);
+			
+			NodeView nodeView = CreateNodeView(node);
+			nodeView.SetPosition(new Rect(mousePosition, Vector2.zero));
+			nodeView.UpdatePresenterPosition();
+			nodeView.Select(this, false);
 
 			UpdateNodesActiveState();
 		}
 
-		private void CreateNodeView(Node node)
+		private NodeView CreateNodeView(Node node)
 		{
 			NodeView nodeView = new NodeView(node)
 			{
@@ -231,7 +238,8 @@ namespace Derrixx.BehaviourTrees.Editor
 
 			nodeView.AddToClassList(StyleClassNames.INACTIVE_NODE);
 			AddElement(nodeView);
-			nodeView.Select(this, false);
+
+			return nodeView;
 		}
 	}
 }
