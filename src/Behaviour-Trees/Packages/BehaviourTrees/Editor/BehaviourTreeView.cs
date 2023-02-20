@@ -31,7 +31,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			this.AddManipulator(new SelectionDragger());
 			this.AddManipulator(new RectangleSelector());
 
-			StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Plugins/BehaviourTrees/Editor/BehaviourTreeEditor.uss");
+			StyleSheet styleSheet = Resources.Load<StyleSheet>("BehaviourTreeEditor");
 			styleSheets.Add(styleSheet);
 
 			Undo.undoRedoPerformed += OnUndoRedo;
@@ -231,6 +231,7 @@ namespace Derrixx.BehaviourTrees.Editor
 
 			nodeView.AddToClassList(StyleClassNames.INACTIVE_NODE);
 			AddElement(nodeView);
+			nodeView.Select(this, false);
 		}
 	}
 }

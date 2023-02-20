@@ -17,7 +17,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 		public Action<NodeView> OnNodeSelected;
 
-		public NodeView(Node node) : base("Assets/Plugins/BehaviourTrees/Editor/UIBuilder/NodeView.uxml")
+		public NodeView(Node node) : base(GetUxmlPath())
 		{
 			Node = node;
 			title = node.name;
@@ -33,6 +33,12 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			CreateInputPorts();
 			CreateOutputPorts();
 			UpdateDescription();
+		}
+
+		private static string GetUxmlPath()
+		{
+			var treeAsset = Resources.Load<VisualTreeAsset>("NodeView");
+			return AssetDatabase.GetAssetPath(treeAsset);
 		}
 
 		public Node Node { get; }

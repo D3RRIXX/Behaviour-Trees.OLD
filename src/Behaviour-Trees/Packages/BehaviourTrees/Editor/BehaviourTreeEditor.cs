@@ -73,18 +73,16 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		public void CreateGUI()
 		{
-			const string path = "Assets/Plugins/BehaviourTrees/Editor/";
-
 			// Each editor window contains a root VisualElement object
 			VisualElement root = rootVisualElement;
 
 			// Import UXML
-			var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path + "UIBuilder/BehaviourTreeEditor.uxml");
+			var visualTree = Resources.Load<VisualTreeAsset>("BehaviourTreeEditor");
 			visualTree.CloneTree(root);
 
 			// A stylesheet can be added to a VisualElement.
 			// The style will be applied to the VisualElement and all of its children.
-			var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path + "BehaviourTreeEditor.uss");
+			var styleSheet = Resources.Load<StyleSheet>("BehaviourTreeEditorStyle");
 			root.styleSheets.Add(styleSheet);
 
 			_behaviourTreeView = root.Q<BehaviourTreeView>();

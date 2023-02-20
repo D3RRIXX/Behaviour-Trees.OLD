@@ -19,7 +19,6 @@
   "license": "LICENSE.md",
   "unity": "2020.1",
   "dependencies": {
-    "com.unity.ui" : "1.0.0-preview.18",
-    "com.unity.ui.builder" : "1.0.0-preview.18"
+    "com.unity.ui": "1.0.0-preview.18"
   }
 }
