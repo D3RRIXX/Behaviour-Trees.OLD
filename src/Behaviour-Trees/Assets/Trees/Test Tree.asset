@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b18044029c41f496e1ee9663d987ab, type: 3}
   m_Name: Wait
   m_EditorClassIdentifier: 
-  executionOrder: 2
+  executionOrder: 4
   Guid: 8cb53561a48c5f84bacfb2f2db513687
-  Position: {x: -212, y: 359}
+  Position: {x: 220, y: 359}
   behaviourTree: {fileID: 11400000}
   _waitTime: 1
 --- !u!114 &11400000
@@ -72,9 +72,9 @@ MonoBehaviour:
   Position: {x: 0, y: 186}
   behaviourTree: {fileID: 11400000}
   Children:
-  - {fileID: -5426457977200866870}
   - {fileID: 6608001485269992848}
   - {fileID: 3948541020658035148}
+  - {fileID: -5426457977200866870}
   _dynamic: 0
 --- !u!114 &3948541020658035148
 MonoBehaviour:
@@ -88,9 +88,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e3170b549014e078f6517915e21e375, type: 3}
   m_Name: Move To
   m_EditorClassIdentifier: 
-  executionOrder: 4
+  executionOrder: 3
   Guid: 8c72b2c13f6a0d1448d66520e1d546f9
-  Position: {x: 210, y: 359}
+  Position: {x: 0, y: 359}
   behaviourTree: {fileID: 11400000}
   _navMeshAgent: {fileID: 6514605670495988072, guid: 9f491627e295c33439d88d0d45e03e57, type: 2}
   _destination: {fileID: 2507830745184478466, guid: 9f491627e295c33439d88d0d45e03e57, type: 2}
@@ -107,10 +107,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8fa93ebad9043d88c883e002c3a1fb9, type: 3}
   m_Name: Set Random Destination
   m_EditorClassIdentifier: 
-  executionOrder: 3
+  executionOrder: 2
   Guid: 0d8b91c09b8babb4e9846ee8cd63bdd4
-  Position: {x: -11, y: 359}
+  Position: {x: -221, y: 359}
   behaviourTree: {fileID: 11400000}
-  _radius: 100
+  _radius: 10
   _destination: {fileID: 2507830745184478466, guid: 9f491627e295c33439d88d0d45e03e57, type: 2}
   _navMeshAgent: {fileID: 6514605670495988072, guid: 9f491627e295c33439d88d0d45e03e57, type: 2}

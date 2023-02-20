@@ -16,11 +16,6 @@ namespace DefaultNamespace
 			_timeOnStart = Time.time;
 		}
 
-		protected override State OnUpdate()
-		{
-			float remainingTime = Time.time - _timeOnStart;
-			Debug.Log($"Remaining time to wait: {remainingTime}");
-			return remainingTime >= _waitTime ? State.Success : State.Running;
-		}
+		protected override State OnUpdate() => Time.time - _timeOnStart >= _waitTime ? State.Success : State.Running;
 	}
 }

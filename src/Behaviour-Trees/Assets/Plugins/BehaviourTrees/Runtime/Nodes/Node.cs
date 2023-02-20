@@ -51,6 +51,12 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
             return clone;
         }
 
+        protected internal void ResetState()
+        {
+            Started = false;
+            CurrentState = State.Running;
+        }
+
         internal virtual void SetExecutionOrder(ref int order)
         {
 	        executionOrder = order++;

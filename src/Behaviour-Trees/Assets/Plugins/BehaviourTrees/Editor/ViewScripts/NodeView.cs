@@ -67,15 +67,19 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			RemoveFromClassList(StyleClassNames.RUNNING);
 			RemoveFromClassList(StyleClassNames.FAILURE);
 			RemoveFromClassList(StyleClassNames.SUCCESS);
-			
-			string className = Node.CurrentState switch
+
+			try
 			{
-				Node.State.Running when Node.Started => StyleClassNames.RUNNING,
-				Node.State.Failure => StyleClassNames.FAILURE,
-				Node.State.Success => StyleClassNames.SUCCESS,
-			};
+				string className = Node.CurrentState switch
+				{
+					Node.State.Running when Node.Started => StyleClassNames.RUNNING,
+					Node.State.Failure => StyleClassNames.FAILURE,
+					Node.State.Success => StyleClassNames.SUCCESS,
+				};
 			
-			AddToClassList(className);
+				AddToClassList(className);
+			}
+			catch (InvalidOperationException) { }
 		}
 
 		public override void OnSelected()
