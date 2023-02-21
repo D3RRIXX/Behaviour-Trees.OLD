@@ -10,6 +10,6 @@ public class TestAI : MonoBehaviour
 	private void Awake()
 	{
 		BehaviourTreeRunner runner = GetComponent<BehaviourTreeRunner>();
-		runner.BehaviourTree.Blackboard.FindProperty<ObjectBlackboardProperty>("Agent").Value = GetComponent<NavMeshAgent>();
+		runner.Blackboard.FindProperty<ObjectBlackboardProperty>("Agent").Value = GetComponent<NavMeshAgent>();
 	}
 }

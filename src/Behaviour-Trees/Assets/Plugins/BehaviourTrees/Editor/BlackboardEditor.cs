@@ -27,8 +27,7 @@ namespace Derrixx.BehaviourTrees.Editor
 					drawElementCallback = DrawElements,
 					onAddDropdownCallback = CreateAddDropdown,
 					onRemoveCallback = OnRemove,
-					elementHeight = 93,
-					// elementHeight = 70
+					elementHeightCallback = _ => 93
 				};
 
 				_blackboard = serializedObject.targetObject as Blackboard;

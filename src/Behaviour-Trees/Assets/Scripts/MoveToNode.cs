@@ -15,9 +15,7 @@ namespace DefaultNamespace
 		
 		protected override void OnStart()
 		{
-			if (_agent == null)
-				_agent = (NavMeshAgent)_navMeshAgent.Value;
-			
+			_agent = (NavMeshAgent)_navMeshAgent.Value;
 			_agent.SetDestination(_destination.Value);
 		}
 

@@ -22,7 +22,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
         {
             get
             {
-                if (string.IsNullOrEmpty(nodeName))
+                if (string.IsNullOrEmpty(nodeName) || string.IsNullOrWhiteSpace(nodeName))
                 {
                     if (string.IsNullOrEmpty(_cachedTypeName))
                         _cachedTypeName = GetNodeName(GetType());

@@ -16,9 +16,10 @@ MonoBehaviour:
   executionOrder: 3
   _cachedTypeName: Sequence
   Guid: 8813c7b32e5a0044ab1f7d159b4ab930
-  Position: {x: -372.0001, y: 409}
+  Position: {x: -368, y: 390}
   behaviourTree: {fileID: 11400000}
   Children:
+  - {fileID: -2120901435609249271}
   - {fileID: -2405197988580759150}
   _dynamic: 0
 --- !u!114 &-3683826309091689964
@@ -56,7 +57,7 @@ MonoBehaviour:
   m_Name: Move To
   m_EditorClassIdentifier: 
   nodeName: 
-  executionOrder: 7
+  executionOrder: 8
   _cachedTypeName: Move To
   Guid: 23016ec6d2a0ddb4696f43973edda833
   Position: {x: 247.19244, y: 433.00003}
@@ -77,14 +78,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Follow Player
-  executionOrder: 4
+  executionOrder: 5
   _cachedTypeName: Move To
   Guid: 0bb4478073ec4d24180a87bcb2728207
-  Position: {x: -372, y: 519}
+  Position: {x: -265, y: 525}
   behaviourTree: {fileID: 11400000}
   _navMeshAgent: {fileID: -6544594217046637807, guid: f7280c2c6bf797640a6c2f94a484fcd7, type: 2}
   _destination: {fileID: -4393848716254695678, guid: f7280c2c6bf797640a6c2f94a484fcd7, type: 2}
   _stoppingDistance: 2
+--- !u!114 &-2120901435609249271
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95f0abb2f8f0431489238801043bd41f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Rotate Towards
+  executionOrder: 4
+  _cachedTypeName: Rotate Towards
+  Guid: 7f2d8e8c10066d04691b630eb5a84c82
+  Position: {x: -479, y: 525}
+  behaviourTree: {fileID: 11400000}
+  _target: {fileID: -7991405950961977915, guid: f7280c2c6bf797640a6c2f94a484fcd7, type: 2}
 --- !u!114 &-1588898833383130379
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -98,7 +118,7 @@ MonoBehaviour:
   m_Name: Set Random Destination
   m_EditorClassIdentifier: 
   nodeName: 
-  executionOrder: 6
+  executionOrder: 7
   _cachedTypeName: Set Random Destination
   Guid: 70905709f680d1e4794fbc3c254dd2d7
   Position: {x: 18.192492, y: 433.00003}
@@ -128,8 +148,9 @@ MonoBehaviour:
   - {fileID: -6212086463245576559}
   - {fileID: 1586351177753998196}
   - {fileID: -2405197988580759150}
+  - {fileID: -2120901435609249271}
   rootNode: {fileID: 8572891298179461827}
-  blackboard: {fileID: 11400000, guid: f7280c2c6bf797640a6c2f94a484fcd7, type: 2}
+  blackboard: {fileID: 11400000, guid: 0bbac17684b038d4a8f02c3b2dceaff1, type: 2}
 --- !u!114 &1586351177753998196
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -146,7 +167,7 @@ MonoBehaviour:
   executionOrder: 2
   _cachedTypeName: Is True
   Guid: 71e8918069b3ce0468e4816534bc4c65
-  Position: {x: -382.7001, y: 293}
+  Position: {x: -381, y: 283}
   behaviourTree: {fileID: 11400000}
   _child: {fileID: -6212086463245576559}
   _condition: {fileID: 3939740230805938073, guid: f7280c2c6bf797640a6c2f94a484fcd7, type: 2}
@@ -163,7 +184,7 @@ MonoBehaviour:
   m_Name: Wait
   m_EditorClassIdentifier: 
   nodeName: 
-  executionOrder: 8
+  executionOrder: 9
   _cachedTypeName: Wait
   Guid: 154ae9ca2a6f85041aa7081b4ddfb601
   Position: {x: 428.1925, y: 433.00003}
@@ -182,7 +203,7 @@ MonoBehaviour:
   m_Name: Sequence
   m_EditorClassIdentifier: 
   nodeName: Patrol
-  executionOrder: 5
+  executionOrder: 6
   _cachedTypeName: Sequence
   Guid: 525c4115ae209f142b3f869b0808a394
   Position: {x: 247.19244, y: 293.00003}

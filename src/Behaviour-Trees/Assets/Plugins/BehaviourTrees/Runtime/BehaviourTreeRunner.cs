@@ -1,3 +1,4 @@
+using Derrixx.BehaviourTrees.Runtime.BlackboardScripts;
 using UnityEngine;
 
 namespace Derrixx.BehaviourTrees.Runtime
@@ -14,7 +15,7 @@ namespace Derrixx.BehaviourTrees.Runtime
 		/// <summary>
 		/// Returns this runner's Behaviour Tree
 		/// </summary>
-		public BehaviourTree BehaviourTree
+		private BehaviourTree BehaviourTree
 		{
 			get
 			{
@@ -24,6 +25,8 @@ namespace Derrixx.BehaviourTrees.Runtime
 				return _behaviourTree;
 			}
 		}
+
+		public Blackboard Blackboard => BehaviourTree.Blackboard;
 
 		private void Update()
 		{
