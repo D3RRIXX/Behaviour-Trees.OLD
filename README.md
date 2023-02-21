@@ -165,4 +165,4 @@ public class TestAI : MonoBehaviour
 While using Blackboard Properties you've propbably noticed 'Instance Synced' checkbox that is available for every property type. It basically marks this property as `static` so its value is shared between all runtime instances of that Blackboard.
 
 ### Blackboard Inheritance
-You can set one Blackboard as a parent of another, and thus making the child inherit all properties from its parent.
+You can set one Blackboard as a parent of another, thus making the child inherit all properties from its parent.
