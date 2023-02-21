@@ -23,7 +23,7 @@ namespace Derrixx.BehaviourTrees.Editor
 					return;
 
 				_editor.OnInspectorGUI();
-				nodeView.UpdateDescription();
+				nodeView.Update();
 			});
 			Add(container);
 		}

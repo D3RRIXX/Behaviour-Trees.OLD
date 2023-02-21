@@ -72,7 +72,7 @@ namespace Derrixx.BehaviourTrees.Runtime
 			
 			Node node = CreateInstance(type) as Node;
 			node.hideFlags = HideFlags.HideInHierarchy;
-			node.name = Node.GetNodeName(node.GetType());
+			// node.name = Node.GetNodeName(node.GetType());
 			node.Guid = GUID.Generate().ToString();
 			node.BehaviourTree = this;
 			

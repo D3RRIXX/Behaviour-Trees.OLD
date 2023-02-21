@@ -32,7 +32,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			SetupClass();
 			CreateInputPorts();
 			CreateOutputPorts();
-			UpdateDescription();
+			Update();
 		}
 
 		private static string GetUxmlPath()
@@ -57,7 +57,11 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			EditorUtility.SetDirty(Node);
 		}
 
-		public void UpdateDescription() => _description.text = Node.GetDescription();
+		public void Update()
+		{
+			title = Node.name;
+			_description.text = Node.GetDescription();
+		}
 
 		public void SortChildren()
 		{

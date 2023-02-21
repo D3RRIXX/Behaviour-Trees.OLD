@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7991405950961977915
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2394d3d927bb9a42a1d99f77529dc96, type: 3}
+  m_Name: Player
+  m_EditorClassIdentifier: 
+  _key: Player
+  _sync: 0
+  _value: {fileID: 0}
 --- !u!114 &-6544594217046637807
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -46,3 +61,20 @@ MonoBehaviour:
   _properties:
   - {fileID: -6544594217046637807}
   - {fileID: -4393848716254695678}
+  - {fileID: -7991405950961977915}
+  - {fileID: 3939740230805938073}
+--- !u!114 &3939740230805938073
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed89f190f4049ba459b39f7c546205ad, type: 3}
+  m_Name: Can See Player
+  m_EditorClassIdentifier: 
+  _key: Can See Player
+  _sync: 0
+  _value: 0

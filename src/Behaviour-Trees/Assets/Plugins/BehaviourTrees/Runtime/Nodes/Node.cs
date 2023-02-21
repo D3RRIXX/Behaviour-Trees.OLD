@@ -6,7 +6,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 {
     public abstract partial class Node : ScriptableObject
     {
-        // [SerializeField] private string customName;
+        [SerializeField] private string nodeName;
         [SerializeField, HideInInspector] private int executionOrder;
         
         public enum State
@@ -16,8 +16,24 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
             Success
         }
 
-        // public new string name => string.IsNullOrEmpty(customName) ? GetNodeName(GetType()) : customName;
+        [SerializeField, HideInInspector] private string _cachedTypeName;
         
+        public new string name
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(nodeName))
+                {
+                    if (string.IsNullOrEmpty(_cachedTypeName))
+                        _cachedTypeName = GetNodeName(GetType());
+
+                    return _cachedTypeName;
+                }
+
+                return nodeName;
+            }
+        }
+
         public State CurrentState { get; private set; } = State.Running;
         public bool Started { get; private set; }
 
@@ -46,9 +62,14 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
         public virtual Node Clone()
         {
             Node clone = Instantiate(this);
-            clone.name = name;
+            // clone.name = name;
             
             return clone;
+        }
+
+        private void Awake()
+        {
+            nodeName = name;
         }
 
         protected internal void ResetState()
