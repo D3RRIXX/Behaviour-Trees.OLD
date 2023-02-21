@@ -56,7 +56,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e3170b549014e078f6517915e21e375, type: 3}
   m_Name: Move To
   m_EditorClassIdentifier: 
-  nodeName: 
+  nodeName: Move To
   executionOrder: 8
   _cachedTypeName: Move To
   Guid: 23016ec6d2a0ddb4696f43973edda833
@@ -150,7 +150,7 @@ MonoBehaviour:
   - {fileID: -2405197988580759150}
   - {fileID: -2120901435609249271}
   rootNode: {fileID: 8572891298179461827}
-  blackboard: {fileID: 11400000, guid: 0bbac17684b038d4a8f02c3b2dceaff1, type: 2}
+  blackboard: {fileID: 11400000, guid: f7280c2c6bf797640a6c2f94a484fcd7, type: 2}
 --- !u!114 &1586351177753998196
 MonoBehaviour:
   m_ObjectHideFlags: 1

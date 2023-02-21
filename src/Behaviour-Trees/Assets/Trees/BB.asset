@@ -60,9 +60,9 @@ MonoBehaviour:
   _parent: {fileID: 0}
   _properties:
   - {fileID: -6544594217046637807}
+  - {fileID: 3939740230805938073}
   - {fileID: -4393848716254695678}
   - {fileID: -7991405950961977915}
-  - {fileID: 3939740230805938073}
 --- !u!114 &3939740230805938073
 MonoBehaviour:
   m_ObjectHideFlags: 1

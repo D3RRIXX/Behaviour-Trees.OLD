@@ -99,8 +99,10 @@ namespace Derrixx.BehaviourTrees.Editor
 			DrawPropertyField(rect, propertyObject.FindProperty("_key"));
 			MoveDrawerToNextLine();
 
-			//TODO: Uncomment when implemented synchronization
+			GUI.enabled = !Application.isPlaying;
 			DrawPropertyField(rect, propertyObject.FindProperty("_sync"), label: "Instance Synced", labelWidth: 100);
+			GUI.enabled = true;
+			
 			MoveDrawerToNextLine();
 
 			const int offset = 70 + 10;

@@ -29,6 +29,17 @@ Behaviour Trees are executed from top-to-bottom and from left-to-right, starting
 
 There are 3 node types (excluding the Root node). The purple node on the top is a [Decorator](Documentation/Decorators.md) (or a [Conditional](Documentation/Decorators.md#conditionals), to be precise). It checks whether the enemy can see player (for how this is implemented, see [Blackboards & Blackboard Properties](#blackboards--blackboard-properties)) and if the condition is met, it allows the [Composite](Documentation/Composites.md) node underneath to execute. A composite node executes its child nodes one by one until it reaches the end or is forced to stop. The red child nodes of the Composite node are [Action](Documentation/Actions.md) nodes, which don't have any child nodes and simply perform an action and return a result.
 
+## Installation
+There are several options on how you can install Behaviour Trees.
+
+### Install via Package Manager 
+Copy `https://github.com/D3RRIXX/Behaviour-Trees.git?path=src/Behaviour-Trees/Assets/Plugins/BehaviourTrees` and paste it into Unity Package Manager.
+
+![Open Package Manager and select *Add package from Git URL*](Documentation/Images/package_manager.png)
+
+### Download a .unitypackage file
+Go to [Releases](https://github.com/D3RRIXX/Behaviour-Trees/releases) page, download the last stable version and import it into your Unity project.
+
 ## Quickstart Guide
 
 ### Creating a new Behaviour Tree
@@ -43,17 +54,6 @@ To add new nodes, right-click on the grid to open a context menu with all availa
 After you've created and set up your Behaviour Tree, you'll most likely want to assign it to some GameObject and try it out. To do this, select a GameObject and add a `BehaviourTreeRunner` component, then assign your Behaviour Tree.
 
 ![Final result](Documentation/Images/runner.png "Final result")
-
-## Installation
-There are several options on how you can install Behaviour Trees.
-
-### Install via Package Manager 
-Copy `https://github.com/D3RRIXX/Behaviour-Trees.git?path=src/Behaviour-Trees/Assets/Plugins/BehaviourTrees` and paste it into Unity Package Manager.
-
-![Open Package Manager and select *Add package from Git URL*](Documentation/Images/package_manager.png)
-
-### Download a .unitypackage file
-Go to [Releases](https://github.com/D3RRIXX/Behaviour-Trees/releases) page, download the last stable version and import it into your Unity project.
 
 ## Blackboards & Blackboard Properties
 A Behaviour Tree uses a **Blackboard** to store and share data across all of its nodes, while a Blackboard by itself is a **ScriptableObject** that contains a list of **Blackboard Properties**.
@@ -137,4 +137,32 @@ public class TestAI : MonoBehaviour
     [SerializeField] private BehaviourTreeRunner runner;
 }
 ```
-Assign the references in the inspector. Now we need to reference our Blackboard. Luckily, BehaviourTreeRunner has a public `Blackboard` property
+Assign the references in the inspector. Now we need to reference our Blackboard. Luckily, BehaviourTreeRunner has a public `Blackboard` property that will come in handy. We'll do this in the `Awake()` method before our Behaviour Tree starts running.
+
+```cs
+using Derrixx.BehaviourTrees.Runtime;
+using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
+using Derrixx.BehaviourTrees.Runtime.Nodes;
+using UnityEngine;
+using UnityEngine.AI;
+
+[RequireComponent(typeof(NavMeshAgent)), RequireComponent(typeof(BehaviourTreeRunner))]
+public class TestAI : MonoBehaviour
+{
+    [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private BehaviourTreeRunner runner;
+
+    private void Awake()
+    {
+        // Blackboard.FindProperty<T>() takes property key as an argument and 
+        // returns either property or null if nothing was found
+        runner.Blackboard.FindProperty<ObjectBlackboardProperty>("Agent").Value = agent;
+    }
+}
+```
+
+### Instance Syncing
+While using Blackboard Properties you've propbably noticed 'Instance Synced' checkbox that is available for every property type. It basically marks this property as `static` so its value is shared between all runtime instances of that Blackboard.
+
+### Blackboard Inheritance
+You can set one Blackboard as a parent of another, and thus making the child inherit all properties from its parent.
