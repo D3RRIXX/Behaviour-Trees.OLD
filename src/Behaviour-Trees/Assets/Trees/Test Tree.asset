@@ -34,7 +34,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1126130473a1cdc4db28f20e676b1af1, type: 3}
   m_Name: Selector
   m_EditorClassIdentifier: 
-  nodeName: 
+  nodeName: Selector
   executionOrder: 1
   _cachedTypeName: Selector
   Guid: e8664cdee6be3094b8ce5b7daebfcd6a
@@ -43,7 +43,7 @@ MonoBehaviour:
   Children:
   - {fileID: 1586351177753998196}
   - {fileID: 8342625864315732655}
-  _dynamic: 0
+  _dynamic: 1
 --- !u!114 &-2750327104439134814
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -62,7 +62,6 @@ MonoBehaviour:
   Guid: 23016ec6d2a0ddb4696f43973edda833
   Position: {x: 247.19244, y: 433.00003}
   behaviourTree: {fileID: 11400000}
-  _navMeshAgent: {fileID: -6544594217046637807, guid: f7280c2c6bf797640a6c2f94a484fcd7, type: 2}
   _destination: {fileID: -4393848716254695678, guid: f7280c2c6bf797640a6c2f94a484fcd7, type: 2}
   _stoppingDistance: 2
 --- !u!114 &-2405197988580759150
@@ -83,7 +82,6 @@ MonoBehaviour:
   Guid: 0bb4478073ec4d24180a87bcb2728207
   Position: {x: -265, y: 525}
   behaviourTree: {fileID: 11400000}
-  _navMeshAgent: {fileID: -6544594217046637807, guid: f7280c2c6bf797640a6c2f94a484fcd7, type: 2}
   _destination: {fileID: -4393848716254695678, guid: f7280c2c6bf797640a6c2f94a484fcd7, type: 2}
   _stoppingDistance: 2
 --- !u!114 &-2120901435609249271
@@ -117,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8fa93ebad9043d88c883e002c3a1fb9, type: 3}
   m_Name: Set Random Destination
   m_EditorClassIdentifier: 
-  nodeName: 
+  nodeName: Set Random Destination
   executionOrder: 7
   _cachedTypeName: Set Random Destination
   Guid: 70905709f680d1e4794fbc3c254dd2d7
@@ -125,7 +123,6 @@ MonoBehaviour:
   behaviourTree: {fileID: 11400000}
   _radius: 10
   _destination: {fileID: -4393848716254695678, guid: f7280c2c6bf797640a6c2f94a484fcd7, type: 2}
-  _navMeshAgent: {fileID: -6544594217046637807, guid: f7280c2c6bf797640a6c2f94a484fcd7, type: 2}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b18044029c41f496e1ee9663d987ab, type: 3}
   m_Name: Wait
   m_EditorClassIdentifier: 
-  nodeName: 
+  nodeName: Wait
   executionOrder: 9
   _cachedTypeName: Wait
   Guid: 154ae9ca2a6f85041aa7081b4ddfb601
@@ -225,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d5071c66c9f52644b6da255ff5fe082, type: 3}
   m_Name: Root
   m_EditorClassIdentifier: 
-  nodeName: 
+  nodeName: Root
   executionOrder: 0
   _cachedTypeName: Root
   Guid: a25748948131eba498816bc4d8ab8b9e

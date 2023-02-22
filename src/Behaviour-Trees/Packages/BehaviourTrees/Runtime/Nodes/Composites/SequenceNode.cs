@@ -2,6 +2,6 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes.Composites
 {
 	public class SequenceNode : CompositeNode
 	{
-		protected override bool ShouldBreak(State state) => state != State.Success;
+		protected override State FinalState => State.Success;
 	}
 }

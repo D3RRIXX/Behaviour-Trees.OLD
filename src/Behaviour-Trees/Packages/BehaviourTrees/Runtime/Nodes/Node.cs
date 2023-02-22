@@ -40,19 +40,19 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
         public int ExecutionOrder => executionOrder;
         public virtual string GetDescription() => GetNodeName(GetType());
 
-        public State Update()
+        public State UpdateNode(BehaviourTreeRunner runner)
         {
             if (!Started)
             {
-                OnStart();
+                OnStart(runner);
                 Started = true;
             }
 
-            CurrentState = OnUpdate();
+            CurrentState = OnUpdate(runner);
 
             if (CurrentState != State.Running)
             {
-                OnFinish();
+                OnFinish(runner);
                 Started = false;
             }
 
@@ -84,18 +84,20 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
         }
 
         public virtual bool IsConnectedWith(Node other) => this == other;
-        
+
         /// <summary>
         /// Gets called when this node starts execution
         /// </summary>
-        protected virtual void OnStart() { }
-        
+        /// <param name="runner"></param>
+        protected virtual void OnStart(BehaviourTreeRunner runner) { }
+
         /// <summary>
         /// Gets called when this node finishes execution
         /// </summary>
-        protected virtual void OnFinish() { }
+        /// <param name="behaviourTreeRunner"></param>
+        protected virtual void OnFinish(BehaviourTreeRunner behaviourTreeRunner) { }
 
-        protected abstract State OnUpdate();
+        protected abstract State OnUpdate(BehaviourTreeRunner runner);
 
         public static string GetNodeName(Type nodeType)
         {

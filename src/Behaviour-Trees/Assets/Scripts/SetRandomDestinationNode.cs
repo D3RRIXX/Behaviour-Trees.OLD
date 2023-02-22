@@ -1,3 +1,4 @@
+using Derrixx.BehaviourTrees.Runtime;
 using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEngine;
@@ -9,11 +10,10 @@ namespace DefaultNamespace
 	{
 		[SerializeField] private float _radius;
 		[SerializeField] private Vector3BlackboardProperty _destination;
-		[SerializeField] private ObjectBlackboardProperty _navMeshAgent;
 		
-		protected override State OnUpdate()
+		protected override State OnUpdate(BehaviourTreeRunner runner)
 		{
-			NavMeshAgent agent = (NavMeshAgent)_navMeshAgent.Value;
+			NavMeshAgent agent = runner.GetComponent<NavMeshAgent>();
 			Vector3 randomDirection = Random.insideUnitSphere * _radius;
 			randomDirection.y = 0f;
 			

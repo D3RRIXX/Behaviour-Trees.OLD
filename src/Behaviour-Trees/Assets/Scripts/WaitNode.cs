@@ -1,3 +1,4 @@
+using Derrixx.BehaviourTrees.Runtime;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEngine;
 
@@ -11,11 +12,11 @@ namespace DefaultNamespace
 		
 		public override string GetDescription() => $"Wait: {_waitTime}s";
 
-		protected override void OnStart()
+		protected override void OnStart(BehaviourTreeRunner runner)
 		{
 			_timeOnStart = Time.time;
 		}
 
-		protected override State OnUpdate() => Time.time - _timeOnStart >= _waitTime ? State.Success : State.Running;
+		protected override State OnUpdate(BehaviourTreeRunner runner) => Time.time - _timeOnStart >= _waitTime ? State.Success : State.Running;
 	}
 }

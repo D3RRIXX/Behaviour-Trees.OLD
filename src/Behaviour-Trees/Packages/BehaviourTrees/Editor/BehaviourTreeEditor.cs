@@ -24,7 +24,7 @@ namespace Derrixx.BehaviourTrees.Editor
 		private bool _isViewingRuntimeTree;
 		private BlackboardEditor _blackboardEditor;
 
-		[MenuItem("Window/Derrixx/Behaviour Trees/Behaviour Tree Editor")]
+		[MenuItem("Window/AI/Behaviour Tree Editor")]
 		public static void OpenWindow()
 		{
 			BehaviourTreeEditor wnd = GetWindow<BehaviourTreeEditor>();
@@ -171,9 +171,8 @@ namespace Derrixx.BehaviourTrees.Editor
 			if (!target.TryGetComponent(out BehaviourTreeRunner runner))
 				return null;
 
-			return (BehaviourTree)runner
-				.GetType()
-				.GetField("_behaviourTree", BindingFlags.Instance | BindingFlags.NonPublic)!
+			return (BehaviourTree)typeof(BehaviourTreeRunner)
+				.GetField("_behaviourTree",  BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy)!
 				.GetValue(runner);
 		}
 	}

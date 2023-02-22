@@ -6,7 +6,7 @@ namespace Derrixx.BehaviourTrees.Runtime
 	/// <summary>
 	/// Class used to assign and run <see cref="BehaviourTrees.Runtime.BehaviourTree"/>
 	/// </summary>
-	public sealed class BehaviourTreeRunner : MonoBehaviour
+	public abstract class BehaviourTreeRunner : MonoBehaviour
 	{
 		[SerializeField] private BehaviourTree _behaviourTree;
 
@@ -28,9 +28,9 @@ namespace Derrixx.BehaviourTrees.Runtime
 
 		public Blackboard Blackboard => BehaviourTree.Blackboard;
 
-		private void Update()
+		public void RunBehaviourTree()
 		{
-			BehaviourTree.Update();
+			BehaviourTree.UpdateTree(this);
 		}
 
 		private BehaviourTree CloneTree()

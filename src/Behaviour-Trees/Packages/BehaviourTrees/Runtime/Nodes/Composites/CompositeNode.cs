@@ -13,6 +13,15 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes.Composites
 
 		private int _currentChildIndex;
 
+		public override string GetDescription()
+		{
+			string description = base.GetDescription();
+			if (_dynamic)
+				description += " (Dynamic)";
+			
+			return description;
+		}
+
 		public sealed override Node Clone()
 		{
 			CompositeNode clone = (CompositeNode)base.Clone();
@@ -26,7 +35,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes.Composites
 			return base.IsConnectedWith(other) || Children.Any(x => x.IsConnectedWith(other));
 		}
 
-		protected override void OnStart()
+		protected override void OnStart(BehaviourTreeRunner runner)
 		{
 			foreach (Node child in Children)
 			{
@@ -34,27 +43,28 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes.Composites
 			}
 		}
 
-		protected sealed override State OnUpdate()
+		protected abstract State FinalState { get; }
+
+		protected sealed override State OnUpdate(BehaviourTreeRunner runner)
 		{
 			if (_dynamic)
 				_currentChildIndex = 0;
-
+			else
+				_currentChildIndex %= Children.Count;
+			
 			do
 			{
 				Node currentChild = Children[_currentChildIndex];
-				State updateResult = currentChild.Update();
+				State updateResult = currentChild.UpdateNode(runner);
 
-				if (ShouldBreak(updateResult))
+				if (updateResult != FinalState)
 					return updateResult;
 
 				_currentChildIndex++;
 			} while (_currentChildIndex < Children.Count);
 
-			_currentChildIndex %= Children.Count;
-			return State.Success;
+			return FinalState;
 		}
-
-		protected abstract bool ShouldBreak(State state);
 
 		internal sealed override void SetExecutionOrder(ref int order)
 		{

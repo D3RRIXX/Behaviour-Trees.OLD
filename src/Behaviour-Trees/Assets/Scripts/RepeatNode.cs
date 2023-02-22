@@ -1,3 +1,4 @@
+using Derrixx.BehaviourTrees.Runtime;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using Derrixx.BehaviourTrees.Runtime.Nodes.Decorators;
 using UnityEngine;
@@ -20,11 +21,11 @@ namespace DefaultNamespace
 			return $"Repeat {timesToRepeat} {times}";
 		}
 
-		protected override State OnUpdate()
+		protected override State OnUpdate(BehaviourTreeRunner runner)
 		{
 			if (repeatInfinitely || _repeatsPassed++ < timesToRepeat)
 			{
-				Child.Update();
+				Child.UpdateNode(runner);
 				return State.Running;
 			}
 

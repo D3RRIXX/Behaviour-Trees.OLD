@@ -4,12 +4,11 @@ using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent)), RequireComponent(typeof(BehaviourTreeRunner))]
-public class TestAI : MonoBehaviour
+[RequireComponent(typeof(NavMeshAgent))]
+public class TestAI : BehaviourTreeRunner
 {
-	private void Awake()
+	private void Update()
 	{
-		BehaviourTreeRunner runner = GetComponent<BehaviourTreeRunner>();
-		runner.Blackboard.FindProperty<ObjectBlackboardProperty>("Agent").Value = GetComponent<NavMeshAgent>();
+		RunBehaviourTree();
 	}
 }

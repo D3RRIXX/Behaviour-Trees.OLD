@@ -1,7 +1,7 @@
 {
   "name": "com.derrixx.behaviourtrees",
-  "version": "1.0.0",
-  "description": "An easy to use code-only behaviour tree system, made by programmer for programmers",
+  "version": "1.1.0",
+  "description": "A project dedicated to bringing UE4-style AI into Unity",
   "displayName": "Behaviour Trees",
   "author": {
     "name": "Eugene Zagaevsky",
