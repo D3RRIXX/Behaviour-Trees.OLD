@@ -33,7 +33,7 @@ There are 3 node types (excluding the Root node). The purple node on the top is 
 There are several options on how you can install Behaviour Trees.
 
 ### Install via Package Manager 
-Copy `https://github.com/D3RRIXX/Behaviour-Trees.git?path=src/Behaviour-Trees/Assets/Plugins/BehaviourTrees` and paste it into Unity Package Manager.
+Copy `https://github.com/D3RRIXX/Behaviour-Trees.git?path=src/Behaviour-Trees/Packages/BehaviourTrees` and paste it into Unity Package Manager.
 
 ![Open Package Manager and select *Add package from Git URL*](Documentation/Images/package_manager.png)
 
