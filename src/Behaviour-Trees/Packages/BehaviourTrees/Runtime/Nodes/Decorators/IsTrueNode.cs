@@ -1,7 +1,7 @@
 ﻿using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Runtime.Nodes.Decorators
+namespace Derrixx.BehaviourTrees.Runtime.Nodes
 {
 	public class IsTrueNode : ConditionalNode
 	{

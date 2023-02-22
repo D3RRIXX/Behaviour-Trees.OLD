@@ -1,9 +1,6 @@
-using Derrixx.BehaviourTrees.Runtime;
-using Derrixx.BehaviourTrees.Runtime.Nodes;
-using Derrixx.BehaviourTrees.Runtime.Nodes.Decorators;
 using UnityEngine;
 
-namespace DefaultNamespace
+namespace Derrixx.BehaviourTrees.Runtime.Nodes
 {
 	public class RepeatNode : DecoratorNode
 	{

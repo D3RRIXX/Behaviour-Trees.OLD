@@ -1,4 +1,4 @@
-﻿namespace Derrixx.BehaviourTrees.Runtime.Nodes.Decorators
+﻿namespace Derrixx.BehaviourTrees.Runtime.Nodes
 {
 	public class RepeatUntilFailureNode : DecoratorNode
 	{

@@ -187,6 +187,7 @@ MonoBehaviour:
   Position: {x: 428.1925, y: 433.00003}
   behaviourTree: {fileID: 11400000}
   _waitTime: 1
+  _randomOffset: 0
 --- !u!114 &8342625864315732655
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using Derrixx.BehaviourTrees.Runtime.Nodes.Composites;
-using Derrixx.BehaviourTrees.Runtime.Nodes.Decorators;
 using UnityEditor;
 
 namespace Derrixx.BehaviourTrees.Runtime.Nodes

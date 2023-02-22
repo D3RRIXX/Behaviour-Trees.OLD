@@ -1,4 +1,4 @@
-namespace Derrixx.BehaviourTrees.Runtime.Nodes.Composites
+namespace Derrixx.BehaviourTrees.Runtime.Nodes
 {
 	public class SequenceNode : CompositeNode
 	{
