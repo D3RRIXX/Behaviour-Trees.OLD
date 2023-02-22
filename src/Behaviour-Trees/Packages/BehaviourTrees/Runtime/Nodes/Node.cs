@@ -62,7 +62,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
         public virtual Node Clone()
         {
             Node clone = Instantiate(this);
-            // clone.name = name;
+            clone.OnClone();
             
             return clone;
         }
@@ -96,6 +96,8 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
         /// </summary>
         /// <param name="behaviourTreeRunner"></param>
         protected virtual void OnFinish(BehaviourTreeRunner behaviourTreeRunner) { }
+        
+        protected virtual void OnClone() { }
 
         protected abstract State OnEvaluate(BehaviourTreeRunner runner);
 

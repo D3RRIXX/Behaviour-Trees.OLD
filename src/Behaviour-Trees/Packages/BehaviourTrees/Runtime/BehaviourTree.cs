@@ -42,7 +42,9 @@ namespace Derrixx.BehaviourTrees.Runtime
 			
 			tree.RootNode = (RootNode)tree.RootNode.Clone();
 			tree.nodes = new List<Node>();
-			tree.blackboard = blackboard.Clone();
+
+			if (blackboard != null)
+				tree.blackboard = blackboard.Clone();
 			
 			TraverseNodes(tree.RootNode, node =>
 			{

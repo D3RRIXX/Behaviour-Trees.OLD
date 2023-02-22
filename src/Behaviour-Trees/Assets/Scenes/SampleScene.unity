@@ -608,7 +608,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22bb4573a1596e444a9a81a864007af8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _behaviourTree: {fileID: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,7 +1217,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22bb4573a1596e444a9a81a864007af8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _behaviourTree: {fileID: 0}
 --- !u!1 &1396519167 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5101013131117705819, guid: 1f9af723a2c8dc04dbfcf50f0e9c445b, type: 3}
@@ -1236,7 +1234,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22bb4573a1596e444a9a81a864007af8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _behaviourTree: {fileID: 0}
 --- !u!1 &1421675093
 GameObject:
   m_ObjectHideFlags: 0
@@ -1574,6 +1571,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5101013131117705809, guid: 1f9af723a2c8dc04dbfcf50f0e9c445b, type: 3}
+      propertyPath: _behaviourTree
+      value: 
+      objectReference: {fileID: 11400000, guid: 636de1c7be4014141887768ce4ac0c2b, type: 2}
     - target: {fileID: 5101013131117705819, guid: 1f9af723a2c8dc04dbfcf50f0e9c445b, type: 3}
       propertyPath: m_Name
       value: Bot
