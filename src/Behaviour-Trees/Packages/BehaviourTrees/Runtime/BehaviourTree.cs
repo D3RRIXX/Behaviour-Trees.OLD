@@ -31,9 +31,9 @@ namespace Derrixx.BehaviourTrees.Runtime
 		
 		public Blackboard Blackboard => blackboard;
 
-		internal Node.State UpdateTree(BehaviourTreeRunner runner)
+		internal Node.State Evaluate(BehaviourTreeRunner runner)
 		{
-			return RootNode.UpdateNode(runner);
+			return RootNode.Evaluate(runner);
 		}
 
 		internal BehaviourTree Clone()

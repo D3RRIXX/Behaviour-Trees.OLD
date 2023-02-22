@@ -69,6 +69,8 @@ namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties
 			
 			return property;
 		}
+
+		public virtual bool Equals(BlackboardProperty other) => GetValueType == other.GetValueType;
 	}
 
 	public abstract class BlackboardProperty<T> : BlackboardProperty
@@ -79,6 +81,11 @@ namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties
 		{
 			get => _value;
 			set => _value = value;
+		}
+
+		public override bool Equals(BlackboardProperty other)
+		{
+			return base.Equals(other) && ((BlackboardProperty<T>)other).Value.Equals(Value);
 		}
 	}
 }

@@ -21,11 +21,11 @@ namespace DefaultNamespace
 			return $"Repeat {timesToRepeat} {times}";
 		}
 
-		protected override State OnUpdate(BehaviourTreeRunner runner)
+		protected override State OnEvaluate(BehaviourTreeRunner runner)
 		{
 			if (repeatInfinitely || _repeatsPassed++ < timesToRepeat)
 			{
-				Child.UpdateNode(runner);
+				Child.Evaluate(runner);
 				return State.Running;
 			}
 

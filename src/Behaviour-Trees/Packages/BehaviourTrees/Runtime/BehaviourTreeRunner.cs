@@ -30,7 +30,7 @@ namespace Derrixx.BehaviourTrees.Runtime
 
 		public void RunBehaviourTree()
 		{
-			BehaviourTree.UpdateTree(this);
+			BehaviourTree.Evaluate(this);
 		}
 
 		private BehaviourTree CloneTree()

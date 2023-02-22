@@ -11,7 +11,7 @@ namespace DefaultNamespace
 		[SerializeField] private float _radius;
 		[SerializeField] private Vector3BlackboardProperty _destination;
 		
-		protected override State OnUpdate(BehaviourTreeRunner runner)
+		protected override State OnEvaluate(BehaviourTreeRunner runner)
 		{
 			NavMeshAgent agent = runner.GetComponent<NavMeshAgent>();
 			Vector3 randomDirection = Random.insideUnitSphere * _radius;

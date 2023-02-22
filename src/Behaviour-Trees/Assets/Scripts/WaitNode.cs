@@ -17,6 +17,6 @@ namespace DefaultNamespace
 			_timeOnStart = Time.time;
 		}
 
-		protected override State OnUpdate(BehaviourTreeRunner runner) => Time.time - _timeOnStart >= _waitTime ? State.Success : State.Running;
+		protected override State OnEvaluate(BehaviourTreeRunner runner) => Time.time - _timeOnStart >= _waitTime ? State.Success : State.Running;
 	}
 }

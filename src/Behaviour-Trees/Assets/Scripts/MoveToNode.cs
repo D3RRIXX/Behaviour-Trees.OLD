@@ -19,7 +19,7 @@ namespace DefaultNamespace
 			_agent.SetDestination(_destination.Value);
 		}
 
-		protected override State OnUpdate(BehaviourTreeRunner runner)
+		protected override State OnEvaluate(BehaviourTreeRunner runner)
 		{
 			float distance = Vector3.Distance(_agent.transform.position, _destination.Value);
 			float stoppingDistance = _stoppingDistance;

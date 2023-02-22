@@ -40,7 +40,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
         public int ExecutionOrder => executionOrder;
         public virtual string GetDescription() => GetNodeName(GetType());
 
-        public State UpdateNode(BehaviourTreeRunner runner)
+        public State Evaluate(BehaviourTreeRunner runner)
         {
             if (!Started)
             {
@@ -48,7 +48,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
                 Started = true;
             }
 
-            CurrentState = OnUpdate(runner);
+            CurrentState = OnEvaluate(runner);
 
             if (CurrentState != State.Running)
             {
@@ -97,7 +97,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
         /// <param name="behaviourTreeRunner"></param>
         protected virtual void OnFinish(BehaviourTreeRunner behaviourTreeRunner) { }
 
-        protected abstract State OnUpdate(BehaviourTreeRunner runner);
+        protected abstract State OnEvaluate(BehaviourTreeRunner runner);
 
         public static string GetNodeName(Type nodeType)
         {

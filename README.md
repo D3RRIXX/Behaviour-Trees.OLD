@@ -51,7 +51,7 @@ To start using Behaviour Trees, first create one by by going **Assets/Create/Der
 To add new nodes, right-click on the grid to open a context menu with all available node types.
 
 ### Assigning Behaviour Tree to a GameObject
-After you've created and set up your Behaviour Tree, you'll most likely want to assign it to some GameObject and try it out. To do this, select a GameObject and add a `BehaviourTreeRunner` component, then assign your Behaviour Tree.
+After you've created and set up your Behaviour Tree, you'll most likely want to assign it to some GameObject and try it out. To do this, select a GameObject and add a `BehaviourTreeRunnerBase` component, then assign your Behaviour Tree. If you need to customise your logic, you can create your own class that inherits from `BehaviourTreeRunner`, but don't forget to add a `RunBehaviourTree()` call in `Update()`!
 
 ![Final result](Documentation/Images/runner.png "Final result")
 
@@ -85,81 +85,6 @@ To reference Blackboard Properties in your nodes, add a serialized field to your
 After a field is created, open your select your node in the Editor and you will see a dropdown menu with all Blackboard Properties of the type you've specified.
 
 ![](Documentation/Images/dropdown.png)
-
-### Using Blackboard Properties from outside Behaviour Tree
-Let's create an Action node class that gets a NavMeshAgent and target position from the Blackboard and sets agent's path.
-
-```cs
-using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
-using Derrixx.BehaviourTrees.Runtime.Nodes;
-using UnityEngine;
-using UnityEngine.AI;
-
-public class MoveToNode : ActionNode
-{
-	[SerializeField] private ObjectBlackboardProperty _navMeshAgent;
-	[SerializeField] private Vector3BlackboardProperty _destination;
-	[SerializeField] private float _stoppingDistance = 2f;
-		
-	private NavMeshAgent _agent;
-		
-	protected override void OnStart()
-	{
-		_agent = (NavMeshAgent)_navMeshAgent.Value;
-		_agent.SetDestination(_destination.Value);
-	}
-
-	protected override State OnUpdate()
-	{
-		float distance = Vector3.Distance(_agent.transform.position, _destination.Value);
-		float stoppingDistance = _stoppingDistance;
-		return distance <= stoppingDistance ? State.Success : State.Running;
-	}
-}
-```
-
-Then we open up our Editor, create needed Blackboard Properties and assign them to our node. However, we can't reference our agent from the Blackboard so we'll have to assign it from some other place.
-
-![](Documentation/Images/agent_ref.png)
-
-Create a new script named TestAI and insert the following code:
-```cs
-using Derrixx.BehaviourTrees.Runtime;
-using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
-using Derrixx.BehaviourTrees.Runtime.Nodes;
-using UnityEngine;
-using UnityEngine.AI;
-
-[RequireComponent(typeof(NavMeshAgent)), RequireComponent(typeof(BehaviourTreeRunner))]
-public class TestAI : MonoBehaviour
-{
-    [SerializeField] private NavMeshAgent agent;
-    [SerializeField] private BehaviourTreeRunner runner;
-}
-```
-Assign the references in the inspector. Now we need to reference our Blackboard. Luckily, BehaviourTreeRunner has a public `Blackboard` property that will come in handy. We'll do this in the `Awake()` method before our Behaviour Tree starts running.
-
-```cs
-using Derrixx.BehaviourTrees.Runtime;
-using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
-using Derrixx.BehaviourTrees.Runtime.Nodes;
-using UnityEngine;
-using UnityEngine.AI;
-
-[RequireComponent(typeof(NavMeshAgent)), RequireComponent(typeof(BehaviourTreeRunner))]
-public class TestAI : MonoBehaviour
-{
-    [SerializeField] private NavMeshAgent agent;
-    [SerializeField] private BehaviourTreeRunner runner;
-
-    private void Awake()
-    {
-        // Blackboard.FindProperty<T>() takes property key as an argument and 
-        // returns either property or null if nothing was found
-        runner.Blackboard.FindProperty<ObjectBlackboardProperty>("Agent").Value = agent;
-    }
-}
-```
 
 ### Instance Syncing
 While using Blackboard Properties you've propbably noticed 'Instance Synced' checkbox that is available for every property type. It basically marks this property as `static` so its value is shared between all runtime instances of that Blackboard.

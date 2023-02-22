@@ -45,7 +45,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes.Composites
 
 		protected abstract State FinalState { get; }
 
-		protected sealed override State OnUpdate(BehaviourTreeRunner runner)
+		protected sealed override State OnEvaluate(BehaviourTreeRunner runner)
 		{
 			if (_dynamic)
 				_currentChildIndex = 0;
@@ -55,7 +55,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes.Composites
 			do
 			{
 				Node currentChild = Children[_currentChildIndex];
-				State updateResult = currentChild.UpdateNode(runner);
+				State updateResult = currentChild.Evaluate(runner);
 
 				if (updateResult != FinalState)
 					return updateResult;
