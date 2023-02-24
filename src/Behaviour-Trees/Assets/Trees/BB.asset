@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e2394d3d927bb9a42a1d99f77529dc96, type: 3}
-  m_Name: Player
+  m_Name: Enemy
   m_EditorClassIdentifier: 
-  _key: Player
+  _key: Enemy
   _sync: 0
   _value: {fileID: 0}
 --- !u!114 &-4393848716254695678
@@ -30,6 +30,21 @@ MonoBehaviour:
   _key: Destination
   _sync: 0
   _value: {x: 0, y: 0, z: 0}
+--- !u!114 &-3244243479570488751
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed89f190f4049ba459b39f7c546205ad, type: 3}
+  m_Name: Can See Enemy
+  m_EditorClassIdentifier: 
+  _key: Can See Enemy
+  _sync: 0
+  _value: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44,21 +59,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _parent: {fileID: 0}
   _properties:
-  - {fileID: 3939740230805938073}
   - {fileID: -4393848716254695678}
   - {fileID: -7991405950961977915}
---- !u!114 &3939740230805938073
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed89f190f4049ba459b39f7c546205ad, type: 3}
-  m_Name: Can See Player
-  m_EditorClassIdentifier: 
-  _key: Can See Player
-  _sync: 0
-  _value: 0
+  - {fileID: -3244243479570488751}

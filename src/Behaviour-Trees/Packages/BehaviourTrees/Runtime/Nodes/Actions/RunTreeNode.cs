@@ -6,9 +6,9 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 	{
 		[SerializeField] private BehaviourTree _behaviourTree;
 
-		protected override void OnClone()
+		protected override void OnAwake(BehaviourTreeRunner runner)
 		{
-			_behaviourTree = _behaviourTree.Clone();
+			_behaviourTree = _behaviourTree.Clone(runner);
 		}
 
 		protected override State OnEvaluate(BehaviourTreeRunner runner) => _behaviourTree.Evaluate(runner);

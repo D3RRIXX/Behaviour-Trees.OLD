@@ -16,12 +16,20 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			set => _child = value;
 		}
 
-		public sealed override Node Clone()
+		public sealed override Node Clone(BehaviourTreeRunner runner)
 		{
-			DecoratorNode clone = (DecoratorNode)base.Clone();
-			clone.Child = Child.Clone();
+			DecoratorNode clone = (DecoratorNode)base.Clone(runner);
+			clone.Child = Child.Clone(runner);
 			
 			return clone;
+		}
+
+		protected internal sealed override void ResetState()
+		{
+			base.ResetState();
+			
+			if (Child != null)
+				Child.ResetState();
 		}
 
 		internal sealed override void SetExecutionOrder(ref int order)

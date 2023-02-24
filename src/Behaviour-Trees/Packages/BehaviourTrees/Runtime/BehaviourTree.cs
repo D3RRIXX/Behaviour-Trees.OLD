@@ -35,12 +35,12 @@ namespace Derrixx.BehaviourTrees.Runtime
 			return RootNode.Evaluate(runner);
 		}
 
-		internal BehaviourTree Clone()
+		internal BehaviourTree Clone(BehaviourTreeRunner runner)
 		{
 			BehaviourTree tree = Instantiate(this);
 			tree.name = $"{name} (Runtime)";
 			
-			tree.RootNode = (RootNode)tree.RootNode.Clone();
+			tree.RootNode = (RootNode)tree.RootNode.Clone(runner);
 			tree.nodes = new List<Node>();
 
 			if (blackboard != null)

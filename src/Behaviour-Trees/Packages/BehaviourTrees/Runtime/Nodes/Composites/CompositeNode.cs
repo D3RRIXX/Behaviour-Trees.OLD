@@ -12,7 +12,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 		[SerializeField] private bool _dynamic;
 
 		private int _currentChildIndex;
-
+		
 		public override string GetDescription()
 		{
 			string description = base.GetDescription();
@@ -22,10 +22,10 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			return description;
 		}
 
-		public sealed override Node Clone()
+		public sealed override Node Clone(BehaviourTreeRunner runner)
 		{
-			CompositeNode clone = (CompositeNode)base.Clone();
-			clone.Children = Children.Select(x => x.Clone()).ToList();
+			CompositeNode clone = (CompositeNode)base.Clone(runner);
+			clone.Children = Children.Select(x => x.Clone(runner)).ToList();
 			
 			return clone;
 		}
@@ -33,6 +33,15 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 		public sealed override bool IsConnectedWith(Node other)
 		{
 			return base.IsConnectedWith(other) || Children.Any(x => x.IsConnectedWith(other));
+		}
+
+		protected internal sealed override void ResetState()
+		{
+			base.ResetState();
+			foreach (Node child in Children)
+			{
+				child.ResetState();
+			}
 		}
 
 		protected override void OnStart(BehaviourTreeRunner runner)

@@ -36,7 +36,7 @@ namespace Derrixx.BehaviourTrees.Runtime
 		private BehaviourTree CloneTree()
 		{
 			_createdClone = true;
-			return _behaviourTree.Clone();
+			return _behaviourTree.Clone(this);
 		}
 	}
 }

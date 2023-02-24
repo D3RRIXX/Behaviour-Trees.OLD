@@ -59,10 +59,10 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
             return CurrentState;
         }
 
-        public virtual Node Clone()
+        public virtual Node Clone(BehaviourTreeRunner runner)
         {
             Node clone = Instantiate(this);
-            clone.OnClone();
+            clone.OnAwake(runner);
             
             return clone;
         }
@@ -72,7 +72,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
             nodeName = name;
         }
 
-        protected internal void ResetState()
+        protected internal virtual void ResetState()
         {
             Started = false;
             CurrentState = State.Running;
@@ -88,23 +88,28 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
         /// <summary>
         /// Gets called when this node starts execution
         /// </summary>
-        /// <param name="runner"></param>
+        /// <param name="runner">The Object that runs this Behaviour Tree</param>
         protected virtual void OnStart(BehaviourTreeRunner runner) { }
 
         /// <summary>
         /// Gets called when this node finishes execution
         /// </summary>
-        /// <param name="behaviourTreeRunner"></param>
-        protected virtual void OnFinish(BehaviourTreeRunner behaviourTreeRunner) { }
+        /// <param name="runner">The Object that runs this Behaviour Tree</param>
+        protected virtual void OnFinish(BehaviourTreeRunner runner) { }
         
-        protected virtual void OnClone() { }
+        /// <summary>
+        /// Gets called immediately after this node is instantiated
+        /// </summary>
+        /// <param name="runner">The Object that runs this Behaviour Tree</param>
+        protected virtual void OnAwake(BehaviourTreeRunner runner) { }
 
         protected abstract State OnEvaluate(BehaviourTreeRunner runner);
 
         public static string GetNodeName(Type nodeType)
         {
-            const string pattern = @"([A-Z])\w+(?=Node)";
-            var name = Regex.Match(nodeType.Name, pattern).Value;
+            string name = nodeType.Name;
+            if (name.EndsWith("Node"))
+                name = name.Substring(0, name.Length - 4);
 
             return Regex.Replace(name, "(\\B[A-Z])", " $1");
         }

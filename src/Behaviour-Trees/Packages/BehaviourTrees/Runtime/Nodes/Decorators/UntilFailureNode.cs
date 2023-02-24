@@ -1,6 +1,6 @@
 ﻿namespace Derrixx.BehaviourTrees.Runtime.Nodes
 {
-	public class RepeatUntilFailureNode : DecoratorNode
+	public class UntilFailureNode : DecoratorNode
 	{
 		protected override State OnEvaluate(BehaviourTreeRunner runner)
 		{
