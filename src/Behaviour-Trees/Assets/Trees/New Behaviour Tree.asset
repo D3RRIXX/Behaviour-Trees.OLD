@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5657308682803763952
+--- !u!114 &-1603425391949636301
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,17 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52b18044029c41f496e1ee9663d987ab, type: 3}
+  m_Script: {fileID: 11500000, guid: 57d26dd5161b4c9c9ef9fb7868399c05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeName: Wait
-  executionOrder: 1
-  _cachedTypeName: Wait
-  Guid: d6136c80d114f0c499b3e6f35ffd2ada
-  Position: {x: 0, y: 133}
+  nodeName: Run Tree
+  executionOrder: 2
+  _cachedTypeName: Run Tree
+  Guid: dab4f3903d040de42b505fa4c92009ac
+  Position: {x: -20, y: 299}
   behaviourTree: {fileID: 11400000}
-  _waitTime: 1
-  _randomOffset: 0
+  _behaviourTree: {fileID: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34,8 +33,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodes:
   - {fileID: 1726270520886130760}
-  - {fileID: -5657308682803763952}
-  - {fileID: 6231795363311388338}
+  - {fileID: -1603425391949636301}
+  - {fileID: 3968280747058448885}
   rootNode: {fileID: 1726270520886130760}
   blackboard: {fileID: 11400000, guid: f7280c2c6bf797640a6c2f94a484fcd7, type: 2}
 --- !u!114 &1726270520886130760
@@ -56,8 +55,8 @@ MonoBehaviour:
   Guid: 2b93f9a6b96a16f4c8fa962eacfe4117
   Position: {x: 0, y: 0}
   behaviourTree: {fileID: 11400000}
-  _child: {fileID: -5657308682803763952}
---- !u!114 &6231795363311388338
+  _child: {fileID: 3968280747058448885}
+--- !u!114 &3968280747058448885
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -70,11 +69,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Blackboard Condition
-  executionOrder: 0
+  executionOrder: 1
   _cachedTypeName: Blackboard Condition
-  Guid: f59b169d229db6c489ac6f0f6aa351af
-  Position: {x: -12, y: 226}
+  Guid: 7ec7cb333dcb49e45aeca08ddd5f64f3
+  Position: {x: -39, y: 183}
   behaviourTree: {fileID: 11400000}
-  _child: {fileID: 0}
-  _condition: {fileID: -3244243479570488751, guid: f7280c2c6bf797640a6c2f94a484fcd7, type: 2}
+  _child: {fileID: -1603425391949636301}
+  _condition: {fileID: 0}
   _shouldBeTrue: 1

@@ -8,6 +8,6 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 
 		public override string GetDescription() => $"Return {_output}";
 
-		protected override State OnEvaluate(BehaviourTreeRunner runner) => _output;
+		protected override State OnUpdate() => _output;
 	}
 }

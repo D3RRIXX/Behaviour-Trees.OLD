@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties
+namespace Derrixx.BehaviourTrees.Runtime
 {
 	/// <summary>
 	/// A property which is used to store data between the nodes.
@@ -31,6 +31,7 @@ namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties
 		public string Key => _key;
 		
 		public abstract ValueType GetValueType { get; }
+		public bool InstanceSynced => _sync;
 
 		private void OnValidate()
 		{

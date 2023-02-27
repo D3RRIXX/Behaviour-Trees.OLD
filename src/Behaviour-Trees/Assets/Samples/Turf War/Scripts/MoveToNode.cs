@@ -1,5 +1,4 @@
 using Derrixx.BehaviourTrees.Runtime;
-using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEngine;
 using UnityEngine.AI;
@@ -13,13 +12,13 @@ namespace DefaultNamespace
 		
 		private NavMeshAgent _agent;
 
-		protected override void OnAwake(BehaviourTreeRunner runner)
+		protected override void OnCreate()
 		{
-			_agent = runner.GetComponent<NavMeshAgent>();
+			_agent = Runner.GetComponent<NavMeshAgent>();
 			_agent.SetDestination(_destination.Value);
 		}
 
-		protected override State OnEvaluate(BehaviourTreeRunner runner)
+		protected override State OnUpdate()
 		{
 			float distance = Vector3.Distance(_agent.transform.position, _destination.Value);
 			float stoppingDistance = _stoppingDistance;

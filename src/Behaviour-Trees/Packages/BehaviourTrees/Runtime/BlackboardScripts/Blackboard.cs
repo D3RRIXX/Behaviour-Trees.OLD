@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
 using UnityEditor;
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts
+namespace Derrixx.BehaviourTrees.Runtime
 {
-	[CreateAssetMenu(fileName = "New Blackboard", menuName = "Derrixx/Behaviour Trees/Blackboard", order = 0)]
+	[CreateAssetMenu(fileName = "New Blackboard", menuName = "TMG/Behaviour Trees/Blackboard", order = 0)]
 	public class Blackboard : ScriptableObject
 	{
 		[SerializeField] private Blackboard _parent;

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties
+namespace Derrixx.BehaviourTrees.Runtime
 {
 	public class Vector3BlackboardProperty : BlackboardProperty<Vector3>
 	{

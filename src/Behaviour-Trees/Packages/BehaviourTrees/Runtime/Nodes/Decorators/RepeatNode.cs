@@ -18,11 +18,11 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			return $"Repeat {timesToRepeat} {times}";
 		}
 
-		protected override State OnEvaluate(BehaviourTreeRunner runner)
+		protected override State OnUpdate()
 		{
 			if (repeatInfinitely || _repeatsPassed++ < timesToRepeat)
 			{
-				Child.Evaluate(runner);
+				Child.Update();
 				return State.Running;
 			}
 

@@ -1,4 +1,4 @@
-﻿namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties
+﻿namespace Derrixx.BehaviourTrees.Runtime
 {
 	public class StringBlackboardProperty : BlackboardProperty<string>
 	{

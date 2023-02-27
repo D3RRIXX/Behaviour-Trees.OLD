@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Derrixx.BehaviourTrees.Runtime.BlackboardScripts;
-using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEditor;
 using UnityEngine;
@@ -15,7 +13,7 @@ namespace Derrixx.BehaviourTrees.Runtime
 	/// <summary>
 	/// A Behaviour Tree asset. To actually use Behaviour Trees, use <see cref="BehaviourTreeRunner"/>
 	/// </summary>
-	[CreateAssetMenu(fileName = "New Behaviour Tree", menuName = "Derrixx/Behaviour Trees/Behaviour Tree")]
+	[CreateAssetMenu(fileName = "New Behaviour Tree", menuName = "TMG/Behaviour Trees/Behaviour Tree")]
 	public sealed class BehaviourTree : ScriptableObject, IEnumerable<Node>
 	{
 		[SerializeField, HideInInspector] private List<Node> nodes = new List<Node>();
@@ -30,12 +28,12 @@ namespace Derrixx.BehaviourTrees.Runtime
 		
 		public Blackboard Blackboard => blackboard;
 
-		internal Node.State Evaluate(BehaviourTreeRunner runner)
+		internal Node.State Update()
 		{
-			return RootNode.Evaluate(runner);
+			return RootNode.Update();
 		}
 
-		internal BehaviourTree Clone(BehaviourTreeRunner runner)
+		internal BehaviourTree Clone(BehaviourTreeRunner runner, Action<Blackboard> processBlackboardCloning = null)
 		{
 			BehaviourTree tree = Instantiate(this);
 			tree.name = $"{name} (Runtime)";
@@ -44,7 +42,10 @@ namespace Derrixx.BehaviourTrees.Runtime
 			tree.nodes = new List<Node>();
 
 			if (blackboard != null)
+			{
 				tree.blackboard = blackboard.Clone();
+				processBlackboardCloning?.Invoke(tree.blackboard);
+			}
 			
 			TraverseNodes(tree.RootNode, node =>
 			{

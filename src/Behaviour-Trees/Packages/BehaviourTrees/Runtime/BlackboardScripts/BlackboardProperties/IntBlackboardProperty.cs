@@ -1,4 +1,4 @@
-﻿namespace Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties
+﻿namespace Derrixx.BehaviourTrees.Runtime
 {
 	public sealed class IntBlackboardProperty : BlackboardProperty<int>
 	{

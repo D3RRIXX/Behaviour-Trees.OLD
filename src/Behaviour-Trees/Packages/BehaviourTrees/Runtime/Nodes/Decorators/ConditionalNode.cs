@@ -7,12 +7,12 @@
 	/// </summary>
 	public abstract class ConditionalNode : DecoratorNode
 	{
-		protected sealed override State OnEvaluate(BehaviourTreeRunner runner)
+		protected sealed override State OnUpdate()
 		{
 			if (ConditionValue() == false)
 				return State.Failure;
 
-			return Child == null ? State.Success : Child.Evaluate(runner);
+			return Child == null ? State.Success : Child.Update();
 		}
 
 		protected abstract bool ConditionValue();

@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Derrixx.BehaviourTrees.Runtime.BlackboardScripts;
-using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
+using Derrixx.BehaviourTrees.Runtime;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEditor;
 using UnityEngine;
@@ -27,9 +26,19 @@ namespace Derrixx.BehaviourTrees.Editor
 			BlackboardProperty targetProperty = (BlackboardProperty)property.objectReferenceValue;
 			Blackboard blackboard = node.BehaviourTree.Blackboard;
 
+			GUIStyle style = new GUIStyle(GUI.skin.label)
+			{
+				// wordWrap = true
+			};
+			
 			if (!blackboard || blackboard.Properties.Count == 0)
 			{
-				EditorGUI.LabelField(position, label, new GUIContent("Blackboard is unassigned or empty!"));
+				GUIContent content = new GUIContent("Blackboard is unassigned or empty!");
+
+				Rect labelRect = new Rect(position);
+				labelRect.height = style.CalcHeight(content, labelRect.width);
+				EditorGUI.LabelField(labelRect, label, content, style);
+				
 				return;
 			}
 
@@ -39,15 +48,6 @@ namespace Derrixx.BehaviourTrees.Editor
 
 			if (options.Length == 0)
 			{
-				var style = new GUIStyle
-				{
-					wordWrap = true,
-					normal =
-					{
-						textColor = GUI.skin.label.normal.textColor
-					}
-				};
-
 				EditorGUI.LabelField(position, label, new GUIContent($"Found no properties of type {fieldInfo.FieldType.Name}!"), style);
 				return;
 			}

@@ -36,23 +36,28 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 
         public State CurrentState { get; private set; } = State.Running;
         public bool Started { get; private set; }
+        
+        /// <summary>
+        /// The Object that runs this node
+        /// </summary>
+        protected BehaviourTreeRunner Runner { get; private set; }
 
         public int ExecutionOrder => executionOrder;
         public virtual string GetDescription() => GetNodeName(GetType());
 
-        public State Evaluate(BehaviourTreeRunner runner)
+        public State Update()
         {
             if (!Started)
             {
-                OnStart(runner);
+                OnActivate();
                 Started = true;
             }
 
-            CurrentState = OnEvaluate(runner);
+            CurrentState = OnUpdate();
 
             if (CurrentState != State.Running)
             {
-                OnFinish(runner);
+                OnDeactivate();
                 Started = false;
             }
 
@@ -62,7 +67,9 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
         public virtual Node Clone(BehaviourTreeRunner runner)
         {
             Node clone = Instantiate(this);
-            clone.OnAwake(runner);
+            Runner = runner;
+            
+            clone.OnCreate();
             
             return clone;
         }
@@ -86,24 +93,21 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
         public virtual bool IsConnectedWith(Node other) => this == other;
 
         /// <summary>
+        /// Gets called immediately after this node is instantiated
+        /// </summary>
+        protected virtual void OnCreate() { }
+
+        /// <summary>
         /// Gets called when this node starts execution
         /// </summary>
-        /// <param name="runner">The Object that runs this Behaviour Tree</param>
-        protected virtual void OnStart(BehaviourTreeRunner runner) { }
+        protected virtual void OnActivate() { }
 
         /// <summary>
         /// Gets called when this node finishes execution
         /// </summary>
-        /// <param name="runner">The Object that runs this Behaviour Tree</param>
-        protected virtual void OnFinish(BehaviourTreeRunner runner) { }
-        
-        /// <summary>
-        /// Gets called immediately after this node is instantiated
-        /// </summary>
-        /// <param name="runner">The Object that runs this Behaviour Tree</param>
-        protected virtual void OnAwake(BehaviourTreeRunner runner) { }
+        protected virtual void OnDeactivate() { }
 
-        protected abstract State OnEvaluate(BehaviourTreeRunner runner);
+        protected abstract State OnUpdate();
 
         public static string GetNodeName(Type nodeType)
         {

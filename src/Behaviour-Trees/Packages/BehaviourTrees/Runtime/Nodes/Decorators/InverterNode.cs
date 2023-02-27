@@ -10,7 +10,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			return $"Inverts {childName}'s Output";
 		}
 
-		protected override State OnEvaluate(BehaviourTreeRunner runner) => Child.Evaluate(runner) switch
+		protected override State OnUpdate() => Child.Update() switch
 		{
 			State.Running => State.Running,
 			State.Failure => State.Success,

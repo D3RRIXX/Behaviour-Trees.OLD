@@ -20,13 +20,13 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			return $"Wait: {waitTime}s";
 		}
 
-		protected override void OnStart(BehaviourTreeRunner runner)
+		protected override void OnActivate()
 		{
 			_timeToWait = _waitTime + Random.Range(-_randomOffset, _randomOffset);
 			_timeOnStart = Time.time;
 		}
 
-		protected override State OnEvaluate(BehaviourTreeRunner runner) 
+		protected override State OnUpdate() 
 			=> Time.time - _timeOnStart >= _timeToWait ? State.Success : State.Running;
 	}
 }

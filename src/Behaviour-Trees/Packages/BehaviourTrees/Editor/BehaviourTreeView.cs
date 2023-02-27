@@ -67,9 +67,9 @@ namespace Derrixx.BehaviourTrees.Editor
 					if (additionalCondition?.Invoke(type) == false)
 						continue;
 
-					evt.menu.AppendAction(string.Format(actionName, Node.GetNodeName(baseType), Node.GetNodeName(type)), _ =>
+					evt.menu.AppendAction(string.Format(actionName, Node.GetNodeName(baseType), Node.GetNodeName(type)), a =>
 					{
-						CreateNode(type, evt.originalMousePosition);
+						CreateNode(type, evt.mousePosition);
 					});
 				}
 			}

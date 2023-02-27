@@ -2,9 +2,9 @@
 {
 	public class UntilFailureNode : DecoratorNode
 	{
-		protected override State OnEvaluate(BehaviourTreeRunner runner)
+		protected override State OnUpdate()
 		{
-			return Child.Evaluate(runner) == State.Failure ? State.Success : State.Running;
+			return Child.Update() == State.Failure ? State.Success : State.Running;
 		}
 	}
 }

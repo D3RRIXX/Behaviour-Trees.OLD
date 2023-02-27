@@ -1,4 +1,3 @@
-using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
 using UnityEngine;
 
 namespace Derrixx.BehaviourTrees.Runtime.Nodes

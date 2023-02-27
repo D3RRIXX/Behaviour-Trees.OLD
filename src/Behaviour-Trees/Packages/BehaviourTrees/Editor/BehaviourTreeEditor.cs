@@ -1,8 +1,6 @@
-using System.Linq;
 using System.Reflection;
 using Derrixx.BehaviourTrees.Editor.ViewScripts;
 using Derrixx.BehaviourTrees.Runtime;
-using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;

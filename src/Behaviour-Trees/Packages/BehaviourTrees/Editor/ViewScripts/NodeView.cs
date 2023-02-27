@@ -20,6 +20,8 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			Node = node;
 			title = node.name;
 			viewDataKey = node.Guid;
+			
+			SetupCapabilities();
 
 			_executionOrderLabel = this.Q<Label>("execution-order");
 			_description = this.Q<Label>("description");
@@ -31,6 +33,14 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			CreateInputPorts();
 			CreateOutputPorts();
 			Update();
+		}
+
+		private void SetupCapabilities()
+		{
+			if (Node is RootNode)
+				capabilities &= ~(Capabilities.Deletable | Capabilities.Copiable);
+
+			// capabilities |= Capabilities.Stackable;
 		}
 
 		private static string GetUxmlPath()
@@ -148,7 +158,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 		private bool TryInstantiatePort(Direction direction, Port.Capacity capacity, FlexDirection flexDirection, out Port port)
 		{
-			port = InstantiatePort(Orientation.Vertical, direction, capacity, typeof(Runtime.Nodes.Node));
+			port = InstantiatePort(Orientation.Vertical, direction, capacity, typeof(Node));
 			if (port == null)
 				return false;
 

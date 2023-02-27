@@ -1,5 +1,4 @@
-﻿using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Derrixx.BehaviourTrees.Runtime.Nodes
 {
@@ -9,12 +8,12 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 
 		private float _timeOnStart;
 		
-		protected override void OnStart(BehaviourTreeRunner runner)
+		protected override void OnActivate()
 		{
 			_timeOnStart = Time.time;
 		}
 
-		protected override State OnEvaluate(BehaviourTreeRunner runner) 
+		protected override State OnUpdate() 
 			=> Time.time - _timeOnStart > _waitTime.Value ? State.Success : State.Running;
 	}
 }

@@ -44,7 +44,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			}
 		}
 
-		protected override void OnStart(BehaviourTreeRunner runner)
+		protected override void OnActivate()
 		{
 			foreach (Node child in Children)
 			{
@@ -54,7 +54,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 
 		protected abstract State FinalState { get; }
 
-		protected sealed override State OnEvaluate(BehaviourTreeRunner runner)
+		protected sealed override State OnUpdate()
 		{
 			if (_dynamic)
 				_currentChildIndex = 0;
@@ -64,7 +64,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			do
 			{
 				Node currentChild = Children[_currentChildIndex];
-				State updateResult = currentChild.Evaluate(runner);
+				State updateResult = currentChild.Update();
 
 				if (updateResult != FinalState)
 					return updateResult;

@@ -1,5 +1,4 @@
 ﻿using Derrixx.BehaviourTrees.Runtime;
-using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEngine;
 
@@ -9,9 +8,9 @@ namespace Samples.Burglar.Scripts
 	{
 		[SerializeField] private ObjectBlackboardProperty doorProperty;
 		
-		protected override State OnEvaluate(BehaviourTreeRunner runner)
+		protected override State OnUpdate()
 		{
-			TestAI testAI = runner as TestAI;
+			TestAI testAI = Runner as TestAI;
 			bool canSee = testAI!.CanSee(out Door door);
 			
 			if (!canSee)
