@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using Derrixx.BehaviourTrees.Runtime.BlackboardScripts;
-using Derrixx.BehaviourTrees.Runtime.BlackboardScripts.BlackboardProperties;
+using Derrixx.BehaviourTrees.Runtime;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -51,6 +51,17 @@ namespace Derrixx.BehaviourTrees.Editor
 			serializedObject.Update();
 
 			EditorGUILayout.PropertyField(_parent);
+			
+			foreach (BlackboardProperty property in _blackboardProperties)
+			{
+				string key = property.Key;
+				if (_blackboardProperties.Count(x => x != property && x.Key == key) <= 0)
+					continue;
+				
+				EditorGUILayout.HelpBox($"Property key '{key}' is defined multiple times!", MessageType.Error);
+				break;
+			}
+			
 			_propertyList.displayAdd = _propertyList.displayRemove = !Application.isPlaying;
 			_propertyList.DoLayoutList();
 
