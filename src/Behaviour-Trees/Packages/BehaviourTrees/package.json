@@ -1,6 +1,6 @@
 {
   "name": "com.derrixx.behaviourtrees",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "A project dedicated to bringing UE4-style AI into Unity",
   "displayName": "Behaviour Trees",
   "author": {
@@ -17,7 +17,7 @@
   ],
   "changelogURL": "https://github.com/D3RRIXX/Behaviour-Trees/blob/main/CHANGELOG.md",
   "license": "LICENSE.md",
-  "unity": "2020.1",
+  "unity": "2021.1",
   "dependencies": {
     "com.unity.ui": "1.0.0-preview.18"
   },
