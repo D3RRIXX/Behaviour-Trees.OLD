@@ -24,20 +24,26 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			return clone;
 		}
 
-		protected internal sealed override void ResetState()
-		{
-			base.ResetState();
-			
-			if (Child != null)
-				Child.ResetState();
-		}
-
 		internal sealed override void SetExecutionOrder(ref int order)
 		{
 			base.SetExecutionOrder(ref order);
 
 			if (_child)
 				_child.SetExecutionOrder(ref order);
+		}
+
+		internal sealed override void CallOnCreate()
+		{
+			base.CallOnCreate();
+			_child.CallOnCreate();
+		}
+
+		protected internal sealed override void ResetState()
+		{
+			base.ResetState();
+			
+			if (Child != null)
+				Child.ResetState();
 		}
 
 		public sealed override bool IsConnectedWith(Node other)

@@ -8,13 +8,18 @@ namespace DefaultNamespace
 	public class MoveToNode : ActionNode
 	{
 		[SerializeField] private Vector3BlackboardProperty _destination;
+		[SerializeField] private ObjectBlackboardProperty _agentProperty;
 		[SerializeField] private float _stoppingDistance = 2f;
 		
 		private NavMeshAgent _agent;
 
 		protected override void OnCreate()
 		{
-			_agent = Runner.GetComponent<NavMeshAgent>();
+			_agent = _agentProperty.Value as NavMeshAgent;
+		}
+
+		protected override void OnActivate()
+		{
 			_agent.SetDestination(_destination.Value);
 		}
 

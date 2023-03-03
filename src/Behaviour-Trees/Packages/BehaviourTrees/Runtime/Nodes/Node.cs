@@ -69,8 +69,6 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
             Node clone = Instantiate(this);
             Runner = runner;
             
-            clone.OnCreate();
-            
             return clone;
         }
 
@@ -88,6 +86,11 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
         internal virtual void SetExecutionOrder(ref int order)
         {
 	        executionOrder = order++;
+        }
+
+        internal virtual void CallOnCreate()
+        {
+	        OnCreate();
         }
 
         public virtual bool IsConnectedWith(Node other) => this == other;

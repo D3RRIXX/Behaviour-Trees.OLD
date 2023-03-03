@@ -83,5 +83,14 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 				child.SetExecutionOrder(ref order);
 			}
 		}
+
+		internal sealed override void CallOnCreate()
+		{
+			base.CallOnCreate();
+			foreach (Node child in Children)
+			{
+				child.CallOnCreate();
+			}
+		}
 	}
 }

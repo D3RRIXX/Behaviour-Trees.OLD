@@ -28,7 +28,7 @@ namespace Derrixx.BehaviourTrees.Editor
 
 			GUIStyle style = new GUIStyle(GUI.skin.label)
 			{
-				// wordWrap = true
+				wordWrap = true
 			};
 			
 			if (!blackboard || blackboard.Properties.Count == 0)
@@ -77,6 +77,11 @@ namespace Derrixx.BehaviourTrees.Editor
 			return (from property in blackboard.Properties
 				where fieldInfo.FieldType.IsInstanceOfType(property)
 				select property).ToArray();
+		}
+
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+		{
+			return EditorGUIUtility.singleLineHeight * 2;
 		}
 	}
 }

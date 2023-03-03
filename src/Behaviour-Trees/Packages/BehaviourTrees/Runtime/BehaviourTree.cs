@@ -38,14 +38,14 @@ namespace Derrixx.BehaviourTrees.Runtime
 			BehaviourTree tree = Instantiate(this);
 			tree.name = $"{name} (Runtime)";
 			
-			tree.RootNode = (RootNode)tree.RootNode.Clone(runner);
-			tree.nodes = new List<Node>();
-
 			if (blackboard != null)
 			{
 				tree.blackboard = blackboard.Clone();
 				processBlackboardCloning?.Invoke(tree.blackboard);
 			}
+			
+			tree.RootNode = (RootNode)tree.RootNode.Clone(runner);
+			tree.nodes = new List<Node>();
 			
 			TraverseNodes(tree.RootNode, node =>
 			{
@@ -55,6 +55,8 @@ namespace Derrixx.BehaviourTrees.Runtime
 #endif
 				ReassignBlackboardPropertyReferences(node, tree.blackboard);
 			});
+			
+			tree.RootNode.CallOnCreate();
 			
 			return tree;
 		}

@@ -7,5 +7,6 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 	{
 		public sealed override bool IsConnectedWith(Node other) => base.IsConnectedWith(other);
 		internal sealed override void SetExecutionOrder(ref int order) => base.SetExecutionOrder(ref order);
+		internal sealed override void CallOnCreate() => base.CallOnCreate();
 	}
 }
