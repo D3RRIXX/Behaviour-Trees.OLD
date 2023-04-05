@@ -11,7 +11,7 @@ namespace Derrixx.BehaviourTrees.Runtime
 	public abstract partial class BehaviourTreeRunner : MonoBehaviour
 	{
 		[SerializeField] private BehaviourTree _behaviourTree;
-		[SerializeField, SerializeReference] private List<BlackboardPropertyReference> _propertyReferences = new List<BlackboardPropertyReference>();
+		[SerializeField, SerializeReference] private List<BlackboardPropertyReference> _propertyReferences = new();
 
 		[SerializeField, HideInInspector] private Blackboard _cachedBlackboard;
 		
@@ -67,9 +67,11 @@ namespace Derrixx.BehaviourTrees.Runtime
 				_propertyReferences.Clear();
 				return;
 			}
+
+			static bool ShouldReferenceProperty(BlackboardProperty blackboardProperty) => !blackboardProperty.InstanceSynced && blackboardProperty.IsExposed;
 			
 			List<BlackboardProperty> instancedProperties = blackboard.Properties
-				.Where(x => !x.InstanceSynced)
+				.Where(ShouldReferenceProperty)
 				.ToList();
 
 			if (_cachedBlackboard != blackboard)
@@ -87,7 +89,7 @@ namespace Derrixx.BehaviourTrees.Runtime
 				_propertyReferences.Add(BlackboardPropertyReference.Create(property));
 			}
 
-			var propertiesToRemove = _propertyReferences.Where(reference => reference.Property == null).ToList();
+			var propertiesToRemove = _propertyReferences.Where(reference => reference.Property == null || !ShouldReferenceProperty(reference.Property)).ToList();
 			foreach (BlackboardPropertyReference propertyReference in propertiesToRemove)
 			{
 				_propertyReferences.Remove(propertyReference);
