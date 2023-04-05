@@ -88,7 +88,9 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 			try
 			{
+#pragma warning disable CS8524
 				string className = Node.CurrentState switch
+#pragma warning restore CS8524
 				{
 					Node.State.Running when Node.Started => StyleClassNames.RUNNING,
 					Node.State.Failure => StyleClassNames.FAILURE,

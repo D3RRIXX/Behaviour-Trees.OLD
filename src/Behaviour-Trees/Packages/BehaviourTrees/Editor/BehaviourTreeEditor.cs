@@ -10,6 +10,8 @@ namespace Derrixx.BehaviourTrees.Editor
 {
 	public class BehaviourTreeEditor : EditorWindow
 	{
+		private const string LAST_OPEN_TREE = "last_open_tree";
+		
 		private BehaviourTreeView _behaviourTreeView;
 		private InspectorView _inspectorView;
 		private IMGUIContainer _blackboardContainer;
@@ -39,6 +41,12 @@ namespace Derrixx.BehaviourTrees.Editor
 			}
 
 			return false;
+		}
+
+		private void OnDestroy()
+		{
+			string guid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(_treeObject?.targetObject)) ?? string.Empty;
+			ProjectPrefs.SetString(LAST_OPEN_TREE, guid);
 		}
 
 		private void OnBecameVisible()
@@ -93,7 +101,24 @@ namespace Derrixx.BehaviourTrees.Editor
 
 			_nameLabel = root.Q<Label>("tree-name");
 
-			OnSelectionChange();
+			if (TryGetBehaviourTreeTarget(out BehaviourTree tree, out bool treeIsAttachedToObject))
+			{
+				PopulateEditor(tree, treeIsAttachedToObject);
+			}
+			else
+			{
+				LoadLastOpenedTree();
+			}
+		}
+
+		private void LoadLastOpenedTree()
+		{
+			string assetPath = AssetDatabase.GUIDToAssetPath(ProjectPrefs.GetString(LAST_OPEN_TREE));
+			if (string.IsNullOrEmpty(assetPath))
+				return;
+
+			var behaviourTree = AssetDatabase.LoadAssetAtPath<BehaviourTree>(assetPath);
+			PopulateEditor(behaviourTree, false);
 		}
 
 		private void DrawBlackboardContainer()
@@ -139,6 +164,11 @@ namespace Derrixx.BehaviourTrees.Editor
 			_blackboardProperty?.Dispose();
 			_treeObject?.Dispose();
 
+			PopulateEditor(tree, treeIsAttachedToObject);
+		}
+
+		private void PopulateEditor(BehaviourTree tree, bool treeIsAttachedToObject)
+		{
 			_treeObject = new SerializedObject(tree);
 			_blackboardProperty = _treeObject.FindProperty("blackboard");
 
