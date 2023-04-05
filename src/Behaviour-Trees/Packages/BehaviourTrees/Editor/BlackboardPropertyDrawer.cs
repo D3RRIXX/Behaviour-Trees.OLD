@@ -17,16 +17,16 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			Object targetObject = property.serializedObject.targetObject;
 
-			if (!(targetObject is Node node))
+			if (targetObject is not Node node)
 			{
 				EditorGUI.PropertyField(position, property, label);
 				return;
 			}
 
-			BlackboardProperty targetProperty = (BlackboardProperty)property.objectReferenceValue;
+			var targetProperty = (BlackboardProperty)property.objectReferenceValue;
 			Blackboard blackboard = node.BehaviourTree.Blackboard;
 
-			GUIStyle style = new GUIStyle(GUI.skin.label)
+			var style = new GUIStyle(GUI.skin.label)
 			{
 				wordWrap = true
 			};
@@ -64,6 +64,25 @@ namespace Derrixx.BehaviourTrees.Editor
 			EditorUtility.SetDirty(targetObject);
 		}
 
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+		{
+			if (property.serializedObject.targetObject is not Blackboard)
+				return EditorGUIUtility.singleLineHeight;
+
+			const int baseFieldCount = 6;
+			int fieldCount = baseFieldCount;
+			
+			var serializedObject = new SerializedObject(property.objectReferenceValue);
+			bool isSynced = serializedObject.FindProperty("_sync").boolValue;
+			
+			if (isSynced)
+				fieldCount--;
+			
+			serializedObject.Dispose();
+
+			return EditorGUIUtility.singleLineHeight * fieldCount;
+		}
+
 		private static BlackboardProperty GetPopupValue(Rect position, GUIContent label, IReadOnlyList<BlackboardProperty> options, int index)
 		{
 			string[] keys = (from option in options select option.Key).ToArray();
@@ -77,11 +96,6 @@ namespace Derrixx.BehaviourTrees.Editor
 			return (from property in blackboard.Properties
 				where fieldInfo.FieldType.IsInstanceOfType(property)
 				select property).ToArray();
-		}
-
-		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-		{
-			return EditorGUIUtility.singleLineHeight * 2;
 		}
 	}
 }

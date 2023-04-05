@@ -67,7 +67,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
         public virtual Node Clone(BehaviourTreeRunner runner)
         {
             Node clone = Instantiate(this);
-            Runner = runner;
+            clone.Runner = runner;
             
             return clone;
         }

@@ -17,22 +17,37 @@ namespace Derrixx.BehaviourTrees.Editor
 		private List<BlackboardProperty> _blackboardProperties;
 		private SerializedProperty _parent;
 
+		private Dictionary<BlackboardProperty, bool> _foldouts = new();
+
 		private void OnEnable()
 		{
 			try
 			{
-				_propertyList = new ReorderableList(serializedObject, serializedObject.FindProperty("_properties"), true, true, true, true)
+				SerializedProperty serializedProperty = serializedObject.FindProperty("_properties");
+				_propertyList = new ReorderableList(serializedObject, serializedProperty, true, true, true, true)
 				{
 					drawHeaderCallback = rect => EditorGUI.LabelField(rect, "Properties"),
 					drawElementCallback = DrawElements,
 					onAddDropdownCallback = CreateAddDropdown,
 					onRemoveCallback = OnRemove,
-					elementHeightCallback = _ => 93
+					elementHeightCallback = x =>
+					{
+						if (!_foldouts[_blackboardProperties[x]])
+							return EditorGUIUtility.singleLineHeight;
+						
+						float propertyHeight = EditorGUI.GetPropertyHeight(serializedProperty.GetArrayElementAtIndex(x));
+
+						if (x < serializedProperty.arraySize - 1)
+							propertyHeight += 10;
+						
+						return propertyHeight;
+					}
 				};
 
 				_blackboard = serializedObject.targetObject as Blackboard;
 				_blackboardProperties = FindBlackboardProperties();
 				_parent = serializedObject.FindProperty("_parent");
+				_foldouts = _blackboardProperties.ToDictionary(x => x, _ => false);
 			}
 			catch (Exception)
 			{
@@ -42,7 +57,10 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		private void OnRemove(ReorderableList list)
 		{
-			_blackboard.RemoveProperty(_blackboardProperties[list.index]);
+			BlackboardProperty property = _blackboardProperties[list.index];
+			_blackboard.RemoveProperty(property);
+			_foldouts.Remove(property);
+			
 			ReorderableList.defaultBehaviours.DoRemoveButton(list);
 		}
 
@@ -52,20 +70,25 @@ namespace Derrixx.BehaviourTrees.Editor
 
 			EditorGUILayout.PropertyField(_parent);
 			
-			foreach (BlackboardProperty property in _blackboardProperties)
-			{
-				string key = property.Key;
-				if (_blackboardProperties.Count(x => x != property && x.Key == key) <= 0)
-					continue;
-				
-				EditorGUILayout.HelpBox($"Property key '{key}' is defined multiple times!", MessageType.Error);
-				break;
-			}
+			CheckDuplicateKeys(_blackboard.Properties);
 			
 			_propertyList.displayAdd = _propertyList.displayRemove = !Application.isPlaying;
 			_propertyList.DoLayoutList();
 
 			serializedObject.ApplyModifiedProperties();
+		}
+
+		private static void CheckDuplicateKeys(IReadOnlyList<BlackboardProperty> blackboardProperties)
+		{
+			foreach (BlackboardProperty property in blackboardProperties)
+			{
+				string key = property.Key;
+				if (blackboardProperties.Count(x => x != property && x.Key == key) <= 0)
+					continue;
+
+				EditorGUILayout.HelpBox($"Property key '{key}' is defined multiple times!", MessageType.Error);
+				break;
+			}
 		}
 
 		private void CreateAddDropdown(Rect buttonRect, ReorderableList list)
@@ -86,32 +109,50 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			_blackboard.AddProperty((BlackboardProperty.ValueType)userData);
 			_propertyList.index++;
+			_foldouts.Add(_blackboard.Properties[_propertyList.index], true);
 		}
 
 		private void DrawElements(Rect rect, int index, bool isActive, bool isFocused)
 		{
 			float height = EditorGUIUtility.singleLineHeight;
 
-			void MoveDrawerToNextLine()
-			{
-				rect.y += height + 5;
-			}
-
+			void MoveDrawerToNextLine() => rect.y += height;
+			
 			BlackboardProperty property = _blackboardProperties[index];
 			if (property == null)
 				return;
 
-			SerializedObject propertyObject = new SerializedObject(property);
-			propertyObject.Update();
+			var propertyObject = new SerializedObject(property);
+			if (!IsFoldoutActive(rect, property, GetFoldoutLabel(propertyObject, property)))
+				return;
 
-			if (index > 0)
-				rect.y += 5;
+			const float foldoutOffset = 20;
+			rect.x += foldoutOffset;
+			rect.width -= foldoutOffset;
+			
+			MoveDrawerToNextLine();
+			propertyObject.Update();
 
 			DrawPropertyField(rect, propertyObject.FindProperty("_key"));
 			MoveDrawerToNextLine();
 
 			GUI.enabled = !Application.isPlaying;
-			DrawPropertyField(rect, propertyObject.FindProperty("_sync"), label: "Instance Synced", labelWidth: 100);
+			
+			SerializedProperty exposedProperty = propertyObject.FindProperty("_isExposed");
+			SerializedProperty syncProperty = propertyObject.FindProperty("_sync");
+			
+			if (!syncProperty.boolValue)
+			{
+				DrawPropertyField(rect, exposedProperty, labelWidth: 100);
+				MoveDrawerToNextLine();
+			}
+			else
+			{
+				exposedProperty.boolValue = false;
+			}
+
+			DrawPropertyField(rect, syncProperty, label: "Instance Synced", labelWidth: 100);
+			
 			GUI.enabled = true;
 			
 			MoveDrawerToNextLine();
@@ -119,8 +160,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			const int offset = 70 + 10;
 			EditorGUI.LabelField(new Rect(rect.x, rect.y, 70, height), "Value Type");
 
-			BlackboardProperty.ValueType valueType =
-				(BlackboardProperty.ValueType)EditorGUI.EnumPopup(new Rect(rect.x + offset, rect.y, rect.width - offset, height), property.GetValueType);
+			var valueType = (BlackboardProperty.ValueType)EditorGUI.EnumPopup(new Rect(rect.x + offset, rect.y, rect.width - offset, height), property.GetValueType);
 			if (property.GetValueType != valueType)
 			{
 				ChangePropertyTypeAtIndex(property, index, valueType);
@@ -134,10 +174,34 @@ namespace Derrixx.BehaviourTrees.Editor
 			propertyObject.ApplyModifiedProperties();
 		}
 
+		private bool IsFoldoutActive(Rect position, BlackboardProperty property, string label)
+		{
+			position.size = new Vector2(position.width - 6, 15);
+
+			bool initialValue = _foldouts[property];
+
+			// string label = $"{property.Key} ({property.GetValueType})";
+			bool foldout = EditorGUI.Foldout(position, initialValue, label);
+			_foldouts[property] = foldout;
+			return foldout;
+		}
+		
+		private string GetFoldoutLabel(SerializedObject propertyObject, BlackboardProperty blackboardProperty)
+		{
+			string GetStringWithComma(string propertyPath, string text) => propertyObject.FindProperty(propertyPath).boolValue ? $", {text}" : string.Empty;
+
+			return string.Format("{0} ({1}{2}{3})", blackboardProperty.Key, blackboardProperty.GetValueType,
+				GetStringWithComma("_isExposed", "Exposed"),
+				GetStringWithComma("_sync", "Instance Synced"));
+		}
+
 		private void ChangePropertyTypeAtIndex(BlackboardProperty originalProperty, int index, BlackboardProperty.ValueType valueType)
 		{
-			BlackboardProperty newProperty = BlackboardProperty.Create(originalProperty.Key, valueType);
+			var newProperty = BlackboardProperty.Create(originalProperty.Key, valueType);
 			_blackboardProperties[index] = newProperty;
+			_foldouts.Add(newProperty, true);
+			
+			_foldouts.Remove(originalProperty);
 			_blackboard.RemoveProperty(originalProperty);
 		}
 

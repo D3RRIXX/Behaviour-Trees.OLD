@@ -22,6 +22,7 @@ namespace Derrixx.BehaviourTrees.Runtime
 		}
 		
 		[SerializeField] private string _key;
+		[SerializeField] private bool _isExposed;
 		
 		[Tooltip("Synchronize this property between all blackboard instances?")]
 		[SerializeField] private bool _sync;
@@ -29,9 +30,11 @@ namespace Derrixx.BehaviourTrees.Runtime
 		private BlackboardProperty _runtimeClone;
 
 		public string Key => _key;
+
+		public bool InstanceSynced => _sync;
+		internal bool IsExposed => _isExposed;
 		
 		public abstract ValueType GetValueType { get; }
-		public bool InstanceSynced => _sync;
 
 		private void OnValidate()
 		{
