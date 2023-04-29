@@ -30,8 +30,12 @@ namespace Derrixx.BehaviourTrees.Editor
 			this.AddManipulator(new SelectionDragger());
 			this.AddManipulator(new RectangleSelector());
 
-			StyleSheet styleSheet = Resources.Load<StyleSheet>("BehaviourTreeEditorStyle");
+			var styleSheet = Resources.Load<StyleSheet>("BehaviourTreeEditorStyle");
 			styleSheets.Add(styleSheet);
+
+			var searchWindow = ScriptableObject.CreateInstance<NodeSearchWindow>();
+			searchWindow.Initialize(null, this);
+			nodeCreationRequest = ctx => SearchWindow.Open(new SearchWindowContext(ctx.screenMousePosition), searchWindow);
 
 			Undo.undoRedoPerformed += OnUndoRedo;
 		}
@@ -44,7 +48,11 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
-			SetupCreateNodeActions(evt);
+			// SetupCreateNodeActions(evt);
+			evt.menu.AppendAction("Create Node", action =>
+				{
+					nodeCreationRequest.Invoke(new NodeCreationContext { target = this, screenMousePosition = action.eventInfo.mousePosition });
+				});
 		}
 
 		public void UpdateNodeStates()
@@ -216,7 +224,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			}
 		}
 
-		private void CreateNode(Type type, Vector2 mousePosition)
+		public void CreateNode(Type type, Vector2 mousePosition)
 		{
 			Node node = _tree.CreateNode(type);
 			

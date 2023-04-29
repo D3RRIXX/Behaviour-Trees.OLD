@@ -1,5 +1,6 @@
 using System;
 using System.Text.RegularExpressions;
+using UnityEditor;
 using UnityEngine;
 
 namespace Derrixx.BehaviourTrees.Runtime.Nodes
@@ -114,11 +115,12 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 
         public static string GetNodeName(Type nodeType)
         {
-            string name = nodeType.Name;
-            if (name.EndsWith("Node"))
-                name = name.Substring(0, name.Length - 4);
-
-            return Regex.Replace(name, "(\\B[A-Z])", " $1");
+#if UNITY_EDITOR
+	        string name = ObjectNames.NicifyVariableName(nodeType.Name.Replace("Node", string.Empty));
+	        return name;
+#else
+	        return string.Empty;
+#endif
         }
     }
 }
