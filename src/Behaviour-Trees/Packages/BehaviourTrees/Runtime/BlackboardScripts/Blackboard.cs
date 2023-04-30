@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Derrixx.BehaviourTrees.Runtime
 {
-	[CreateAssetMenu(fileName = "New Blackboard", menuName = "TMG/Behaviour Trees/Blackboard", order = 0)]
+	[CreateAssetMenu(fileName = "New Blackboard", menuName = Utils.SO_CREATION_PATH + "Blackboard", order = 0)]
 	public class Blackboard : ScriptableObject
 	{
 		[SerializeField] private Blackboard _parent;

@@ -13,7 +13,7 @@ namespace Derrixx.BehaviourTrees.Runtime
 	/// <summary>
 	/// A Behaviour Tree asset. To actually use Behaviour Trees, use <see cref="BehaviourTreeRunner"/>
 	/// </summary>
-	[CreateAssetMenu(fileName = "New Behaviour Tree", menuName = "TMG/Behaviour Trees/Behaviour Tree")]
+	[CreateAssetMenu(fileName = "New Behaviour Tree", menuName = Utils.SO_CREATION_PATH + "Behaviour Tree")]
 	public sealed class BehaviourTree : ScriptableObject, IEnumerable<Node>
 	{
 		[SerializeField, HideInInspector] private List<Node> nodes = new List<Node>();
