@@ -33,11 +33,16 @@ namespace Derrixx.BehaviourTrees.Editor
 			var styleSheet = Resources.Load<StyleSheet>("BehaviourTreeEditorStyle");
 			styleSheets.Add(styleSheet);
 
-			var searchWindow = ScriptableObject.CreateInstance<NodeSearchWindow>();
-			searchWindow.Initialize(null, this);
-			nodeCreationRequest = ctx => SearchWindow.Open(new SearchWindowContext(ctx.screenMousePosition), searchWindow);
+			nodeCreationRequest = ctx => SearchWindow.Open(new SearchWindowContext(ctx.screenMousePosition), SetupSearchWindow());
 
 			Undo.undoRedoPerformed += OnUndoRedo;
+		}
+
+		private NodeSearchWindow SetupSearchWindow()
+		{
+			var searchWindow = ScriptableObject.CreateInstance<NodeSearchWindow>();
+			searchWindow.Initialize(null, this);
+			return searchWindow;
 		}
 
 		private void OnUndoRedo()
@@ -48,11 +53,10 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
-			// SetupCreateNodeActions(evt);
 			evt.menu.AppendAction("Create Node", action =>
-				{
-					nodeCreationRequest.Invoke(new NodeCreationContext { target = this, screenMousePosition = action.eventInfo.mousePosition });
-				});
+			{
+				nodeCreationRequest.Invoke(new NodeCreationContext { target = this, screenMousePosition = action.eventInfo.mousePosition });
+			});
 		}
 
 		public void UpdateNodeStates()

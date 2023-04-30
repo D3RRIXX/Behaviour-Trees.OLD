@@ -27,7 +27,7 @@ namespace Derrixx.BehaviourTrees.Editor
 		[MenuItem("Window/AI/Behaviour Tree Editor")]
 		public static void OpenWindow()
 		{
-			BehaviourTreeEditor wnd = GetWindow<BehaviourTreeEditor>();
+			var wnd = GetWindow<BehaviourTreeEditor>();
 			wnd.titleContent = new GUIContent("Behaviour Tree Editor");
 		}
 
@@ -100,7 +100,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			_blackboardContainer.onGUIHandler = DrawBlackboardContainer;
 
 			_nameLabel = root.Q<Label>("tree-name");
-
+			
 			if (TryGetBehaviourTreeTarget(out BehaviourTree tree, out bool treeIsAttachedToObject))
 			{
 				PopulateEditor(tree, treeIsAttachedToObject);
