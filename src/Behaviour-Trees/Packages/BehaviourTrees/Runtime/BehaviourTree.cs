@@ -117,7 +117,7 @@ namespace Derrixx.BehaviourTrees.Runtime
 			}
 		}
 
-		private static void TraverseNodes(Node node, Action<Node> visitor)
+		public static void TraverseNodes(Node node, Action<Node> visitor)
 		{
 			if (!node)
 				return;
