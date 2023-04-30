@@ -133,14 +133,14 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			Node parentNode = FindParentNode(newIndex, out StackNodeView parentStack);
 			parentNode.InsertNodeBeforeChild(NodeViews[newIndex + 1].Node, draggedDecorator);
 
-			UpdateNodeViews(parentStack);
-			UpdateNodeViews(this);
+			parentStack.UpdateNodeViews();
+			UpdateNodeViews();
 
 			_behaviourTreeView.UpdateNodesActiveState();
 
 			return true;
 		}
-
+		
 		public override void OnStartDragging(GraphElement ge)
 		{
 			Node FindParentNode(int i)
@@ -167,11 +167,10 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			
 			base.OnStartDragging(nodeView);
 		}
-
-
-		private static void UpdateNodeViews(StackNodeView stackNodeView)
+		
+		private void UpdateNodeViews()
 		{
-			foreach (NodeView nodeView in stackNodeView.NodeViews)
+			foreach (NodeView nodeView in NodeViews)
 			{
 				nodeView.Update();
 			}
@@ -186,7 +185,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			proposedIndex = Mathf.Clamp(proposedIndex, 0, maxIndex - 1);
 			return base.AcceptsElement(element, ref proposedIndex, maxIndex);
 		}
-
+		
 		private void CreateInputPorts(Node firstNode)
 		{
 			if (firstNode is RootNode)

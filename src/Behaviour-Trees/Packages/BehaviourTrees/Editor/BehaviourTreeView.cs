@@ -221,7 +221,6 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		public void UpdateNodesActiveState()
 		{
-			// var activeViews = new List<NodeView>();
 			foreach (var stackNodeView in nodes.OfType<StackNodeView>())
 			{
 				bool isConnected = _tree.RootNode.IsConnectedWith(stackNodeView.FirstNode);
@@ -229,12 +228,8 @@ namespace Derrixx.BehaviourTrees.Editor
 			}
 
 			_tree.UpdateExecutionOrder();
-			// foreach (NodeView nodeView in activeViews)
-			// {
-			// 	nodeView.UpdateExecutionOrderLabel(nodeView.Node.ExecutionOrder);
-			// }
 		}
-
+		
 		public void CreateNode(Type type, Vector2 mousePosition)
 		{
 			Node node = _tree.CreateNode(type);
