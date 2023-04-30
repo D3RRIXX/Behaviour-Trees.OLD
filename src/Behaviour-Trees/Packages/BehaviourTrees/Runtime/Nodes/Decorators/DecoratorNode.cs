@@ -18,8 +18,12 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 
 		public sealed override Node Clone(BehaviourTreeRunner runner)
 		{
-			DecoratorNode clone = (DecoratorNode)base.Clone(runner);
-			clone.Child = Child.Clone(runner);
+			var clone = (DecoratorNode)base.Clone(runner);
+
+			if (Child != null)
+				clone.Child = Child.Clone(runner);
+			else
+				Debug.LogWarning($"Decorator '{name}' doesn't have a child assigned! Are you sure you're using it correctly?", runner);
 			
 			return clone;
 		}
