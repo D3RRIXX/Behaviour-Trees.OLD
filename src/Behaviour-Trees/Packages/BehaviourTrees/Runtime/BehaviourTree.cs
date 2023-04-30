@@ -16,7 +16,7 @@ namespace Derrixx.BehaviourTrees.Runtime
 	[CreateAssetMenu(fileName = "New Behaviour Tree", menuName = Utils.SO_CREATION_PATH + "Behaviour Tree")]
 	public sealed class BehaviourTree : ScriptableObject, IEnumerable<Node>
 	{
-		[SerializeField, HideInInspector] private List<Node> nodes = new List<Node>();
+		[SerializeField, HideInInspector] private List<Node> nodes = new();
 		[SerializeField, HideInInspector] private RootNode rootNode;
 		[SerializeField] private Blackboard blackboard;
 		
@@ -74,9 +74,8 @@ namespace Derrixx.BehaviourTrees.Runtime
 		{
 			Assert.IsTrue(type.IsSubclassOf(typeof(Node)));
 			
-			Node node = CreateInstance(type) as Node;
+			var node = (Node)CreateInstance(type);
 			node.hideFlags = HideFlags.HideInHierarchy;
-			// node.name = Node.GetNodeName(node.GetType());
 			node.Guid = GUID.Generate().ToString();
 			node.BehaviourTree = this;
 			
@@ -91,7 +90,6 @@ namespace Derrixx.BehaviourTrees.Runtime
 			Undo.RegisterCreatedObjectUndo(node, "Behaviour Tree (Create Node)");
 			
 			EditorUtility.SetDirty(this);
-			AssetDatabase.SaveAssets();
 
 			return node;
 		}
@@ -102,7 +100,7 @@ namespace Derrixx.BehaviourTrees.Runtime
 			nodes.Remove(node);
 			
 			Undo.DestroyObjectImmediate(node);
-			AssetDatabase.SaveAssets();
+			EditorUtility.SetDirty(this);
 		}
 #endif
 
@@ -112,9 +110,9 @@ namespace Derrixx.BehaviourTrees.Runtime
 				.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
 				.Where(x => x.FieldType.IsSubclassOf(typeof(BlackboardProperty)));
 
-			foreach (var fieldInfo in fieldInfos)
+			foreach (FieldInfo fieldInfo in fieldInfos)
 			{
-				BlackboardProperty blackboardProperty = (BlackboardProperty)fieldInfo.GetValue(node);
+				var blackboardProperty = (BlackboardProperty)fieldInfo.GetValue(node);
 				fieldInfo.SetValue(node, blackboard.FindProperty(blackboardProperty.Key));
 			}
 		}

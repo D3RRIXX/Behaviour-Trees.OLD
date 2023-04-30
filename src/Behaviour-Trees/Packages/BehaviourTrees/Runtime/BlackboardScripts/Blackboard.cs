@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 
@@ -32,11 +33,37 @@ namespace Derrixx.BehaviourTrees.Runtime
 #if UNITY_EDITOR
 		private void OnValidate()
 		{
+			if (_parent== null)
+				return;
+
 			if (_parent == this)
 			{
 				Debug.LogError("Can't assign self as a parent!", this);
 				_parent = null;
+				return;
 			}
+			
+			_parent = CheckRecursiveParenting(this);
+		}
+
+		private static Blackboard CheckRecursiveParenting(Blackboard target)
+		{
+			StringBuilder recursionGraph = new();
+			
+			Blackboard original = target._parent;
+			Blackboard parent = original;
+			do
+			{
+				parent = parent._parent;
+				if (parent != target)
+					continue;
+
+				Debug.LogError($"Detected recursive parenting! {recursionGraph}", target);
+				return null;
+				
+			} while (parent != null);
+
+			return original;
 		}
 
 		/// <summary>

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodes:
   - {fileID: 1885043006334008932}
+  - {fileID: 4235494197731574452}
   rootNode: {fileID: 1885043006334008932}
   blackboard: {fileID: 11400000, guid: d192307810625444b9bbd55a99504bb7, type: 2}
 --- !u!114 &1885043006334008932
@@ -34,4 +35,23 @@ MonoBehaviour:
   Guid: d4bb06ff768bda84396561b7edf7005e
   Position: {x: 0, y: 0}
   behaviourTree: {fileID: 11400000}
-  _child: {fileID: 0}
+  _child: {fileID: 4235494197731574452}
+--- !u!114 &4235494197731574452
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d26dd5161b4c9c9ef9fb7868399c05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Run Tree
+  executionOrder: 1
+  _cachedTypeName: Run Tree
+  Guid: 5cd6551f4dae0554ba8fb12f4467c5be
+  Position: {x: -102, y: 255}
+  behaviourTree: {fileID: 11400000}
+  _behaviourTree: {fileID: 0}

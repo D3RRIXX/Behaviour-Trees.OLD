@@ -1,35 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7991405950961977915
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2394d3d927bb9a42a1d99f77529dc96, type: 3}
-  m_Name: Enemy
-  m_EditorClassIdentifier: 
-  _key: Enemy
-  _sync: 0
-  _value: {fileID: 0}
---- !u!114 &-4393848716254695678
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 819f1fbe81520b64198e17b2622cef12, type: 3}
-  m_Name: Destination
-  m_EditorClassIdentifier: 
-  _key: Destination
-  _sync: 0
-  _value: {x: 0, y: 0, z: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40,10 +10,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 432074ee2a8b50e49859612143dcde56, type: 3}
-  m_Name: BB
+  m_Name: Burglar_BB 1
   m_EditorClassIdentifier: 
-  _parent: {fileID: 0}
+  _parent: {fileID: 11400000, guid: ff9aeaadb1ca76246a50360101080d9b, type: 2}
   _properties:
-  - {fileID: -4393848716254695678}
-  - {fileID: -7991405950961977915}
-  - {fileID: 0}
+  - {fileID: 7960079101233574242}
+  - {fileID: 7429089003034483227}
+--- !u!114 &7429089003034483227
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed89f190f4049ba459b39f7c546205ad, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  _key: Test
+  _isExposed: 0
+  _sync: 0
+  _value: 0
+--- !u!114 &7960079101233574242
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffb35664b1c862747aedff5f8db9d2b8, type: 3}
+  m_Name: Amogus
+  m_EditorClassIdentifier: 
+  _key: Amogus
+  _isExposed: 0
+  _sync: 0
+  _value: 0

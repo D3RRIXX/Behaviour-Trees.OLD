@@ -67,30 +67,6 @@ namespace Derrixx.BehaviourTrees.Editor
 			}
 		}
 
-		private void SetupCreateNodeActions(ContextualMenuPopulateEvent evt)
-		{
-			void AppendCreateSubclassNodesActions(Type baseType, Func<Type, bool> additionalCondition = null)
-			{
-				const string actionName = "Create Node/{0}/{1}";
-
-				TypeCache.TypeCollection types = TypeCache.GetTypesDerivedFrom(baseType);
-				foreach (Type type in types.Where(type => !type.IsAbstract))
-				{
-					if (additionalCondition?.Invoke(type) == false)
-						continue;
-
-					evt.menu.AppendAction(string.Format(actionName, Node.GetNodeName(baseType), Node.GetNodeName(type)), a =>
-					{
-						CreateNode(type, evt.mousePosition);
-					});
-				}
-			}
-
-			AppendCreateSubclassNodesActions(typeof(ActionNode));
-			AppendCreateSubclassNodesActions(typeof(DecoratorNode), x => x != typeof(RootNode));
-			AppendCreateSubclassNodesActions(typeof(CompositeNode));
-		}
-
 		internal void PopulateView(BehaviourTree tree)
 		{
 			_tree = tree;

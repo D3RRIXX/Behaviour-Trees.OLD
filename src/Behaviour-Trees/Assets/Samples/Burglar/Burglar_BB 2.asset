@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 432074ee2a8b50e49859612143dcde56, type: 3}
+  m_Name: Burglar_BB 2
+  m_EditorClassIdentifier: 
+  _parent: {fileID: 0}
+  _properties:
+  - {fileID: 7960079101233574242}
+--- !u!114 &7960079101233574242
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffb35664b1c862747aedff5f8db9d2b8, type: 3}
+  m_Name: B
+  m_EditorClassIdentifier: 
+  _key: B
+  _isExposed: 0
+  _sync: 0
+  _value: 0

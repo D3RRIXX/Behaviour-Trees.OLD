@@ -78,7 +78,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			}
 		}
 
-		public void CreateGUI()
+		private void CreateGUI()
 		{
 			// Each editor window contains a root VisualElement object
 			VisualElement root = rootVisualElement;
@@ -109,6 +109,21 @@ namespace Derrixx.BehaviourTrees.Editor
 			{
 				LoadLastOpenedTree();
 			}
+		}
+
+		private void Update()
+		{
+			Object tree = _treeObject?.targetObject;
+			if (tree == null)
+				return;
+
+			UpdateNameLabel(tree);
+		}
+
+		private void UpdateNameLabel(Object tree)
+		{
+			string treeName = tree.name;
+			_nameLabel.text = !EditorUtility.IsDirty(tree) ? treeName : $"{treeName}*";
 		}
 
 		private void LoadLastOpenedTree()
@@ -174,7 +189,6 @@ namespace Derrixx.BehaviourTrees.Editor
 
 			_isViewingRuntimeTree = treeIsAttachedToObject;
 			_behaviourTreeView.PopulateView(tree);
-			_nameLabel.text = tree.name;
 		}
 
 		private static bool TryGetBehaviourTreeTarget(out BehaviourTree tree, out bool treeIsAttachedToObject)
