@@ -1,7 +1,9 @@
 {
     "name": "Derrixx.BehaviourTrees",
     "rootNamespace": "Derrixx.BehaviourTrees",
-    "references": [],
+    "references": [
+        "Zenject"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
