@@ -13,9 +13,11 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 	public class StackNodeView : StackNode
 	{
 		private readonly List<Node> _nodes;
+		private readonly List<NodeView> _nodeViews;
 
 		public StackNodeView(List<NodeView> nodeViews)
 		{
+			_nodeViews = nodeViews;
 			// SetupCapabilities(node);
 			_nodes = nodeViews.Select(x => x.Node).ToList();
 
@@ -57,12 +59,37 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			EditorUtility.SetDirty(LastNode);
 		}
 
+		public void SetIsConnectedToRoot(bool value)
+		{
+			const string className = StyleClassNames.INACTIVE_NODE;
+
+			void SetNodeInactive(VisualElement nodeView)
+			{
+				if (!nodeView.ClassListContains(className))
+					nodeView.AddToClassList(className);
+			}
+
+			void SetNodeActive(VisualElement nodeView)
+			{
+				if (nodeView.ClassListContains(className))
+					nodeView.RemoveFromClassList(className);
+			}
+
+			foreach (NodeView nodeView in _nodeViews)
+			{
+				if (value)
+					SetNodeActive(nodeView);
+				else
+					SetNodeInactive(nodeView);
+			}
+		}
+
 		private void CreateInputPorts(Node firstNode)
 		{
 			if (firstNode is RootNode)
 				return;
 
-			if (!TryInstantiatePort(Direction.Input, Port.Capacity.Single, FlexDirection.Column, out Port input))
+			if (!TryInstantiatePort(Direction.Input, Port.Capacity.Single, FlexDirection.ColumnReverse, out Port input))
 				return;
 
 			Input = input;
@@ -81,7 +108,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 				_ => throw new ArgumentOutOfRangeException(nameof(Node))
 			};
 
-			if (!TryInstantiatePort(Direction.Output, capacity, FlexDirection.ColumnReverse, out Port output))
+			if (!TryInstantiatePort(Direction.Output, capacity, FlexDirection.Column, out Port output))
 				return;
 
 			Output = output;

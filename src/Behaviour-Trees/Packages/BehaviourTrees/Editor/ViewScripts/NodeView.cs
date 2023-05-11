@@ -2,6 +2,7 @@ using System;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Node = Derrixx.BehaviourTrees.Runtime.Nodes.Node;
@@ -24,10 +25,14 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			SetupCapabilities();
 
 			_executionOrderLabel = this.Q<Label>("execution-order");
+			_executionOrderLabel.bindingPath = "executionOrder";
+			
 			_description = this.Q<Label>("description");
 
 			SetupClass();
 			Update();
+			
+			this.Bind(new SerializedObject(node));
 		}
 		
 		public StackNodeView Stack { get; set; }

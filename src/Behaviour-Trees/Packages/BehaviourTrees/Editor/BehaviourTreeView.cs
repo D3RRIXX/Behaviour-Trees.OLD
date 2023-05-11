@@ -86,24 +86,17 @@ namespace Derrixx.BehaviourTrees.Editor
 				CreateNodeStack(nodeGroup);
 			}
 
-			var processedStacks = new HashSet<StackNodeView>();
-
 			foreach (Node node in _tree)
-			foreach (Node child in node.GetChildren())
+			foreach (Node child in FindNodeStack(node).LastNode.GetChildren())
 			{
 				StackNodeView parentStack = FindNodeStack(node);
-				if (processedStacks.Contains(parentStack))
-					continue;
-
 				StackNodeView childStack = FindNodeStack(child);
 
-				if (parentStack.Output != null)
-				{
-					Edge edge = parentStack.Output.ConnectTo(childStack.Input);
-					AddElement(edge);
-				}
+				if (parentStack.Output == null)
+					continue;
 				
-				processedStacks.Add(parentStack);
+				Edge edge = parentStack.Output.ConnectTo(childStack.Input);
+				AddElement(edge);
 			}
 
 			UpdateNodesActiveState();
@@ -211,41 +204,18 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		private void UpdateNodesActiveState()
 		{
-			const string className = StyleClassNames.INACTIVE_NODE;
-
-			void SetNodeInactive(VisualElement nodeView)
+			// var activeViews = new List<NodeView>();
+			foreach (var stackNodeView in nodes.OfType<StackNodeView>())
 			{
-				if (!nodeView.ClassListContains(className))
-					nodeView.AddToClassList(className);
-			}
-
-			void SetNodeActive(VisualElement nodeView)
-			{
-				if (nodeView.ClassListContains(className))
-					nodeView.RemoveFromClassList(className);
-			}
-
-			var activeViews = new List<NodeView>();
-			foreach (var nodeView in _tree.Select(FindNodeView))
-			{
-				bool isConnected = _tree.RootNode.IsConnectedWith(nodeView.Node);
-				if (isConnected)
-				{
-					activeViews.Add(nodeView);
-					SetNodeActive(nodeView);
-				}
-				else
-				{
-					Debug.Log($"Node '{nodeView.Node}' is disconnected");
-					SetNodeInactive(nodeView);
-				}
+				bool isConnected = _tree.RootNode.IsConnectedWith(stackNodeView.FirstNode);
+				stackNodeView.SetIsConnectedToRoot(isConnected);
 			}
 
 			_tree.UpdateExecutionOrder();
-			foreach (NodeView nodeView in activeViews)
-			{
-				nodeView.UpdateExecutionOrderLabel(nodeView.Node.ExecutionOrder);
-			}
+			// foreach (NodeView nodeView in activeViews)
+			// {
+			// 	nodeView.UpdateExecutionOrderLabel(nodeView.Node.ExecutionOrder);
+			// }
 		}
 
 		public void CreateNode(Type type, Vector2 mousePosition)
