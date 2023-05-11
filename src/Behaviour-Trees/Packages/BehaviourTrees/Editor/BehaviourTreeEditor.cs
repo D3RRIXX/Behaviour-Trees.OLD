@@ -1,6 +1,8 @@
+using System.Linq;
 using System.Reflection;
 using Derrixx.BehaviourTrees.Editor.ViewScripts;
 using Derrixx.BehaviourTrees.Runtime;
+using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
@@ -23,7 +25,7 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		private bool _isViewingRuntimeTree;
 		private BlackboardEditor _blackboardEditor;
-
+		
 		[MenuItem("Window/AI/Behaviour Tree Editor")]
 		public static void OpenWindow()
 		{
@@ -117,13 +119,26 @@ namespace Derrixx.BehaviourTrees.Editor
 			if (tree == null)
 				return;
 
-			UpdateNameLabel(tree);
+			UpdateNameLabel((BehaviourTree)tree);
 		}
 
-		private void UpdateNameLabel(Object tree)
+		private void UpdateNameLabel(BehaviourTree tree)
 		{
+			bool isObservedTreeDirty = GetIsTreeDirty();
+
+			bool GetIsTreeDirty()
+			{
+				if (EditorUtility.IsDirty(tree))
+					return true;
+
+				bool output = false;
+				tree.RootNode.Traverse(node => output = EditorUtility.IsDirty(node));
+
+				return output;
+			}
+
 			string treeName = tree.name;
-			_nameLabel.text = !EditorUtility.IsDirty(tree) ? treeName : $"{treeName}*";
+			_nameLabel.text = isObservedTreeDirty ? $"{treeName}*" : treeName;
 		}
 
 		private void LoadLastOpenedTree()

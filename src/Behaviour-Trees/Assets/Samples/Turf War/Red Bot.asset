@@ -56,7 +56,7 @@ MonoBehaviour:
   executionOrder: 5
   _cachedTypeName: Set Random Destination
   Guid: 8d9edbc744a29a44ab274c7e1dd6a59b
-  Position: {x: 5.0000305, y: 368.2}
+  Position: {x: 32, y: 399}
   behaviourTree: {fileID: 11400000}
   _radius: 10
   _destination: {fileID: 8186038928769464853, guid: eba0a8a80b65fc74c85baa3138bc65f4, type: 2}
@@ -77,7 +77,7 @@ MonoBehaviour:
   executionOrder: 3
   _cachedTypeName: Saw Enemy
   Guid: 121f4d191e4aff04588c8e04ddac1e73
-  Position: {x: -375.59006, y: 353.28006}
+  Position: {x: -358, y: 368}
   behaviourTree: {fileID: 11400000}
   enemy: {fileID: -6739194452388081382, guid: eba0a8a80b65fc74c85baa3138bc65f4, type: 2}
 --- !u!114 &-385069263612744615
@@ -164,7 +164,7 @@ MonoBehaviour:
   executionOrder: 6
   _cachedTypeName: Move To
   Guid: 87621534b69262b478114304df7952c4
-  Position: {x: 230.00003, y: 368.2}
+  Position: {x: 230, y: 399}
   behaviourTree: {fileID: 11400000}
   _destination: {fileID: 8186038928769464853, guid: eba0a8a80b65fc74c85baa3138bc65f4, type: 2}
   _agentProperty: {fileID: -6739194452388081382, guid: eba0a8a80b65fc74c85baa3138bc65f4, type: 2}

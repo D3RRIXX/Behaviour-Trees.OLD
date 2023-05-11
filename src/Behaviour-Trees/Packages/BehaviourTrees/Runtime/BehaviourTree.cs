@@ -47,7 +47,7 @@ namespace Derrixx.BehaviourTrees.Runtime
 			tree.RootNode = (RootNode)tree.RootNode.Clone(runner);
 			tree.nodes = new List<Node>();
 			
-			TraverseNodes(tree.RootNode, node =>
+			rootNode.Traverse(node =>
 			{
 				tree.nodes.Add(node);
 #if UNITY_EDITOR
@@ -114,18 +114,6 @@ namespace Derrixx.BehaviourTrees.Runtime
 			{
 				var blackboardProperty = (BlackboardProperty)fieldInfo.GetValue(node);
 				fieldInfo.SetValue(node, blackboard.FindProperty(blackboardProperty.Key));
-			}
-		}
-
-		public static void TraverseNodes(Node node, Action<Node> visitor)
-		{
-			if (!node)
-				return;
-			
-			visitor.Invoke(node);
-			foreach (Node child in node.GetChildren())
-			{
-				TraverseNodes(child, visitor);
 			}
 		}
 

@@ -70,7 +70,7 @@ namespace Derrixx.BehaviourTrees.Editor
 		internal void PopulateView(BehaviourTree tree)
 		{
 			_tree = tree;
-
+			
 			graphViewChanged -= OnGraphViewChanged;
 			DeleteElements(graphElements.ToList());
 			graphViewChanged += OnGraphViewChanged;
@@ -208,15 +208,18 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			Node node = _tree.CreateNode(type);
 			
-			NodeView nodeView = CreateNodeView(node);
+			var nodeView = CreateNodeView(node);
+			// var nodeView = new StackNodeView(node);
+			AddElement(nodeView);
+			
 			nodeView.SetPosition(new Rect(mousePosition, Vector2.zero));
 			nodeView.UpdatePresenterPosition();
 			nodeView.Select(this, false);
 
-			UpdateNodesActiveState();
+			// UpdateNodesActiveState();
 		}
 
-		private NodeView CreateNodeView(Node node)
+		private UnityEditor.Experimental.GraphView.Node CreateNodeView(Node node)
 		{
 			NodeView nodeView = new NodeView(node)
 			{

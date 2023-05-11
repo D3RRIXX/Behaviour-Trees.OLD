@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 
@@ -44,6 +45,18 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			}
 			
 			EditorUtility.SetDirty(parent);
+		}
+
+		public static void Traverse(this Node node, Action<Node> visitor)
+		{
+			if (node is null)
+				return;
+			
+			visitor.Invoke(node);
+			foreach (Node child in node.GetChildren())
+			{
+				child.Traverse(visitor);
+			}
 		}
 #endif
 

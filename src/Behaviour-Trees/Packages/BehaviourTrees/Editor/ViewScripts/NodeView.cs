@@ -40,7 +40,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			if (Node is RootNode)
 				capabilities &= ~(Capabilities.Deletable | Capabilities.Copiable);
 
-			// capabilities |= Capabilities.Stackable;
+			capabilities |= Capabilities.Stackable;
 		}
 
 		private static string GetUxmlPath()
@@ -61,7 +61,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 			Node.Position.x = newPos.xMin;
 			Node.Position.y = newPos.yMin;
-
+			
 			EditorUtility.SetDirty(Node);
 		}
 
@@ -146,8 +146,8 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 			Port.Capacity capacity = Node switch
 			{
-				CompositeNode _ => Port.Capacity.Multi,
-				DecoratorNode _ => Port.Capacity.Single,
+				CompositeNode => Port.Capacity.Multi,
+				DecoratorNode => Port.Capacity.Single,
 				_ => throw new ArgumentOutOfRangeException(nameof(Node))
 			};
 
