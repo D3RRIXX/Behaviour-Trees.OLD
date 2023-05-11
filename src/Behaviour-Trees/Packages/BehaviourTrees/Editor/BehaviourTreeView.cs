@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Derrixx.BehaviourTrees.Editor.ViewScripts;
 using Derrixx.BehaviourTrees.Runtime;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
@@ -61,9 +60,9 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		public void UpdateNodeStates()
 		{
-			foreach (NodeView nodeView in _tree.Select(FindNodeView))
+			foreach (StackNodeView nodeView in _tree.Select(FindNodeStack))
 			{
-				nodeView.UpdateState();
+				// nodeView.UpdateState();
 			}
 		}
 
@@ -82,25 +81,69 @@ namespace Derrixx.BehaviourTrees.Editor
 				AssetDatabase.SaveAssets();
 			}
 
-			foreach (Node node in _tree)
+			foreach (IEnumerable<Node> nodeGroup in GetNodeGroups())
 			{
-				CreateNodeView(node);
+				CreateNodeStack(nodeGroup);
 			}
+
+			var processedStacks = new HashSet<StackNodeView>();
 
 			foreach (Node node in _tree)
 			foreach (Node child in node.GetChildren())
 			{
-				NodeView parentView = FindNodeView(node);
-				NodeView childView = FindNodeView(child);
+				StackNodeView parentStack = FindNodeStack(node);
+				if (processedStacks.Contains(parentStack))
+					continue;
 
-				Edge edge = parentView.Output.ConnectTo(childView.Input);
-				AddElement(edge);
+				StackNodeView childStack = FindNodeStack(child);
+
+				if (parentStack.Output != null)
+				{
+					Edge edge = parentStack.Output.ConnectTo(childStack.Input);
+					AddElement(edge);
+				}
+				
+				processedStacks.Add(parentStack);
 			}
 
 			UpdateNodesActiveState();
 		}
 
-		private NodeView FindNodeView(Node node) => GetNodeByGuid(node.Guid) as NodeView;
+		private IEnumerable<IEnumerable<Node>> GetNodeGroups()
+		{
+			void CreateStacksFromChildren(Node parent, List<IEnumerable<Node>> list)
+			{
+				foreach (Node child in parent.GetChildren())
+				{
+					var subGroup = new List<Node>();
+					FillGroup(child);
+
+					list.Add(subGroup);
+
+					void FillGroup(Node node)
+					{
+						subGroup.Add(node);
+						switch (node)
+						{
+							case DecoratorNode decoratorNode:
+								FillGroup(decoratorNode.Child);
+								break;
+							case CompositeNode compositeNode:
+								CreateStacksFromChildren(compositeNode, list);
+								break;
+						}
+					}
+				}
+			}
+
+			var nodeGroups = new List<IEnumerable<Node>> { new[] { _tree.RootNode } };
+			CreateStacksFromChildren(_tree.RootNode, nodeGroups);
+
+			return nodeGroups;
+		}
+
+		private NodeView FindNodeView(Node node) => (NodeView)GetNodeByGuid(node.Guid);
+		private StackNodeView FindNodeStack(Node node) => FindNodeView(node).Stack;
 
 		public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
 		{
@@ -137,9 +180,9 @@ namespace Derrixx.BehaviourTrees.Editor
 
 			foreach (Edge edge in graphViewChange.edgesToCreate)
 			{
-				NodeView parentView = (NodeView)edge.output.node;
-				NodeView childView = (NodeView)edge.input.node;
-				parentView.Node.AddChild(childView.Node);
+				var parentView = (StackNodeView)edge.output.node;
+				var childView = (StackNodeView)edge.input.node;
+				parentView.LastNode.AddChild(childView.FirstNode);
 			}
 
 			SortChildNodesByXPos();
@@ -158,8 +201,8 @@ namespace Derrixx.BehaviourTrees.Editor
 						_tree.DeleteNode(nodeView.Node);
 						break;
 					case Edge edge:
-						NodeView parentView = (NodeView)edge.output.node;
-						NodeView childView = (NodeView)edge.input.node;
+						var parentView = (NodeView)edge.output.node;
+						var childView = (NodeView)edge.input.node;
 						parentView.Node.RemoveChild(childView.Node);
 						break;
 				}
@@ -176,14 +219,14 @@ namespace Derrixx.BehaviourTrees.Editor
 					nodeView.AddToClassList(className);
 			}
 
-			void SetNodeActive(NodeView nodeView)
+			void SetNodeActive(VisualElement nodeView)
 			{
 				if (nodeView.ClassListContains(className))
 					nodeView.RemoveFromClassList(className);
 			}
 
-			List<NodeView> activeViews = new List<NodeView>();
-			foreach (NodeView nodeView in _tree.Select(FindNodeView))
+			var activeViews = new List<NodeView>();
+			foreach (var nodeView in _tree.Select(FindNodeView))
 			{
 				bool isConnected = _tree.RootNode.IsConnectedWith(nodeView.Node);
 				if (isConnected)
@@ -208,28 +251,30 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			Node node = _tree.CreateNode(type);
 			
-			var nodeView = CreateNodeView(node);
-			// var nodeView = new StackNodeView(node);
-			AddElement(nodeView);
+			var nodeView = CreateNodeStack(node);
 			
 			nodeView.SetPosition(new Rect(mousePosition, Vector2.zero));
 			nodeView.UpdatePresenterPosition();
 			nodeView.Select(this, false);
 
-			// UpdateNodesActiveState();
+			UpdateNodesActiveState();
 		}
 
-		private UnityEditor.Experimental.GraphView.Node CreateNodeView(Node node)
+		private StackNodeView CreateNodeStack(Node node) => CreateNodeStack(new[] { node });
+
+		private StackNodeView CreateNodeStack(IEnumerable<Node> nodes)
 		{
-			NodeView nodeView = new NodeView(node)
+			NodeView CreateNodeView(Node node)
 			{
-				OnNodeSelected = OnNodeSelected,
-			};
+				var nodeView = new NodeView(node) { OnNodeSelected = OnNodeSelected };
+				nodeView.AddToClassList(StyleClassNames.INACTIVE_NODE);
+				return nodeView;
+			}
 
-			nodeView.AddToClassList(StyleClassNames.INACTIVE_NODE);
-			AddElement(nodeView);
-
-			return nodeView;
+			var stackNodeView = new StackNodeView(nodes.Select(CreateNodeView).ToList());
+			AddElement(stackNodeView);
+			
+			return stackNodeView;
 		}
 	}
 }

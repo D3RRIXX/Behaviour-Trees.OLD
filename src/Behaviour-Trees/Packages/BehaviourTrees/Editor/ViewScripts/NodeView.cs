@@ -26,14 +26,11 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			_executionOrderLabel = this.Q<Label>("execution-order");
 			_description = this.Q<Label>("description");
 
-			style.left = node.Position.x;
-			style.top = node.Position.y;
-
 			SetupClass();
-			CreateInputPorts();
-			CreateOutputPorts();
 			Update();
 		}
+		
+		public StackNodeView Stack { get; set; }
 
 		private void SetupCapabilities()
 		{
@@ -50,20 +47,6 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 		}
 
 		public Node Node { get; }
-		public Port Input { get; private set; }
-		public Port Output { get; private set; }
-
-		public override void SetPosition(Rect newPos)
-		{
-			base.SetPosition(newPos);
-
-			Undo.RecordObject(Node, "Behaviour Tree (Set Position)");
-
-			Node.Position.x = newPos.xMin;
-			Node.Position.y = newPos.yMin;
-			
-			EditorUtility.SetDirty(Node);
-		}
 
 		public void Update()
 		{
@@ -125,49 +108,6 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			};
 
 			AddToClassList(className);
-		}
-
-		private void CreateInputPorts()
-		{
-			if (Node is RootNode)
-				return;
-
-			if (!TryInstantiatePort(Direction.Input, Port.Capacity.Single, FlexDirection.Column, out Port input))
-				return;
-
-			Input = input;
-			inputContainer.Add(Input);
-		}
-
-		private void CreateOutputPorts()
-		{
-			if (Node is ActionNode)
-				return;
-
-			Port.Capacity capacity = Node switch
-			{
-				CompositeNode => Port.Capacity.Multi,
-				DecoratorNode => Port.Capacity.Single,
-				_ => throw new ArgumentOutOfRangeException(nameof(Node))
-			};
-
-			if (!TryInstantiatePort(Direction.Output, capacity, FlexDirection.ColumnReverse, out Port output))
-				return;
-
-			Output = output;
-			outputContainer.Add(Output);
-		}
-
-		private bool TryInstantiatePort(Direction direction, Port.Capacity capacity, FlexDirection flexDirection, out Port port)
-		{
-			port = InstantiatePort(Orientation.Vertical, direction, capacity, typeof(Node));
-			if (port == null)
-				return false;
-
-			port.style.flexDirection = flexDirection;
-			port.portName = string.Empty;
-
-			return true;
 		}
 	}
 }

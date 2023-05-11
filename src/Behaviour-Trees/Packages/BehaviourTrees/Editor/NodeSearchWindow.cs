@@ -14,11 +14,9 @@ namespace Derrixx.BehaviourTrees.Editor
     public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
     {
         private BehaviourTreeView _treeView;
-        private EditorWindow _window;
 
         public void Initialize(EditorWindow window, BehaviourTreeView treeView)
         {
-            _window = window;
             _treeView = treeView;
         }
 

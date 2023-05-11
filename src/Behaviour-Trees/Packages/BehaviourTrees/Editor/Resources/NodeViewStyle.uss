@@ -89,15 +89,15 @@
     background-color: rgb(76, 76, 76);
 }
 
-.action #input {
+.action #contents {
     background-color: rgb(231, 76, 60);
 }
 
-.composite #input {
+.composite #contents {
     background-color: rgb(99, 99, 99);
 }
 
-.decorator #input {
+.decorator #contents {
     background-color: rgb(142, 68, 173);
 }
 
@@ -144,4 +144,8 @@
 .node-label {
     padding-right: 10px;
     padding-left: 0;
+}
+
+#title-label {
+    text-shadow: 0.5px 0.5px 0 rgba(0, 0, 0, 0.3);
 }
