@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Sequence
-  executionOrder: 2
+  executionOrder: 4
   _cachedTypeName: Sequence
   Guid: 3550c8faae2e38b47afec58f91be588a
   Position: {x: -282.85, y: 233.00003}
   behaviourTree: {fileID: 11400000}
   Children:
-  - {fileID: -2770613430203434088}
+  - {fileID: 6167275963690756650}
   _dynamic: 0
 --- !u!114 &-5104456276578384428
 MonoBehaviour:
@@ -37,9 +37,9 @@ MonoBehaviour:
   executionOrder: 0
   _cachedTypeName: Root
   Guid: 108f1b960e16ad84a8a1b69b1a4b15ea
-  Position: {x: 0, y: 0}
+  Position: {x: 0, y: -91}
   behaviourTree: {fileID: 11400000}
-  _child: {fileID: -385069263612744615}
+  _child: {fileID: 2584703676271752361}
 --- !u!114 &-3814344844129651882
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Set Random Destination
-  executionOrder: 5
+  executionOrder: 8
   _cachedTypeName: Set Random Destination
   Guid: 8d9edbc744a29a44ab274c7e1dd6a59b
   Position: {x: 32, y: 399}
@@ -74,10 +74,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Saw Enemy
-  executionOrder: 3
+  executionOrder: 6
   _cachedTypeName: Saw Enemy
   Guid: 121f4d191e4aff04588c8e04ddac1e73
-  Position: {x: -358, y: 368}
+  Position: {x: -358, y: 483}
   behaviourTree: {fileID: 11400000}
   enemy: {fileID: -6739194452388081382, guid: eba0a8a80b65fc74c85baa3138bc65f4, type: 2}
 --- !u!114 &-385069263612744615
@@ -93,13 +93,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Selector
-  executionOrder: 1
+  executionOrder: 2
   _cachedTypeName: Selector
   Guid: c56921f83f1e60541a8e8813d1e44794
   Position: {x: -0.000023651126, y: 97.00001}
   behaviourTree: {fileID: 11400000}
   Children:
-  - {fileID: -7779223639798316998}
+  - {fileID: 2712436484226531028}
   - {fileID: 1521419874963916980}
   _dynamic: 0
 --- !u!114 &11400000
@@ -123,6 +123,9 @@ MonoBehaviour:
   - {fileID: -385069263612744615}
   - {fileID: -7779223639798316998}
   - {fileID: -2770613430203434088}
+  - {fileID: 2712436484226531028}
+  - {fileID: 6167275963690756650}
+  - {fileID: 2584703676271752361}
   rootNode: {fileID: -5104456276578384428}
   blackboard: {fileID: 11400000, guid: eba0a8a80b65fc74c85baa3138bc65f4, type: 2}
 --- !u!114 &1521419874963916980
@@ -138,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Sequence
-  executionOrder: 4
+  executionOrder: 7
   _cachedTypeName: Sequence
   Guid: c6aa64f5576cb7b4699a6ee38519deae
   Position: {x: 230.00003, y: 233.20001}
@@ -148,6 +151,44 @@ MonoBehaviour:
   - {fileID: 5995940947626106628}
   - {fileID: 7220213733551615463}
   _dynamic: 0
+--- !u!114 &2584703676271752361
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8c097b5037e2014d87fb7a8ad087aa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Inverter
+  executionOrder: 1
+  _cachedTypeName: Inverter
+  Guid: c6f4c71f8bbefb0489d99924da893c96
+  Position: {x: 0, y: 0}
+  behaviourTree: {fileID: 11400000}
+  _child: {fileID: -385069263612744615}
+--- !u!114 &2712436484226531028
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8c097b5037e2014d87fb7a8ad087aa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Inverter
+  executionOrder: 3
+  _cachedTypeName: Inverter
+  Guid: 857528fb7b9c5ff44bdc820a025a0597
+  Position: {x: -283, y: 140}
+  behaviourTree: {fileID: 11400000}
+  _child: {fileID: -7779223639798316998}
 --- !u!114 &5995940947626106628
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -161,7 +202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Move To
-  executionOrder: 6
+  executionOrder: 9
   _cachedTypeName: Move To
   Guid: 87621534b69262b478114304df7952c4
   Position: {x: 230, y: 399}
@@ -169,6 +210,25 @@ MonoBehaviour:
   _destination: {fileID: 8186038928769464853, guid: eba0a8a80b65fc74c85baa3138bc65f4, type: 2}
   _agentProperty: {fileID: -6739194452388081382, guid: eba0a8a80b65fc74c85baa3138bc65f4, type: 2}
   _stoppingDistance: 2
+--- !u!114 &6167275963690756650
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8c097b5037e2014d87fb7a8ad087aa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Inverter
+  executionOrder: 5
+  _cachedTypeName: Inverter
+  Guid: 4632b6e5dd992aa47b21addfd59a7af2
+  Position: {x: -358, y: 387}
+  behaviourTree: {fileID: 11400000}
+  _child: {fileID: -2770613430203434088}
 --- !u!114 &7220213733551615463
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -182,7 +242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Wait
-  executionOrder: 7
+  executionOrder: 10
   _cachedTypeName: Wait
   Guid: ef87d521aa76c5646972f48a19ccf7d3
   Position: {x: 409.00003, y: 368.2}
