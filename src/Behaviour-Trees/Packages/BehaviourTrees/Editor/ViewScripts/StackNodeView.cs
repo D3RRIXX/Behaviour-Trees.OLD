@@ -18,8 +18,9 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 		public StackNodeView(List<NodeView> nodeViews)
 		{
 			_nodeViews = nodeViews;
-			// SetupCapabilities(node);
 			_nodes = nodeViews.Select(x => x.Node).ToList();
+
+			style.paddingLeft = style.paddingRight = 7;
 
 			Node lastNode = LastNode;
 			style.left = lastNode.Position.x;
@@ -27,6 +28,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 			CreateInputPorts(FirstNode);
 			CreateOutputPorts(LastNode);
+			SetupCapabilities(LastNode);
 			
 			foreach (NodeView nodeView in nodeViews)
 			{
@@ -96,6 +98,11 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			inputContainer.Add(Input);
 		}
 
+		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+		{
+			base.BuildContextualMenu(evt);
+		}
+
 		private void CreateOutputPorts(Node lastNode)
 		{
 			if (lastNode is ActionNode)
@@ -131,8 +138,6 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 		{
 			if (node is RootNode)
 				capabilities &= ~(Capabilities.Deletable | Capabilities.Copiable);
-
-			capabilities |= Capabilities.Stackable;
 		}
 	}
 }
