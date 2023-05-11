@@ -201,9 +201,9 @@ namespace Derrixx.BehaviourTrees.Editor
 						_tree.DeleteNode(nodeView.Node);
 						break;
 					case Edge edge:
-						var parentView = (NodeView)edge.output.node;
-						var childView = (NodeView)edge.input.node;
-						parentView.Node.RemoveChild(childView.Node);
+						var parentView = (StackNodeView)edge.output.node;
+						var childView = (StackNodeView)edge.input.node;
+						parentView.LastNode.RemoveChild(childView.FirstNode);
 						break;
 				}
 			}
@@ -213,7 +213,7 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			const string className = StyleClassNames.INACTIVE_NODE;
 
-			void SetNodeInactive(NodeView nodeView)
+			void SetNodeInactive(VisualElement nodeView)
 			{
 				if (!nodeView.ClassListContains(className))
 					nodeView.AddToClassList(className);
@@ -236,6 +236,7 @@ namespace Derrixx.BehaviourTrees.Editor
 				}
 				else
 				{
+					Debug.Log($"Node '{nodeView.Node}' is disconnected");
 					SetNodeInactive(nodeView);
 				}
 			}

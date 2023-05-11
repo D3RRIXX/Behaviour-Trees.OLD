@@ -16,9 +16,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 		public StackNodeView(List<NodeView> nodeViews)
 		{
-			// Node node = nodeView.Node;
 			// SetupCapabilities(node);
-			//
 			_nodes = nodeViews.Select(x => x.Node).ToList();
 
 			Node lastNode = LastNode;

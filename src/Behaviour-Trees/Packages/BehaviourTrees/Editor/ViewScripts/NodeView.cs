@@ -31,6 +31,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 		}
 		
 		public StackNodeView Stack { get; set; }
+		public Node Node { get; }
 
 		private void SetupCapabilities()
 		{
@@ -45,8 +46,6 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			var treeAsset = Resources.Load<VisualTreeAsset>("NodeView");
 			return AssetDatabase.GetAssetPath(treeAsset);
 		}
-
-		public Node Node { get; }
 
 		public void Update()
 		{
