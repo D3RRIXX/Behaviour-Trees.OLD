@@ -93,12 +93,24 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			evt.menu.AppendAction("Add Decorator", action => {});
 		}
 
+		public override bool DragPerform(DragPerformEvent evt, IEnumerable<ISelectable> selection, IDropTarget dropTarget, ISelection dragSource)
+		{
+			var selectables = selection.ToList();
+			var first = (NodeView)selectables[0];
+			
+			base.DragPerform(evt, selectables, dropTarget, dragSource);
+			Debug.Log($"Node view {first} is at index {IndexOf(first)}");
+
+			return true;
+		}
+
 		protected override bool AcceptsElement(GraphElement element, ref int proposedIndex, int maxIndex)
 		{
 			var nodeView = (NodeView)element;
-			if (nodeView.Node is ActionNode)
+			if (nodeView.Node is not DecoratorNode or RootNode)
 				return childCount == 0;
-			
+
+			proposedIndex = Mathf.Clamp(proposedIndex, 0, maxIndex - 1);
 			return base.AcceptsElement(element, ref proposedIndex, maxIndex);
 		}
 
