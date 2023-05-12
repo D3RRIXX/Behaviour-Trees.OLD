@@ -3,7 +3,7 @@ using System.Linq;
 using Derrixx.BehaviourTrees.Runtime.PropertyReferences;
 using UnityEngine;
 
-#if BTREE_INTEGRATE_ZENJECT
+#if BTREE_ADD_ZENJECT
 using Zenject;
 #endif
 
@@ -37,7 +37,7 @@ namespace Derrixx.BehaviourTrees.Runtime
 
 		public Blackboard Blackboard => BehaviourTree.Blackboard;
 
-#if BTREE_INTEGRATE_ZENJECT
+#if BTREE_ADD_ZENJECT
 		[Inject]
 		private void ConstructTreeRunner(DiContainer container)
 		{
