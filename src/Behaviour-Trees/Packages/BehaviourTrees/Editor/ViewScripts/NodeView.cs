@@ -40,9 +40,14 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 		private void SetupCapabilities()
 		{
-			if (Node is RootNode)
-				capabilities &= ~(Capabilities.Deletable | Capabilities.Copiable);
+			Capabilities capabilitiesToRemove = Node switch
+			{
+				ActionNode or CompositeNode => Capabilities.Movable,
+				RootNode => Capabilities.Deletable | Capabilities.Copiable,
+				_ => 0
+			};
 
+			capabilities &= ~capabilitiesToRemove;
 			capabilities |= Capabilities.Stackable;
 		}
 

@@ -29,11 +29,12 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			CreateInputPorts(FirstNode);
 			CreateOutputPorts(LastNode);
 			SetupCapabilities(LastNode);
-			
-			foreach (NodeView nodeView in nodeViews)
+
+			for (int index = nodeViews.Count - 1; index >= 0; index--)
 			{
+				NodeView nodeView = nodeViews[index];
 				nodeView.Stack = this;
-				AddElement(nodeView);
+				InsertElement(0, nodeView);
 			}
 		}
 
@@ -76,7 +77,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 				if (nodeView.ClassListContains(className))
 					nodeView.RemoveFromClassList(className);
 			}
-
+			
 			foreach (NodeView nodeView in _nodeViews)
 			{
 				if (value)
@@ -84,6 +85,21 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 				else
 					SetNodeInactive(nodeView);
 			}
+		}
+
+		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+		{
+			base.BuildContextualMenu(evt);
+			evt.menu.AppendAction("Add Decorator", action => {});
+		}
+
+		protected override bool AcceptsElement(GraphElement element, ref int proposedIndex, int maxIndex)
+		{
+			var nodeView = (NodeView)element;
+			if (nodeView.Node is ActionNode)
+				return childCount == 0;
+			
+			return base.AcceptsElement(element, ref proposedIndex, maxIndex);
 		}
 
 		private void CreateInputPorts(Node firstNode)
@@ -96,11 +112,6 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 			Input = input;
 			inputContainer.Add(Input);
-		}
-
-		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
-		{
-			base.BuildContextualMenu(evt);
 		}
 
 		private void CreateOutputPorts(Node lastNode)

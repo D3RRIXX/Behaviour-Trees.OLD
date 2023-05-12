@@ -39,7 +39,7 @@ namespace Derrixx.BehaviourTrees.Editor
 
 	        AddGroup<ActionNode>();
 	        AddGroup<CompositeNode>();
-	        AddGroup<DecoratorNode>(x => x != typeof(RootNode));
+	        // AddGroup<DecoratorNode>(x => x != typeof(RootNode));
 
 	        AddNodesWithCustomPath(customPathNodes, tree);
 
