@@ -107,21 +107,35 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 		public override bool DragPerform(DragPerformEvent evt, IEnumerable<ISelectable> selection, IDropTarget dropTarget, ISelection dragSource)
 		{
+			Node FindParentNode(int nodeIndex, out StackNodeView parentStack)
+			{
+				if (nodeIndex != 0)
+				{
+					parentStack = this;
+					return NodeViews[nodeIndex - 1].Node;
+				}
+
+				var stackNodeViews = _behaviourTreeView.nodes.OfType<StackNodeView>().ToList();
+				parentStack = stackNodeViews.First(x => x.LastNode.GetChildren().Contains(NodeViews[nodeIndex + 1].Node));
+
+				return parentStack.LastNode;
+			}
+
 			var selectables = selection.ToList();
-			
+
 			var first = (NodeView)selectables[0];
 			var draggedDecorator = (DecoratorNode)first.Node;
 
 			base.DragPerform(evt, selectables, dropTarget, dragSource);
 
 			int newIndex = IndexOf(first);
-			
+
 			Node parentNode = FindParentNode(newIndex, out StackNodeView parentStack);
 			parentNode.InsertNodeBeforeChild(NodeViews[newIndex + 1].Node, draggedDecorator);
 
 			UpdateNodeViews(parentStack);
 			UpdateNodeViews(this);
-			
+
 			_behaviourTreeView.UpdateNodesActiveState();
 
 			return true;
@@ -129,30 +143,31 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 		public override void OnStartDragging(GraphElement ge)
 		{
+			Node FindParentNode(int i)
+			{
+				if (i != 0)
+				{
+					return NodeViews[i - 1].Node;
+				}
+
+				var stackNodeViews = _behaviourTreeView.nodes.OfType<StackNodeView>().ToList();
+				var parentStack = stackNodeViews.First(x => x.LastNode.GetChildren().Contains(NodeViews[i].Node));
+
+				return parentStack.LastNode;
+			}
+
 			var nodeView = (NodeView)ge;
 			
 			int index = IndexOf(nodeView);
-			Node parentNode = FindParentNode(index, out _);
-			
+
+			Node parentNode = FindParentNode(index);
+
 			parentNode.RemoveChild(nodeView.Node);
 			parentNode.AddChild(NodeViews[index + 1].Node);
 			
 			base.OnStartDragging(nodeView);
 		}
 
-		private Node FindParentNode(int nodeIndex, out StackNodeView parentStack)
-		{
-			if (nodeIndex != 0)
-			{
-				parentStack = this;
-				return NodeViews[nodeIndex - 1].Node;
-			}
-
-			var stackNodeViews = _behaviourTreeView.nodes.OfType<StackNodeView>().ToList();
-			parentStack = stackNodeViews.First(x => x.LastNode.GetChildren().Contains(NodeViews[nodeIndex + 1].Node));
-			
-			return parentStack.LastNode;
-		}
 
 		private static void UpdateNodeViews(StackNodeView stackNodeView)
 		{
