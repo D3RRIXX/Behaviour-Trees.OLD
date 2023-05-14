@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Sequence
-  executionOrder: 4
+  executionOrder: 3
   _cachedTypeName: Sequence
   Guid: 3550c8faae2e38b47afec58f91be588a
   Position: {x: -281, y: 247}
@@ -99,7 +99,7 @@ MonoBehaviour:
   Position: {x: -0.000023651126, y: 97.00001}
   behaviourTree: {fileID: 11400000}
   Children:
-  - {fileID: 2712436484226531028}
+  - {fileID: -7779223639798316998}
   - {fileID: 1521419874963916980}
   _dynamic: 0
 --- !u!114 &11400000
@@ -183,12 +183,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Inverter
-  executionOrder: 3
+  executionOrder: 5
   _cachedTypeName: Inverter
   Guid: 857528fb7b9c5ff44bdc820a025a0597
   Position: {x: -283, y: 140}
   behaviourTree: {fileID: 11400000}
-  _child: {fileID: -7779223639798316998}
+  _child: {fileID: -2770613430203434088}
 --- !u!114 &5995940947626106628
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -223,12 +223,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Inverter
-  executionOrder: 5
+  executionOrder: 4
   _cachedTypeName: Inverter
   Guid: 4632b6e5dd992aa47b21addfd59a7af2
   Position: {x: -358, y: 387}
   behaviourTree: {fileID: 11400000}
-  _child: {fileID: -2770613430203434088}
+  _child: {fileID: 2712436484226531028}
 --- !u!114 &7220213733551615463
 MonoBehaviour:
   m_ObjectHideFlags: 1
