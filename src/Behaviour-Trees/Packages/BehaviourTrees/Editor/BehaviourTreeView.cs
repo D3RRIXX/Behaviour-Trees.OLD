@@ -84,23 +84,37 @@ namespace Derrixx.BehaviourTrees.Editor
 				AssetDatabase.SaveAssets();
 			}
 
+			var stackNodeViews = new HashSet<StackNodeView>();
 			foreach (IEnumerable<Node> nodeGroup in GetNodeGroups())
 			{
-				CreateNodeStack(nodeGroup);
+				StackNodeView nodeStack = CreateNodeStack(nodeGroup);
+				stackNodeViews.Add(nodeStack);
 			}
 
-			foreach (Node node in _tree)
-			foreach (Node child in FindNodeStack(node).LastNode.GetChildren())
+			foreach (StackNodeView parentStack in stackNodeViews.Where(x => x.Output != null))
 			{
-				StackNodeView parentStack = FindNodeStack(node);
-				StackNodeView childStack = FindNodeStack(child);
+				List<Node> children = parentStack.LastNode.GetChildren();
+				IEnumerable<StackNodeView> childStacks = children.Select(x => stackNodeViews.First(stack => stack.FirstNode == x));
 
-				if (parentStack.Output == null)
-					continue;
-				
-				Edge edge = parentStack.Output.ConnectTo(childStack.Input);
-				AddElement(edge);
+				foreach (StackNodeView childStack in childStacks)
+				{
+					Edge edge = parentStack.Output.ConnectTo(childStack.Input);
+					AddElement(edge);
+				}
 			}
+
+			// foreach (Node node in _tree)
+			// foreach (Node child in FindNodeStack(node).LastNode.GetChildren())
+			// {
+			// 	StackNodeView parentStack = FindNodeStack(node);
+			// 	StackNodeView childStack = FindNodeStack(child);
+			//
+			// 	if (parentStack.Output == null)
+			// 		continue;
+			// 	
+			// 	Edge edge = parentStack.Output.ConnectTo(childStack.Input);
+			// 	AddElement(edge);
+			// }
 
 			UpdateNodesActiveState();
 		}
@@ -139,7 +153,7 @@ namespace Derrixx.BehaviourTrees.Editor
 		}
 
 		private NodeView FindNodeView(Node node) => (NodeView)GetNodeByGuid(node.Guid);
-		public StackNodeView FindNodeStack(Node node) => FindNodeView(node).Stack;
+		private StackNodeView FindNodeStack(Node node) => FindNodeView(node).Stack;
 
 		public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
 		{

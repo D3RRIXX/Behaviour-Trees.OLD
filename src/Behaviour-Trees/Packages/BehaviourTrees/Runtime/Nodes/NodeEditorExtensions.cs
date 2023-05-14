@@ -52,6 +52,9 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			if (parent is ActionNode)
 				throw new ArgumentException($"'{parent.name}' is an Action Node, and thus has no children", nameof(parent));
 
+			if (parent == child)
+				throw new ArgumentException("Passed parent itself as a child", nameof(child));
+
 			if (!parent.GetChildren().Contains(child))
 				throw new ArgumentException($"'{child.name}' isn't a direct child of '{parent.name}'", nameof(child));
 
