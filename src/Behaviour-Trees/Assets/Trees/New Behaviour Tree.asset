@@ -1,5 +1,24 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3479426533713186583
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62567eae65654b14b1b4930e20191df5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Return Result
+  executionOrder: 2
+  _cachedTypeName: Return Result
+  Guid: e0092a16418c2df4a9325b124d379fcb
+  Position: {x: -107, y: 204}
+  behaviourTree: {fileID: 11400000}
+  _output: 0
 --- !u!114 &-1603425391949636301
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13,10 +32,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Run Tree
-  executionOrder: 2
+  executionOrder: 4
   _cachedTypeName: Run Tree
   Guid: dab4f3903d040de42b505fa4c92009ac
-  Position: {x: -20, y: 299}
+  Position: {x: 83, y: 204}
   behaviourTree: {fileID: 11400000}
   _behaviourTree: {fileID: 0}
 --- !u!114 &11400000
@@ -35,6 +54,8 @@ MonoBehaviour:
   - {fileID: 1726270520886130760}
   - {fileID: -1603425391949636301}
   - {fileID: 3968280747058448885}
+  - {fileID: -3479426533713186583}
+  - {fileID: 3128183707923477741}
   rootNode: {fileID: 1726270520886130760}
   blackboard: {fileID: 11400000, guid: f7280c2c6bf797640a6c2f94a484fcd7, type: 2}
 --- !u!114 &1726270520886130760
@@ -55,7 +76,29 @@ MonoBehaviour:
   Guid: 2b93f9a6b96a16f4c8fa962eacfe4117
   Position: {x: 0, y: 0}
   behaviourTree: {fileID: 11400000}
-  _child: {fileID: 3968280747058448885}
+  _child: {fileID: 3128183707923477741}
+--- !u!114 &3128183707923477741
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 505736a48783902418da8f7f064489da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Sequence
+  executionOrder: 1
+  _cachedTypeName: Sequence
+  Guid: 805d37f7bb1877f4aa9a23d84b2ecd79
+  Position: {x: 0, y: 101}
+  behaviourTree: {fileID: 11400000}
+  Children:
+  - {fileID: -3479426533713186583}
+  - {fileID: 3968280747058448885}
+  _dynamic: 0
 --- !u!114 &3968280747058448885
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -69,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Blackboard Condition
-  executionOrder: 1
+  executionOrder: 3
   _cachedTypeName: Blackboard Condition
   Guid: 7ec7cb333dcb49e45aeca08ddd5f64f3
   Position: {x: -39, y: 183}

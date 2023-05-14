@@ -52,6 +52,9 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
+			if (evt.target is StackNodeView)
+				return;
+			
 			evt.menu.AppendAction("Create Node", action =>
 			{
 				nodeCreationRequest.Invoke(new NodeCreationContext { target = this, screenMousePosition = action.eventInfo.mousePosition });
