@@ -205,7 +205,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			}
 		}
 
-		private void UpdateNodesActiveState()
+		public void UpdateNodesActiveState()
 		{
 			// var activeViews = new List<NodeView>();
 			foreach (var stackNodeView in nodes.OfType<StackNodeView>())

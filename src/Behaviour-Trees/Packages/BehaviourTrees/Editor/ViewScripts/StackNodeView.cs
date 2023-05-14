@@ -110,19 +110,21 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 		public override bool DragPerform(DragPerformEvent evt, IEnumerable<ISelectable> selection, IDropTarget dropTarget, ISelection dragSource)
 		{
 			var selectables = selection.ToList();
+			
 			var first = (NodeView)selectables[0];
+			var draggedDecorator = (DecoratorNode)first.Node;
 
 			var targetStack = (StackNodeView)dropTarget;
 			
 			base.DragPerform(evt, selectables, targetStack, dragSource);
 
 			int newIndex = targetStack.IndexOf(first);
-
 			Node parentNode = FindParentNode(newIndex);
 			
-			Debug.Log(parentNode);
-			Debug.Log($"Node {first.Node.name} now is at {newIndex}");
-			parentNode.AddChild(first.Node);
+			Debug.Log($"Decorator {draggedDecorator.name} now is at {newIndex}");
+			parentNode.InsertNodeBeforeChild(_nodes[newIndex], draggedDecorator);
+			
+			_behaviourTreeView.UpdateNodesActiveState();
 
 			return true;
 		}
@@ -144,8 +146,9 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 		{
 			if (nodeIndex == 0)
 			{
-				return _behaviourTreeView.nodes
-					.OfType<StackNodeView>()
+				IEnumerable<StackNodeView> stackNodeViews = _behaviourTreeView.nodes.OfType<StackNodeView>();
+				
+				return stackNodeViews
 					.First(x => x.LastNode.GetChildren().Contains(_nodes[nodeIndex])).LastNode;
 			}
 
