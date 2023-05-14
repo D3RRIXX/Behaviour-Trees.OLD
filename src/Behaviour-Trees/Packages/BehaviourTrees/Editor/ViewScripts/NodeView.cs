@@ -38,6 +38,8 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 		public StackNodeView Stack { get; set; }
 		public Node Node { get; }
 
+		public override string ToString() => $"NodeView ({Node.name})";
+
 		private void SetupCapabilities()
 		{
 			Capabilities capabilitiesToRemove = Node switch

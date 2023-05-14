@@ -60,3 +60,4 @@ sysinfo.txt
 crashlytics-build.properties
 
 src/Behaviour-Trees/Assets/Plugins/BehaviourTrees/Runtime/Pure/Decorators/ExecuteNTimes.cs.meta
+*.dwlt

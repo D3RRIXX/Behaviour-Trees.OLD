@@ -139,7 +139,7 @@ namespace Derrixx.BehaviourTrees.Editor
 		}
 
 		private NodeView FindNodeView(Node node) => (NodeView)GetNodeByGuid(node.Guid);
-		private StackNodeView FindNodeStack(Node node) => FindNodeView(node).Stack;
+		public StackNodeView FindNodeStack(Node node) => FindNodeView(node).Stack;
 
 		public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
 		{
@@ -245,7 +245,7 @@ namespace Derrixx.BehaviourTrees.Editor
 				return nodeView;
 			}
 
-			var stackNodeView = new StackNodeView(nodes.Select(CreateNodeView).ToList());
+			var stackNodeView = new StackNodeView(nodes.Select(CreateNodeView).ToList(), this);
 			AddElement(stackNodeView);
 			
 			return stackNodeView;

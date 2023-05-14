@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Reflection;
 using Derrixx.BehaviourTrees.Editor.ViewScripts;
 using Derrixx.BehaviourTrees.Runtime;

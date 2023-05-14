@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -14,9 +15,11 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 	{
 		private readonly List<Node> _nodes;
 		private readonly List<NodeView> _nodeViews;
+		private readonly BehaviourTreeView _behaviourTreeView;
 
-		public StackNodeView(List<NodeView> nodeViews)
+		public StackNodeView(List<NodeView> nodeViews, BehaviourTreeView behaviourTreeView)
 		{
+			_behaviourTreeView = behaviourTreeView;
 			_nodeViews = nodeViews;
 			_nodes = nodeViews.Select(x => x.Node).ToList();
 
@@ -36,6 +39,8 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 				nodeView.Stack = this;
 				InsertElement(0, nodeView);
 			}
+
+			title = lastNode.name;
 		}
 
 		public Node FirstNode => _nodes[0];
@@ -49,6 +54,15 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 		public Port Input { get; private set; }
 		public Port Output { get; private set; }
+
+		public override string ToString()
+		{
+			var stringBuilder = new StringBuilder("StackNodeView (");
+			stringBuilder.AppendJoin(", ", _nodes.Select(x => x.name));
+			stringBuilder.Append(")");
+
+			return stringBuilder.ToString();
+		}
 
 		public override void SetPosition(Rect newPos)
 		{
@@ -97,11 +111,45 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 		{
 			var selectables = selection.ToList();
 			var first = (NodeView)selectables[0];
+
+			var targetStack = (StackNodeView)dropTarget;
 			
-			base.DragPerform(evt, selectables, dropTarget, dragSource);
-			Debug.Log($"Node view {first} is at index {IndexOf(first)}");
+			base.DragPerform(evt, selectables, targetStack, dragSource);
+
+			int newIndex = targetStack.IndexOf(first);
+
+			Node parentNode = FindParentNode(newIndex);
+			
+			Debug.Log(parentNode);
+			Debug.Log($"Node {first.Node.name} now is at {newIndex}");
+			parentNode.AddChild(first.Node);
 
 			return true;
+		}
+
+		public override void OnStartDragging(GraphElement ge)
+		{
+			var nodeView = (NodeView)ge;
+			
+			int index = IndexOf(nodeView);
+			Node parentNode = FindParentNode(index);
+			
+			parentNode.RemoveChild(nodeView.Node);
+			parentNode.AddChild(_nodes[index + 1]);
+			
+			base.OnStartDragging(nodeView);
+		}
+
+		private Node FindParentNode(int nodeIndex)
+		{
+			if (nodeIndex == 0)
+			{
+				return _behaviourTreeView.nodes
+					.OfType<StackNodeView>()
+					.First(x => x.LastNode.GetChildren().Contains(_nodes[nodeIndex])).LastNode;
+			}
+
+			return _nodes[nodeIndex - 1];
 		}
 
 		protected override bool AcceptsElement(GraphElement element, ref int proposedIndex, int maxIndex)

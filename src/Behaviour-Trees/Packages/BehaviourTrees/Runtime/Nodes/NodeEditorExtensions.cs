@@ -29,7 +29,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 
 		public static void RemoveChild(this Node parent, Node child)
 		{
-			bool changeHappened = !(parent is ActionNode);
+			bool changeHappened = parent is not ActionNode;
 			if (!changeHappened)
 				return;
 			
