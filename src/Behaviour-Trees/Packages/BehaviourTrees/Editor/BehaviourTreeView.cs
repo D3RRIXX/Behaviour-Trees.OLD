@@ -41,9 +41,6 @@ namespace Derrixx.BehaviourTrees.Editor
 				SearchWindow.Open(new SearchWindowContext(ctx.screenMousePosition), searchWindow);
 			};
 			
-			elementsRemovedFromStackNode = OnRemovedElementFromStack;
-			elementsInsertedToStackNode = OnInsertedElementsToStack;
-
 			Undo.undoRedoPerformed += OnUndoRedo;
 		}
 
@@ -63,16 +60,6 @@ namespace Derrixx.BehaviourTrees.Editor
 			var searchWindow = ScriptableObject.CreateInstance<NodeSearchWindow>();
 			searchWindow.Initialize(this);
 			return searchWindow;
-		}
-
-		private void OnInsertedElementsToStack(StackNode destinationStack, int atIndex, IEnumerable<GraphElement> elements)
-		{
-			Debug.Log($"Inserted {elements.Count()} elements to stack {destinationStack}");
-		}
-
-		private void OnRemovedElementFromStack(StackNode sourceStack, IEnumerable<GraphElement> elements)
-		{
-			Debug.Log($"Removed {elements.Count()} elements from stack {sourceStack}");
 		}
 
 		private void OnUndoRedo()
