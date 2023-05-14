@@ -147,10 +147,9 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 				parentStack = this;
 				return NodeViews[nodeIndex - 1].Node;
 			}
-			
-			parentStack = _behaviourTreeView.nodes
-				.OfType<StackNodeView>()
-				.First(x => x.LastNode.GetChildren().Contains(NodeViews[nodeIndex].Node));
+
+			var stackNodeViews = _behaviourTreeView.nodes.OfType<StackNodeView>().ToList();
+			parentStack = stackNodeViews.First(x => x.LastNode.GetChildren().Contains(NodeViews[nodeIndex + 1].Node));
 			
 			return parentStack.LastNode;
 		}
