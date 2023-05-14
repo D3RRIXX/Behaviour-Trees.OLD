@@ -17,6 +17,17 @@ namespace Derrixx.BehaviourTrees.Editor
 			Object.DestroyImmediate(_editor);
 
 			_editor = UnityEditor.Editor.CreateEditor(nodeView.Node);
+			
+			VisualElement inspector = GetNodeInspector(nodeView);
+			Add(inspector);
+		}
+
+		private VisualElement GetNodeInspector(NodeView nodeView)
+		{
+			VisualElement inspectorGUI = _editor.CreateInspectorGUI();
+			if (inspectorGUI != null)
+				return inspectorGUI;
+			
 			var container = new IMGUIContainer(() =>
 			{
 				if (!_editor.target)
@@ -25,7 +36,8 @@ namespace Derrixx.BehaviourTrees.Editor
 				_editor.OnInspectorGUI();
 				nodeView.Update();
 			});
-			Add(container);
+
+			return container;
 		}
 	}
 }
