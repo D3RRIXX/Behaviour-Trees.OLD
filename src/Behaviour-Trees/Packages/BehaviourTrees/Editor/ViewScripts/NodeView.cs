@@ -35,8 +35,10 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			this.Bind(new SerializedObject(node));
 		}
 		
-		public StackNodeView Stack { get; set; }
 		public Node Node { get; }
+		
+		public StackNodeView Stack { get; set; }
+		public int CachedIndex { get; set; }
 
 		public override string ToString() => $"NodeView ({Node.name})";
 
@@ -46,11 +48,12 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			{
 				ActionNode or CompositeNode => Capabilities.Movable,
 				RootNode => Capabilities.Deletable | Capabilities.Copiable,
+				DecoratorNode => Capabilities.Droppable,
 				_ => 0
 			};
 
-			capabilities &= ~capabilitiesToRemove;
 			capabilities |= Capabilities.Stackable;
+			capabilities &= ~capabilitiesToRemove;
 		}
 
 		private static string GetUxmlPath()

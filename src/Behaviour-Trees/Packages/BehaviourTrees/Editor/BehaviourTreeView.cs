@@ -27,27 +27,24 @@ namespace Derrixx.BehaviourTrees.Editor
 			this.AddManipulator(new ContentDragger());
 			this.AddManipulator(new ContentZoomer());
 			this.AddManipulator(new SelectionDragger());
+			this.AddManipulator(new SelectionDropper());
 			this.AddManipulator(new RectangleSelector());
 
 			var styleSheet = Resources.Load<StyleSheet>("BehaviourTreeEditorStyle");
 			styleSheets.Add(styleSheet);
 
-			nodeCreationRequest = ctx => SearchWindow.Open(new SearchWindowContext(ctx.screenMousePosition), SetupSearchWindow());
+			nodeCreationRequest = ctx =>
+			{
+				NodeSearchWindow searchWindow = SetupSearchWindow();
+				searchWindow.CreationTarget = ctx.target;
+				
+				SearchWindow.Open(new SearchWindowContext(ctx.screenMousePosition), searchWindow);
+			};
+			
+			elementsRemovedFromStackNode = OnRemovedElementFromStack;
+			elementsInsertedToStackNode = OnInsertedElementsToStack;
 
 			Undo.undoRedoPerformed += OnUndoRedo;
-		}
-
-		private NodeSearchWindow SetupSearchWindow()
-		{
-			var searchWindow = ScriptableObject.CreateInstance<NodeSearchWindow>();
-			searchWindow.Initialize(null, this);
-			return searchWindow;
-		}
-
-		private void OnUndoRedo()
-		{
-			PopulateView(_tree);
-			AssetDatabase.Refresh();
 		}
 
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -61,14 +58,38 @@ namespace Derrixx.BehaviourTrees.Editor
 			});
 		}
 
+		private NodeSearchWindow SetupSearchWindow()
+		{
+			var searchWindow = ScriptableObject.CreateInstance<NodeSearchWindow>();
+			searchWindow.Initialize(this);
+			return searchWindow;
+		}
+
+		private void OnInsertedElementsToStack(StackNode destinationStack, int atIndex, IEnumerable<GraphElement> elements)
+		{
+			Debug.Log($"Inserted {elements.Count()} elements to stack {destinationStack}");
+		}
+
+		private void OnRemovedElementFromStack(StackNode sourceStack, IEnumerable<GraphElement> elements)
+		{
+			Debug.Log($"Removed {elements.Count()} elements from stack {sourceStack}");
+		}
+
+		private void OnUndoRedo()
+		{
+			PopulateView(_tree);
+			AssetDatabase.Refresh();
+		}
+
 		public void UpdateNodeStates()
 		{
 			foreach (StackNodeView nodeView in _tree.Select(FindNodeStack))
 			{
 				// nodeView.UpdateState();
 			}
+			
 		}
-
+		
 		internal void PopulateView(BehaviourTree tree)
 		{
 			_tree = tree;
@@ -87,7 +108,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			var stackNodeViews = new HashSet<StackNodeView>();
 			foreach (IEnumerable<Node> nodeGroup in GetNodeGroups())
 			{
-				StackNodeView nodeStack = CreateNodeStack(nodeGroup);
+				StackNodeView nodeStack = CreateNodeStack(nodeGroup.Select(x => new NodeView(x)));
 				stackNodeViews.Add(nodeStack);
 			}
 
@@ -102,19 +123,6 @@ namespace Derrixx.BehaviourTrees.Editor
 					AddElement(edge);
 				}
 			}
-
-			// foreach (Node node in _tree)
-			// foreach (Node child in FindNodeStack(node).LastNode.GetChildren())
-			// {
-			// 	StackNodeView parentStack = FindNodeStack(node);
-			// 	StackNodeView childStack = FindNodeStack(child);
-			//
-			// 	if (parentStack.Output == null)
-			// 		continue;
-			// 	
-			// 	Edge edge = parentStack.Output.ConnectTo(childStack.Input);
-			// 	AddElement(edge);
-			// }
 
 			UpdateNodesActiveState();
 		}
@@ -168,7 +176,9 @@ namespace Derrixx.BehaviourTrees.Editor
 			CreateEdges(graphViewChange);
 
 			if (graphViewChange.movedElements != null)
+			{
 				SortChildNodesByXPos();
+			}
 
 			UpdateNodesActiveState();
 
@@ -230,31 +240,32 @@ namespace Derrixx.BehaviourTrees.Editor
 			_tree.UpdateExecutionOrder();
 		}
 		
-		public void CreateNode(Type type, Vector2 mousePosition)
+		public NodeView CreateNode(Type type, Vector2 mousePosition)
 		{
 			Node node = _tree.CreateNode(type);
 			
-			var nodeView = CreateNodeStack(node);
-			
-			nodeView.SetPosition(new Rect(mousePosition, Vector2.zero));
-			nodeView.UpdatePresenterPosition();
-			nodeView.Select(this, false);
-
-			UpdateNodesActiveState();
-		}
-
-		private StackNodeView CreateNodeStack(Node node) => CreateNodeStack(new[] { node });
-
-		private StackNodeView CreateNodeStack(IEnumerable<Node> nodes)
-		{
-			NodeView CreateNodeView(Node node)
+			NodeView CreateNodeView()
 			{
 				var nodeView = new NodeView(node) { OnNodeSelected = OnNodeSelected };
 				nodeView.AddToClassList(StyleClassNames.INACTIVE_NODE);
 				return nodeView;
 			}
 
-			var stackNodeView = new StackNodeView(nodes.Select(CreateNodeView).ToList(), this);
+			NodeView nodeView = CreateNodeView();
+			nodeView.SetPosition(new Rect(mousePosition, Vector2.zero));
+			nodeView.UpdatePresenterPosition();
+			nodeView.Select(this, false);
+
+			UpdateNodesActiveState();
+
+			return nodeView;
+		}
+
+		public StackNodeView CreateNodeStack(NodeView node) => CreateNodeStack(new[] { node });
+
+		public StackNodeView CreateNodeStack(IEnumerable<NodeView> nodeViews)
+		{
+			var stackNodeView = new StackNodeView(nodeViews.ToList(), this);
 			AddElement(stackNodeView);
 			
 			return stackNodeView;

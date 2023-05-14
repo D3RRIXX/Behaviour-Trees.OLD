@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Derrixx.BehaviourTrees.Editor.ViewScripts;
 using Derrixx.BehaviourTrees.Runtime.Attributes;
 using Derrixx.BehaviourTrees.Runtime.Nodes;
 using UnityEditor;
@@ -14,8 +15,20 @@ namespace Derrixx.BehaviourTrees.Editor
     public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
     {
         private BehaviourTreeView _treeView;
+        private VisualElement _creationTarget;
+        private bool _createDecorator;
 
-        public void Initialize(EditorWindow window, BehaviourTreeView treeView)
+        public VisualElement CreationTarget
+        {
+	        get => _creationTarget;
+	        set
+	        {
+		        _createDecorator = value is StackNodeView;
+		        _creationTarget = value;
+	        }
+        }
+
+        public void Initialize(BehaviourTreeView treeView)
         {
             _treeView = treeView;
         }
@@ -37,9 +50,16 @@ namespace Derrixx.BehaviourTrees.Editor
 			        select new SearchTreeEntry(new GUIContent(name)) { userData = type, level = 2 });
 	        }
 
-	        AddGroup<ActionNode>();
-	        AddGroup<CompositeNode>();
-	        // AddGroup<DecoratorNode>(x => x != typeof(RootNode));
+	        Debug.Log($"Create decorator: {_createDecorator}");
+	        if (_createDecorator)
+	        {
+		        AddGroup<DecoratorNode>(x => x != typeof(RootNode));
+	        }
+	        else
+	        {
+		        AddGroup<ActionNode>();
+		        AddGroup<CompositeNode>();
+	        }
 
 	        AddNodesWithCustomPath(customPathNodes, tree);
 
@@ -83,9 +103,18 @@ namespace Derrixx.BehaviourTrees.Editor
 
         public bool OnSelectEntry(SearchTreeEntry entry, SearchWindowContext context)
         {
-            // Vector2 position = RuntimePanelUtils.ScreenToPanel(_treeView.panel, context.screenMousePosition);
             Vector2 position = Vector2.zero;
-            _treeView.CreateNode((Type)entry.userData, position);
+            NodeView nodeView = _treeView.CreateNode((Type)entry.userData, position);
+            
+            if (_createDecorator)
+            {
+	            var stackNodeView = (StackNodeView)CreationTarget;
+	            stackNodeView.AddElement(nodeView);
+            }
+            else
+            {
+	            _treeView.CreateNodeStack(nodeView);
+            }
 
             return true;
         }

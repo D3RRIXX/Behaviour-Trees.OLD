@@ -21,10 +21,12 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 			style.paddingLeft = style.paddingRight = 7;
 
-			for (int index = nodeViews.Count - 1; index >= 0; index--)
+			for (int i = nodeViews.Count - 1; i >= 0; i--)
 			{
-				NodeView nodeView = nodeViews[index];
+				NodeView nodeView = nodeViews[i];
 				nodeView.Stack = this;
+				nodeView.CachedIndex = nodeViews.Count - 1 - i;
+				
 				InsertElement(0, nodeView);
 			}
 			
@@ -102,7 +104,12 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			base.BuildContextualMenu(evt);
-			evt.menu.AppendAction("Add Decorator", action => {});
+			evt.menu.AppendAction("Add Decorator", action => _behaviourTreeView.nodeCreationRequest(new NodeCreationContext
+			{
+				target = this,
+				index = 0,
+				screenMousePosition = action.eventInfo.mousePosition
+			}));
 		}
 
 		public override bool DragPerform(DragPerformEvent evt, IEnumerable<ISelectable> selection, IDropTarget dropTarget, ISelection dragSource)
@@ -129,6 +136,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			base.DragPerform(evt, selectables, dropTarget, dragSource);
 
 			int newIndex = IndexOf(first);
+			first.CachedIndex = newIndex;
 
 			Node parentNode = FindParentNode(newIndex, out StackNodeView parentStack);
 			parentNode.InsertNodeBeforeChild(NodeViews[newIndex + 1].Node, draggedDecorator);
@@ -137,6 +145,8 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			UpdateNodeViews();
 
 			_behaviourTreeView.UpdateNodesActiveState();
+			
+			Debug.Log("Drag performed");
 
 			return true;
 		}
@@ -167,12 +177,13 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			
 			base.OnStartDragging(nodeView);
 		}
-		
+
 		private void UpdateNodeViews()
 		{
 			foreach (NodeView nodeView in NodeViews)
 			{
 				nodeView.Update();
+				nodeView.Stack = this;
 			}
 		}
 
