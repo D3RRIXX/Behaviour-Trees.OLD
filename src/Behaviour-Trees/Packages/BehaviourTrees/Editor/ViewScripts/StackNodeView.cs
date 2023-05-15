@@ -24,10 +24,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			for (int i = nodeViews.Count - 1; i >= 0; i--)
 			{
 				NodeView nodeView = nodeViews[i];
-				nodeView.Stack = this;
-				nodeView.CachedIndex = nodeViews.Count - 1 - i;
-				
-				InsertElement(0, nodeView);
+				InsertNodeView(nodeView, nodeViews.Count - 1 - i);
 			}
 			
 			Node lastNode = LastNode;
@@ -176,6 +173,20 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			parentNode.AddChild(NodeViews[index + 1].Node);
 			
 			base.OnStartDragging(nodeView);
+		}
+
+		public void InsertNodeView(NodeView nodeView, int index, bool updateHierarchy = false)
+		{
+			nodeView.CachedIndex = index;
+			nodeView.Stack = this;
+			InsertElement(index, nodeView);
+			
+			UpdateNodeViews();
+		}
+
+		public void AddNodeView(NodeView nodeView, bool updateHierarchy = false)
+		{
+			InsertNodeView(nodeView, index: 0, updateHierarchy);
 		}
 
 		private void UpdateNodeViews()

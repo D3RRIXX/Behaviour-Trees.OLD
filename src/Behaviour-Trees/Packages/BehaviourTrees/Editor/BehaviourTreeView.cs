@@ -40,8 +40,21 @@ namespace Derrixx.BehaviourTrees.Editor
 				
 				SearchWindow.Open(new SearchWindowContext(ctx.screenMousePosition), searchWindow);
 			};
+
+			elementsRemovedFromStackNode = (node, elements) =>
+			{
+				EditorApplication.update += OnUpdate;
+				Debug.Log("Elements removed");
+			};
 			
 			Undo.undoRedoPerformed += OnUndoRedo;
+		}
+
+		private void OnUpdate()
+		{
+			EditorApplication.update -= OnUpdate;
+			int count = nodes.OfType<NodeView>().ToList().Count;
+			Debug.Log($"Total nodes: {nodes.Count()}; With no stack: {count}");
 		}
 
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -74,7 +87,6 @@ namespace Derrixx.BehaviourTrees.Editor
 			{
 				// nodeView.UpdateState();
 			}
-			
 		}
 		
 		internal void PopulateView(BehaviourTree tree)
@@ -165,6 +177,10 @@ namespace Derrixx.BehaviourTrees.Editor
 			if (graphViewChange.movedElements != null)
 			{
 				SortChildNodesByXPos();
+				foreach (var nodeView in graphViewChange.movedElements.Cast<NodeView>())
+				{
+					Debug.Log($"Node view: {nodeView}; Cached Stack: {nodeView.Stack}");
+				}
 			}
 
 			UpdateNodesActiveState();
