@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using Derrixx.BehaviourTrees.Runtime;
-using Plugins.AISensors;
+using Derrixx.BehaviourTrees;
 using UnityEngine;
 using UnityEngine.AI;
 

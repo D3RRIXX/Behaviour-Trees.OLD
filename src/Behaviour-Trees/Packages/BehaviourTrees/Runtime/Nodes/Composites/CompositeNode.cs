@@ -2,25 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Runtime.Nodes
+namespace Derrixx.BehaviourTrees.Nodes.Composites
 {
 	public abstract class CompositeNode : Node
 	{
 		[SerializeField, HideInInspector] public List<Node> Children = new List<Node>();
-		
-		[Tooltip("Re-evaluate all children nodes every update?")]
-		[SerializeField] private bool _dynamic;
-
-		private int _currentChildIndex;
-		
-		public override string GetDescription()
-		{
-			string description = base.GetDescription();
-			if (_dynamic)
-				description += " (Dynamic)";
-			
-			return description;
-		}
 
 		public sealed override Node Clone(BehaviourTreeRunner runner)
 		{
@@ -52,44 +38,12 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 			}
 		}
 
-		protected abstract State FinalState { get; }
-
-		protected sealed override State OnUpdate()
-		{
-			if (_dynamic)
-				_currentChildIndex = 0;
-			else
-				_currentChildIndex %= Children.Count;
-			
-			do
-			{
-				Node currentChild = Children[_currentChildIndex];
-				State updateResult = currentChild.Update();
-
-				if (updateResult != FinalState)
-					return updateResult;
-
-				_currentChildIndex++;
-			} while (_currentChildIndex < Children.Count);
-
-			return FinalState;
-		}
-
 		internal sealed override void SetExecutionOrder(ref int order)
 		{
 			base.SetExecutionOrder(ref order);
 			foreach (Node child in Children)
 			{
 				child.SetExecutionOrder(ref order);
-			}
-		}
-
-		internal sealed override void CallOnCreate()
-		{
-			base.CallOnCreate();
-			foreach (Node child in Children)
-			{
-				child.CallOnCreate();
 			}
 		}
 	}

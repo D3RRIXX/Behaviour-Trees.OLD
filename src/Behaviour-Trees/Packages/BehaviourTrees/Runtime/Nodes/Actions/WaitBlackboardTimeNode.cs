@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Runtime.Nodes
+namespace Derrixx.BehaviourTrees.Nodes.Actions
 {
 	public class WaitBlackboardTimeNode : ActionNode
 	{

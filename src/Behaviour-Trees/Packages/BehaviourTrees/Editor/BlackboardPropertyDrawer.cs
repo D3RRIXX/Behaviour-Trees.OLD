@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Derrixx.BehaviourTrees.Runtime;
-using Derrixx.BehaviourTrees.Runtime.Nodes;
+using Derrixx.BehaviourTrees;
+using Derrixx.BehaviourTrees.Nodes;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -23,12 +23,12 @@ namespace Derrixx.BehaviourTrees.Editor
 				return;
 			}
 
-			var targetProperty = (BlackboardProperty)property.objectReferenceValue;
+			BlackboardProperty targetProperty = (BlackboardProperty)property.objectReferenceValue;
 			Blackboard blackboard = node.BehaviourTree.Blackboard;
 
-			var style = new GUIStyle(GUI.skin.label)
+			GUIStyle style = new GUIStyle(GUI.skin.label)
 			{
-				wordWrap = true
+				// wordWrap = true
 			};
 			
 			if (!blackboard || blackboard.Properties.Count == 0)

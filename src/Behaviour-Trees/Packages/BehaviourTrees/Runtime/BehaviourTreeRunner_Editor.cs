@@ -1,19 +1,28 @@
-﻿using UnityEditor;
-using UnityEditorInternal;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Runtime
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+#endif
+
+namespace Derrixx.BehaviourTrees
 {
 	public partial class BehaviourTreeRunner
 	{
 #if UNITY_EDITOR
 		[CustomEditor(typeof(BehaviourTreeRunner), true)]
-		public class BehaviourTreeRunnerEditor : Editor
+		private class BehaviourTreeRunnerEditor : Editor
 		{
 			private const string PROPERTY_LIST_NAME = "_propertyReferences";
 			private const string TREE_PROPERTY_NAME = "_behaviourTree";
+			private const string BLACKBOARD = "_cachedBlackboard";
 
 			private ReorderableList _propertyList;
+			
+			private SerializedProperty _blackboard;
 			private SerializedProperty _treeSerializedProperty;
 			private SerializedProperty _serializedListProperty;
 			
@@ -24,6 +33,8 @@ namespace Derrixx.BehaviourTrees.Runtime
 				_behaviourTreeRunner = serializedObject.targetObject as BehaviourTreeRunner;
 				_treeSerializedProperty = serializedObject.FindProperty(TREE_PROPERTY_NAME);
 				_serializedListProperty = serializedObject.FindProperty(PROPERTY_LIST_NAME);
+				_blackboard = serializedObject.FindProperty(BLACKBOARD);
+				
 				_propertyList = SetupPropertyList();
 			}
 
@@ -38,7 +49,6 @@ namespace Derrixx.BehaviourTrees.Runtime
 
 			private void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
 			{
-				rect.y += EditorGUIUtility.singleLineHeight / 6f;
 				EditorGUI.PropertyField(rect, _serializedListProperty.GetArrayElementAtIndex(index));
 			}
 

@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Derrixx.BehaviourTrees.Editor.ViewScripts;
-using Derrixx.BehaviourTrees.Runtime;
-using Derrixx.BehaviourTrees.Runtime.Nodes;
+using Derrixx.BehaviourTrees;
+using Derrixx.BehaviourTrees.Editor;
+using Derrixx.BehaviourTrees.Nodes;
+using Derrixx.BehaviourTrees.Nodes.Decorators;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Node = Derrixx.BehaviourTrees.Runtime.Nodes.Node;
+using Node = Derrixx.BehaviourTrees.Nodes.Node;
 
 namespace Derrixx.BehaviourTrees.Editor
 {
@@ -30,19 +32,12 @@ namespace Derrixx.BehaviourTrees.Editor
 			this.AddManipulator(new SelectionDragger());
 			this.AddManipulator(new RectangleSelector());
 
-			var styleSheet = Resources.Load<StyleSheet>("BehaviourTreeEditorStyle");
+			StyleSheet styleSheet = Resources.Load<StyleSheet>("BehaviourTreeEditorStyle");
 			styleSheets.Add(styleSheet);
-
+			
 			nodeCreationRequest = ctx => SearchWindow.Open(new SearchWindowContext(ctx.screenMousePosition), SetupSearchWindow());
 
 			Undo.undoRedoPerformed += OnUndoRedo;
-		}
-
-		private NodeSearchWindow SetupSearchWindow()
-		{
-			var searchWindow = ScriptableObject.CreateInstance<NodeSearchWindow>();
-			searchWindow.Initialize(null, this);
-			return searchWindow;
 		}
 
 		private void OnUndoRedo()
@@ -50,13 +45,18 @@ namespace Derrixx.BehaviourTrees.Editor
 			PopulateView(_tree);
 			AssetDatabase.Refresh();
 		}
+		
+		private NodeSearchWindow SetupSearchWindow()
+		{
+			var searchWindow = ScriptableObject.CreateInstance<NodeSearchWindow>();
+			searchWindow.Initialize(null, this);
+			return searchWindow;
+		}
 
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
-			evt.menu.AppendAction("Create Node", action =>
-			{
-				nodeCreationRequest.Invoke(new NodeCreationContext { target = this, screenMousePosition = action.eventInfo.mousePosition });
-			});
+			evt.menu.AppendAction("Create Node",
+				action => nodeCreationRequest.Invoke(new NodeCreationContext { target = this, screenMousePosition = action.eventInfo.mousePosition }));
 		}
 
 		public void UpdateNodeStates()
@@ -204,7 +204,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			}
 		}
 
-		public void CreateNode(Type type, Vector2 mousePosition)
+		internal void CreateNode(Type type, Vector2 mousePosition)
 		{
 			Node node = _tree.CreateNode(type);
 			

@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
-using Derrixx.BehaviourTrees.Runtime.PropertyReferences;
+using Derrixx.BehaviourTrees.Nodes;
 using UnityEngine;
 
 #if BTREE_ADD_ZENJECT
 using Zenject;
 #endif
 
-namespace Derrixx.BehaviourTrees.Runtime
+namespace Derrixx.BehaviourTrees
 {
 	/// <summary>
-	/// Class used to assign and run <see cref="Runtime.BehaviourTree"/>
+	/// Class used to assign and run <see cref="Derrixx.BehaviourTrees.BehaviourTree"/>
 	/// </summary>
 	public abstract partial class BehaviourTreeRunner : MonoBehaviour
 	{
@@ -20,6 +20,10 @@ namespace Derrixx.BehaviourTrees.Runtime
 		[SerializeField, HideInInspector] private Blackboard _cachedBlackboard;
 		
 		private bool _createdClone;
+
+#if BTREE_ADD_ZENJECT
+		[Inject] private DiContainer _container;
+#endif
 
 		/// <summary>
 		/// Returns this runner's Behaviour Tree
@@ -37,14 +41,6 @@ namespace Derrixx.BehaviourTrees.Runtime
 
 		public Blackboard Blackboard => BehaviourTree.Blackboard;
 
-#if BTREE_ADD_ZENJECT
-		[Inject]
-		private void ConstructTreeRunner(DiContainer container)
-		{
-			BehaviourTree.TraverseNodes(BehaviourTree.RootNode, container.Inject);
-		}
-#endif
-
 		public void RunBehaviourTree()
 		{
 			BehaviourTree.Update();
@@ -54,13 +50,19 @@ namespace Derrixx.BehaviourTrees.Runtime
 		{
 			_createdClone = true;
 
+			void OnTraverseNodes(Node node)
+			{
+#if BTREE_ADD_ZENJECT
+				_container.Inject(node);
+#endif
+			}
+			
 			BehaviourTree cloneTree = _behaviourTree.Clone(this, blackboard =>
 			{
 				foreach (var propertyReference in _propertyReferences)
-				{
 					propertyReference.AssignPropertyValue(blackboard);
-				}
-			});
+			}, OnTraverseNodes);
+
 			
 			return cloneTree;
 		}

@@ -1,6 +1,7 @@
 using System.Reflection;
 using Derrixx.BehaviourTrees.Editor.ViewScripts;
-using Derrixx.BehaviourTrees.Runtime;
+using Derrixx.BehaviourTrees;
+using Derrixx.BehaviourTrees.Editor;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
@@ -8,6 +9,7 @@ using UnityEngine.UIElements;
 
 namespace Derrixx.BehaviourTrees.Editor
 {
+	[EditorWindowTitle(title = "Behaviour Tree Editor")]
 	public class BehaviourTreeEditor : EditorWindow
 	{
 		private const string LAST_OPEN_TREE = "last_open_tree";
@@ -27,8 +29,7 @@ namespace Derrixx.BehaviourTrees.Editor
 		[MenuItem("Window/AI/Behaviour Tree Editor")]
 		public static void OpenWindow()
 		{
-			var wnd = GetWindow<BehaviourTreeEditor>();
-			wnd.titleContent = new GUIContent("Behaviour Tree Editor");
+			var window = GetWindow<BehaviourTreeEditor>();
 		}
 
 		[OnOpenAsset]
@@ -43,10 +44,16 @@ namespace Derrixx.BehaviourTrees.Editor
 			return false;
 		}
 
+		private void OnEnable()
+		{
+			var iconPath = $"{GUIUtilities.PACKAGE_EDITOR_RESOURCES_FOLDER}BehaviourTreeEditorIcon.png";
+			titleContent = EditorGUIUtility.TrTextContentWithIcon("Behaviour Tree Editor", iconPath);
+		}
+
 		private void OnDestroy()
 		{
 			string guid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(_treeObject?.targetObject)) ?? string.Empty;
-			ProjectPrefs.SetString(LAST_OPEN_TREE, guid);
+			EditorPrefs.SetString(LAST_OPEN_TREE, guid);
 		}
 
 		private void OnBecameVisible()
@@ -63,6 +70,18 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			if (_isViewingRuntimeTree && Application.isPlaying)
 				_behaviourTreeView?.UpdateNodeStates();
+			
+			Object tree = _treeObject?.targetObject;
+			if (tree == null)
+				return;
+
+			UpdateNameLabel(tree);
+		}
+		
+		private void UpdateNameLabel(Object tree)
+		{
+			string treeName = tree.name;
+			_nameLabel.text = !EditorUtility.IsDirty(tree) ? treeName : $"{treeName}*";
 		}
 
 		private void OnPlayModeStateChanged(PlayModeStateChange stateChange)
@@ -100,7 +119,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			_blackboardContainer.onGUIHandler = DrawBlackboardContainer;
 
 			_nameLabel = root.Q<Label>("tree-name");
-			
+
 			if (TryGetBehaviourTreeTarget(out BehaviourTree tree, out bool treeIsAttachedToObject))
 			{
 				PopulateEditor(tree, treeIsAttachedToObject);
@@ -111,24 +130,9 @@ namespace Derrixx.BehaviourTrees.Editor
 			}
 		}
 
-		private void Update()
-		{
-			Object tree = _treeObject?.targetObject;
-			if (tree == null)
-				return;
-
-			UpdateNameLabel(tree);
-		}
-
-		private void UpdateNameLabel(Object tree)
-		{
-			string treeName = tree.name;
-			_nameLabel.text = !EditorUtility.IsDirty(tree) ? treeName : $"{treeName}*";
-		}
-
 		private void LoadLastOpenedTree()
 		{
-			string assetPath = AssetDatabase.GUIDToAssetPath(ProjectPrefs.GetString(LAST_OPEN_TREE));
+			string assetPath = AssetDatabase.GUIDToAssetPath(EditorPrefs.GetString(LAST_OPEN_TREE));
 			if (string.IsNullOrEmpty(assetPath))
 				return;
 
@@ -189,6 +193,7 @@ namespace Derrixx.BehaviourTrees.Editor
 
 			_isViewingRuntimeTree = treeIsAttachedToObject;
 			_behaviourTreeView.PopulateView(tree);
+			_nameLabel.text = tree.name;
 		}
 
 		private static bool TryGetBehaviourTreeTarget(out BehaviourTree tree, out bool treeIsAttachedToObject)

@@ -1,6 +1,6 @@
-﻿namespace Derrixx.BehaviourTrees.Runtime
+namespace Derrixx.BehaviourTrees
 {
-	internal class Utils
+	internal static class Utils
 	{
 		public const string SO_CREATION_PATH = "Derrixx/Behaviour Trees/";
 	}

@@ -1,12 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Runtime.Nodes
+namespace Derrixx.BehaviourTrees.Nodes.Actions
 {
 	public class RunTreeNode : ActionNode
 	{
 		[SerializeField] private BehaviourTree _behaviourTree;
 
-		protected override void OnCreate()
+		public override void OnCreate()
 		{
 			_behaviourTree = _behaviourTree.Clone(Runner, null);
 		}

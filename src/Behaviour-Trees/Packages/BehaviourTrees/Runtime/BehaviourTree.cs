@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Derrixx.BehaviourTrees.Runtime.Nodes;
+using Derrixx.BehaviourTrees.Nodes;
+using Derrixx.BehaviourTrees.Nodes.Decorators;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Derrixx.BehaviourTrees.Runtime
+namespace Derrixx.BehaviourTrees
 {
 	/// <summary>
 	/// A Behaviour Tree asset. To actually use Behaviour Trees, use <see cref="BehaviourTreeRunner"/>
@@ -33,19 +34,19 @@ namespace Derrixx.BehaviourTrees.Runtime
 			return RootNode.Update();
 		}
 
-		internal BehaviourTree Clone(BehaviourTreeRunner runner, Action<Blackboard> processBlackboardCloning = null)
+		internal BehaviourTree Clone(BehaviourTreeRunner runner, Action<Blackboard> processBlackboardCloning = null, Action<Node> traverseNodeAction = null)
 		{
 			BehaviourTree tree = Instantiate(this);
 			tree.name = $"{name} (Runtime)";
 			
+			tree.RootNode = (RootNode)tree.RootNode.Clone(runner);
+			tree.nodes = new List<Node>();
+
 			if (blackboard != null)
 			{
 				tree.blackboard = blackboard.Clone();
 				processBlackboardCloning?.Invoke(tree.blackboard);
 			}
-			
-			tree.RootNode = (RootNode)tree.RootNode.Clone(runner);
-			tree.nodes = new List<Node>();
 			
 			TraverseNodes(tree.RootNode, node =>
 			{
@@ -53,10 +54,10 @@ namespace Derrixx.BehaviourTrees.Runtime
 #if UNITY_EDITOR
 				node.BehaviourTree = tree;
 #endif
+				traverseNodeAction?.Invoke(node);
 				ReassignBlackboardPropertyReferences(node, tree.blackboard);
+				node.OnCreate();
 			});
-			
-			tree.RootNode.CallOnCreate();
 			
 			return tree;
 		}
@@ -78,7 +79,7 @@ namespace Derrixx.BehaviourTrees.Runtime
 			node.hideFlags = HideFlags.HideInHierarchy;
 			node.Guid = GUID.Generate().ToString();
 			node.BehaviourTree = this;
-			
+
 			Undo.RecordObject(this, "Behaviour Tree (Create Node)");
 			nodes.Add(node);
 
@@ -112,12 +113,12 @@ namespace Derrixx.BehaviourTrees.Runtime
 
 			foreach (FieldInfo fieldInfo in fieldInfos)
 			{
-				var blackboardProperty = (BlackboardProperty)fieldInfo.GetValue(node);
+				BlackboardProperty blackboardProperty = (BlackboardProperty)fieldInfo.GetValue(node);
 				fieldInfo.SetValue(node, blackboard.FindProperty(blackboardProperty.Key));
 			}
 		}
 
-		public static void TraverseNodes(Node node, Action<Node> visitor)
+		private static void TraverseNodes(Node node, Action<Node> visitor)
 		{
 			if (!node)
 				return;

@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Runtime.Nodes
+namespace Derrixx.BehaviourTrees.Nodes.Decorators
 {
 	public class AreEqualNode : ConditionalNode
 	{

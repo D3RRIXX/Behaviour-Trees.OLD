@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Runtime.Nodes
+namespace Derrixx.BehaviourTrees.Nodes.Decorators
 {
     public class NullCheckNode : ConditionalNode
     {
@@ -10,6 +10,6 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
         public override string GetDescription() 
             => $"{(_objectReference == null ? "Object Reference" : _objectReference.Key)} is {(_shouldBeNull ? "NULL" : "NOT NULL")}";
 
-        protected override bool ConditionValue() => _objectReference == null;
+        protected override bool ConditionValue() => _objectReference.Value == null == _shouldBeNull;
     }
 }
