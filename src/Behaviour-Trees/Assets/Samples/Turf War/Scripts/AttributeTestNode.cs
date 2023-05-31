@@ -1,6 +1,5 @@
-﻿using Derrixx.BehaviourTrees.Runtime.Attributes;
-using Derrixx.BehaviourTrees.Runtime.Nodes;
-using UnityEngine;
+﻿using Derrixx.BehaviourTrees;
+using Derrixx.BehaviourTrees.Nodes.Actions;
 
 namespace DefaultNamespace
 {

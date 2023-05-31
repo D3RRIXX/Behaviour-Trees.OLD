@@ -1,4 +1,4 @@
-namespace Derrixx.BehaviourTrees.Runtime.Nodes
+namespace Derrixx.BehaviourTrees.Nodes.Decorators
 {
 	public sealed class RootNode : DecoratorNode
 	{

@@ -1,4 +1,4 @@
-﻿namespace Derrixx.BehaviourTrees.Runtime.Nodes
+namespace Derrixx.BehaviourTrees.Nodes.Decorators
 {
 	/// <summary>
 	/// A decorator node that returns either <see cref="Node.State.Success"/> or <see cref="Node.State.Failure"/> based on a condition.

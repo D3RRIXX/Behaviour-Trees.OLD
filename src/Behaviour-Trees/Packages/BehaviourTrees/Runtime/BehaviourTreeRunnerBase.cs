@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Derrixx.BehaviourTrees.Runtime
+namespace Derrixx.BehaviourTrees
 {
 	[AddComponentMenu("Behaviour Trees/Behaviour Tree Runner Base")]
 	public class BehaviourTreeRunnerBase : BehaviourTreeRunner

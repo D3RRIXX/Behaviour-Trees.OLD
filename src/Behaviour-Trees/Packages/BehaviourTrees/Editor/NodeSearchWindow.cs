@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Derrixx.BehaviourTrees.Editor.ViewScripts;
-using Derrixx.BehaviourTrees.Runtime.Attributes;
-using Derrixx.BehaviourTrees.Runtime.Nodes;
+using Derrixx.BehaviourTrees.Editor;
+using Derrixx.BehaviourTrees.Nodes.Actions;
+using Derrixx.BehaviourTrees.Nodes.Composites;
+using Derrixx.BehaviourTrees.Nodes.Decorators;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.UIElements;
-using Node = Derrixx.BehaviourTrees.Runtime.Nodes.Node;
+using Node = Derrixx.BehaviourTrees.Nodes.Node;
 
 namespace Derrixx.BehaviourTrees.Editor
 {
@@ -61,39 +61,61 @@ namespace Derrixx.BehaviourTrees.Editor
 		        AddGroup<CompositeNode>();
 	        }
 
-	        AddNodesWithCustomPath(customPathNodes, tree);
+			tree.AddRange(GetCustomCreationPaths(customPathNodes));
 
 	        return tree;
         }
 
-        private static void AddNodesWithCustomPath(Dictionary<Type, NodeCreationPathAttribute> customPathNodes, List<SearchTreeEntry> tree)
+        private static IEnumerable<SearchTreeEntry> GetCustomCreationPaths(Dictionary<Type, NodeCreationPathAttribute> customPathNodes)
         {
-	        foreach ((Type type, NodeCreationPathAttribute attribute) in customPathNodes)
+	        var usedTypes = new Dictionary<int, HashSet<string>>();
+	        var output = new List<SearchTreeEntry>();
+
+	        foreach (KeyValuePair<Type, NodeCreationPathAttribute> _ in customPathNodes)
 	        {
-		        string[] levels = attribute.Path.Split('/');
-		        for (int i = 0; i < levels.Length; i++)
+		        const int pathDepth = 0;
+		        AddSomething(customPathNodes, pathDepth, output, usedTypes);
+	        }
+
+	        return output;
+        }
+
+        private static void AddSomething(Dictionary<Type, NodeCreationPathAttribute> customPathNodes, int pathDepth, List<SearchTreeEntry> output, Dictionary<int, HashSet<string>> usedTypes)
+        {
+	        var groupings = customPathNodes.Select(pair => new KeyValuePair<Type, string[]>(pair.Key, GetSplitPath(pair.Value)))
+		        .GroupBy(pair => pair.Value[0]);
+	        
+	        foreach (var grouping in groupings)
+	        foreach (KeyValuePair<Type, string[]> pair in grouping)
+	        {
+		        string title = pair.Value[pathDepth];
+		        
+		        if (!usedTypes.ContainsKey(pathDepth))
+			        usedTypes.Add(pathDepth, new HashSet<string>());
+		        
+		        if (usedTypes[pathDepth].Contains(title))
+			        continue;
+
+		        usedTypes[pathDepth].Add(title);
+		        
+		        int level = pathDepth + 1;
+		        var guiContent = new GUIContent(title);
+
+		        Debug.Log($"Path length: {pair.Value.Length}; Depth: {pathDepth}; Title: {title}");
+
+		        if (pathDepth == pair.Value.Length - 1)
 		        {
-			        SearchTreeEntry entry;
-			        var label = new GUIContent(levels[i]);
-			        int level = i + 1;
-
-			        if (i != levels.Length - 1)
-			        {
-				        entry = new SearchTreeGroupEntry(label, level);
-			        }
-			        else
-			        {
-				        entry = new SearchTreeEntry(label)
-				        {
-					        level = level,
-					        userData = type
-				        };
-			        }
-
-			        tree.Add(entry);
+			        output.Add(new SearchTreeEntry(guiContent) { level = level, userData = pair.Key });
+		        }
+		        else
+		        {
+			        output.Add(new SearchTreeGroupEntry(guiContent, level));
+			        AddSomething(customPathNodes, pathDepth + 1, output, usedTypes);
 		        }
 	        }
         }
+
+        private static string[] GetSplitPath(NodeCreationPathAttribute creationPathAttribute) => creationPathAttribute.Path.Split('/');
 
         private static Dictionary<Type, NodeCreationPathAttribute> GetNodesWithCustomCreationPath()
 	        => TypeCache.GetTypesDerivedFrom<Node>()

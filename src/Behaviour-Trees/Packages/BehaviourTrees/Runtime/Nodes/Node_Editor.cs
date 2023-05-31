@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Runtime.Nodes
+namespace Derrixx.BehaviourTrees.Nodes
 {
 	public abstract partial class Node
 	{
@@ -9,6 +9,9 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
         [HideInInspector] public Vector2 Position;
         [SerializeField, HideInInspector] private BehaviourTree behaviourTree;
         
+        /// <summary>
+        /// EDITOR USE ONLY
+        /// </summary>
         public BehaviourTree BehaviourTree
         {
 	        get => behaviourTree;

@@ -1,12 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Derrixx.BehaviourTrees.Runtime;
+using Derrixx.BehaviourTrees;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Derrixx.BehaviourTrees.Editor
 {
@@ -51,9 +50,11 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		private float GetPropertyHeight(int x, SerializedProperty serializedProperty, IReadOnlyList<BlackboardProperty> blackboardProperties)
 		{
-			return !_foldoutMap[blackboardProperties[x]]
-				? EditorGUIUtility.singleLineHeight
-				: EditorGUI.GetPropertyHeight(serializedProperty.GetArrayElementAtIndex(x));
+			var blackboardProperty = blackboardProperties[x];
+			if (!_foldoutMap.TryGetValue(blackboardProperty, out bool value) || !value)
+				return EditorGUIUtility.singleLineHeight;
+
+			return EditorGUI.GetPropertyHeight(serializedProperty.GetArrayElementAtIndex(x));
 		}
 
 		private void OnRemove(ReorderableList list)
@@ -164,7 +165,9 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			_blackboard.AddProperty((BlackboardProperty.ValueType)userData);
 			_propertyList.index++;
-			_foldoutMap.Add(_blackboard.Properties[_propertyList.index], true);
+			
+			BlackboardProperty blackboardProperty = _blackboardProperties[_propertyList.index];
+			_foldoutMap.Add(blackboardProperty, true);
 		}
 
 		private void DrawElements(Rect rect, int index, IReadOnlyList<BlackboardProperty> propertyList, bool forceGUIState = false)
@@ -235,7 +238,9 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			position.size = new Vector2(position.width - 6, 15);
 
-			bool initialValue = _foldoutMap[property];
+			if (!_foldoutMap.TryGetValue(property, out bool initialValue))
+				initialValue = false;
+				
 			bool foldout = EditorGUI.Foldout(position, initialValue, label);
 
 			_foldoutMap[property] = foldout;

@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using Derrixx.BehaviourTrees.Nodes.Actions;
+using Derrixx.BehaviourTrees.Nodes.Composites;
+using Derrixx.BehaviourTrees.Nodes.Decorators;
 using UnityEditor;
 
-namespace Derrixx.BehaviourTrees.Runtime.Nodes
+namespace Derrixx.BehaviourTrees.Nodes
 {
 	public static class NodeEditorExtensions
 	{

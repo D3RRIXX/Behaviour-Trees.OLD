@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Runtime
+namespace Derrixx.BehaviourTrees
 {
 	/// <summary>
 	/// A property which is used to store data between the nodes.
@@ -30,11 +30,11 @@ namespace Derrixx.BehaviourTrees.Runtime
 		private BlackboardProperty _runtimeClone;
 
 		public string Key => _key;
-
-		public bool InstanceSynced => _sync;
-		internal bool IsExposed => _isExposed;
 		
 		public abstract ValueType GetValueType { get; }
+		internal bool InstanceSynced => _sync;
+
+		internal bool IsExposed => _isExposed;
 
 		private void OnValidate()
 		{
@@ -50,7 +50,6 @@ namespace Derrixx.BehaviourTrees.Runtime
 				_runtimeClone = Instantiate(this);
 
 			return _runtimeClone;
-
 		}
 
 		public static BlackboardProperty Create(string key, ValueType valueType)

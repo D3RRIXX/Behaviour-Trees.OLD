@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Derrixx.BehaviourTrees.Editor.ViewScripts;
-using Derrixx.BehaviourTrees.Runtime;
-using Derrixx.BehaviourTrees.Runtime.Nodes;
+using Derrixx.BehaviourTrees;
+using Derrixx.BehaviourTrees.Editor;
+using Derrixx.BehaviourTrees.Nodes;
+using Derrixx.BehaviourTrees.Nodes.Decorators;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Node = Derrixx.BehaviourTrees.Runtime.Nodes.Node;
+using Node = Derrixx.BehaviourTrees.Nodes.Node;
 
 namespace Derrixx.BehaviourTrees.Editor
 {
@@ -30,7 +32,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			this.AddManipulator(new SelectionDropper());
 			this.AddManipulator(new RectangleSelector());
 
-			var styleSheet = Resources.Load<StyleSheet>("BehaviourTreeEditorStyle");
+			StyleSheet styleSheet = Resources.Load<StyleSheet>("BehaviourTreeEditorStyle");
 			styleSheets.Add(styleSheet);
 
 			nodeCreationRequest = ctx =>
@@ -79,6 +81,13 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			PopulateView(_tree);
 			AssetDatabase.Refresh();
+		}
+		
+		private NodeSearchWindow SetupSearchWindow()
+		{
+			var searchWindow = ScriptableObject.CreateInstance<NodeSearchWindow>();
+			searchWindow.Initialize(null, this);
+			return searchWindow;
 		}
 
 		public void UpdateNodeStates()

@@ -1,7 +1,36 @@
-namespace Derrixx.BehaviourTrees.Runtime.Nodes
+using UnityEngine;
+
+namespace Derrixx.BehaviourTrees.Nodes.Composites
 {
 	public class SequenceNode : CompositeNode
 	{
-		protected override State FinalState => State.Success;
+		[Tooltip("Re-evaluate all children nodes every update?")]
+		[SerializeField] private bool _dynamic;
+		
+		private int _currentChildIndex;
+		protected virtual State FinalState => State.Success;
+
+		public override string GetDescription()
+		{
+			string description = base.GetDescription();
+			if (_dynamic)
+				description += " (Dynamic)";
+			
+			return description;
+		}
+
+		protected override State OnUpdate()
+		{
+			for (_currentChildIndex = _dynamic ? 0 : _currentChildIndex % Children.Count; _currentChildIndex < Children.Count; _currentChildIndex++)
+			{
+				Node currentChild = Children[_currentChildIndex];
+				State updateResult = currentChild.Update();
+
+				if (updateResult != State.Success)
+					return updateResult;
+			}
+
+			return State.Success;
+		}
 	}
 }

@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Runtime
+namespace Derrixx.BehaviourTrees
 {
 	[CreateAssetMenu(fileName = "New Blackboard", menuName = Utils.SO_CREATION_PATH + "Blackboard", order = 0)]
 	public class Blackboard : ScriptableObject
@@ -13,7 +13,7 @@ namespace Derrixx.BehaviourTrees.Runtime
 		[SerializeField] private Blackboard _parent;
 		[SerializeField] private List<BlackboardProperty> _properties = new List<BlackboardProperty>();
 
-		public IReadOnlyList<BlackboardProperty> Properties => _parent != null ? _properties.Concat(_parent.Properties).ToList() : _properties;
+		public IReadOnlyList<BlackboardProperty> Properties => _parent != null ? _parent.Properties.Concat(_properties).ToList() : _properties;
 
 		public BlackboardProperty FindProperty(string key) => Properties.FirstOrDefault(x => x.Key == key);
 		public T FindProperty<T>(string key) where T : BlackboardProperty
@@ -33,7 +33,7 @@ namespace Derrixx.BehaviourTrees.Runtime
 #if UNITY_EDITOR
 		private void OnValidate()
 		{
-			if (_parent== null)
+			if (_parent == null)
 				return;
 
 			if (_parent == this)

@@ -1,5 +1,5 @@
-using Derrixx.BehaviourTrees.Runtime;
-using Derrixx.BehaviourTrees.Runtime.Nodes;
+using Derrixx.BehaviourTrees;
+using Derrixx.BehaviourTrees.Nodes.Actions;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,7 +13,7 @@ namespace DefaultNamespace
 		
 		private NavMeshAgent _agent;
 
-		protected override void OnCreate()
+		public override void OnCreate()
 		{
 			_agent = _agentProperty.Value as NavMeshAgent;
 		}

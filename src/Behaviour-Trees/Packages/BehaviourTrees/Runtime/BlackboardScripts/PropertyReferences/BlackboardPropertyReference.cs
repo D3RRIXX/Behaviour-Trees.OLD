@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Runtime.PropertyReferences
+namespace Derrixx.BehaviourTrees
 {
     [Serializable]
     public abstract class BlackboardPropertyReference

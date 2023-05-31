@@ -1,4 +1,4 @@
-﻿namespace Derrixx.BehaviourTrees.Runtime
+namespace Derrixx.BehaviourTrees
 {
 	public sealed class BoolBlackboardProperty : BlackboardProperty<bool>
 	{

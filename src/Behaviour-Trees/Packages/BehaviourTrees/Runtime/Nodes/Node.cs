@@ -1,9 +1,8 @@
 using System;
 using System.Text.RegularExpressions;
-using UnityEditor;
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Runtime.Nodes
+namespace Derrixx.BehaviourTrees.Nodes
 {
     public abstract partial class Node : ScriptableObject
     {
@@ -61,7 +60,7 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
                 OnDeactivate();
                 Started = false;
             }
-
+            
             return CurrentState;
         }
 
@@ -89,17 +88,12 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 	        executionOrder = order++;
         }
 
-        internal virtual void CallOnCreate()
-        {
-	        OnCreate();
-        }
-
         public virtual bool IsConnectedWith(Node other) => this == other;
 
         /// <summary>
         /// Gets called immediately after this node is instantiated
         /// </summary>
-        protected virtual void OnCreate() { }
+        public virtual void OnCreate() { }
 
         /// <summary>
         /// Gets called when this node starts execution
@@ -115,12 +109,11 @@ namespace Derrixx.BehaviourTrees.Runtime.Nodes
 
         public static string GetNodeName(Type nodeType)
         {
-#if UNITY_EDITOR
-	        string name = ObjectNames.NicifyVariableName(nodeType.Name.Replace("Node", string.Empty));
-	        return name;
-#else
-	        return string.Empty;
-#endif
+            string name = nodeType.Name;
+            if (name.EndsWith("Node"))
+                name = name.Substring(0, name.Length - 4);
+
+            return Regex.Replace(name, "(\\B[A-Z])", " $1");
         }
         
     }

@@ -1,5 +1,5 @@
-﻿using Derrixx.BehaviourTrees.Runtime;
-using Derrixx.BehaviourTrees.Runtime.Nodes;
+﻿using Derrixx.BehaviourTrees;
+using Derrixx.BehaviourTrees.Nodes.Actions;
 using UnityEngine;
 
 namespace Samples.Burglar.Scripts
