@@ -129,35 +129,35 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		private IEnumerable<IEnumerable<Node>> GetNodeGroups()
 		{
-			void CreateStacksFromChildren(Node parent, List<IEnumerable<Node>> list)
-			{
-				foreach (Node child in parent.GetChildren())
-				{
-					var subGroup = new List<Node>();
-					FillGroup(child);
-
-					list.Add(subGroup);
-
-					void FillGroup(Node node)
-					{
-						subGroup.Add(node);
-						switch (node)
-						{
-							case DecoratorNode decoratorNode:
-								FillGroup(decoratorNode.Child);
-								break;
-							case CompositeNode compositeNode:
-								CreateStacksFromChildren(compositeNode, list);
-								break;
-						}
-					}
-				}
-			}
-
 			var nodeGroups = new List<IEnumerable<Node>> { new[] { _tree.RootNode } };
 			CreateStacksFromChildren(_tree.RootNode, nodeGroups);
 
 			return nodeGroups;
+		}
+
+		private static void CreateStacksFromChildren(Node parent, List<IEnumerable<Node>> list)
+		{
+			foreach (Node child in parent.GetChildren())
+			{
+				var subGroup = new List<Node>();
+				FillGroup(child);
+
+				list.Add(subGroup);
+
+				void FillGroup(Node node)
+				{
+					subGroup.Add(node);
+					switch (node)
+					{
+						case DecoratorNode decoratorNode:
+							FillGroup(decoratorNode.Child);
+							break;
+						case CompositeNode compositeNode:
+							CreateStacksFromChildren(compositeNode, list);
+							break;
+					}
+				}
+			}
 		}
 
 		private NodeView FindNodeView(Node node) => (NodeView)GetNodeByGuid(node.Guid);
