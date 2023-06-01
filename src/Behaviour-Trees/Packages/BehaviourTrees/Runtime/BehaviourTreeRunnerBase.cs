@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Derrixx.BehaviourTrees
 {
 	[AddComponentMenu("Behaviour Trees/Behaviour Tree Runner Base")]

@@ -1,4 +1,4 @@
-namespace Derrixx.BehaviourTrees.Nodes.Actions
+namespace Derrixx.BehaviourTrees.Nodes
 {
 	/// <summary>
 	/// Node type that executes an action rather than operating on its children. Inherit from this class to create your own action nodes

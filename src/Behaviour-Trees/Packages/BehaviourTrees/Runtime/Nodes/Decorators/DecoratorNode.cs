@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Nodes.Decorators
+namespace Derrixx.BehaviourTrees.Nodes
 {
 	/// <summary>
 	/// Node type that operates on a single child. Inherit from this class to create your own decorator nodes.

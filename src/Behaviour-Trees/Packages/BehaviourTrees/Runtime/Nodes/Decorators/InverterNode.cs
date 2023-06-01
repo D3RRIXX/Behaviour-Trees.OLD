@@ -1,6 +1,6 @@
 using System;
 
-namespace Derrixx.BehaviourTrees.Nodes.Decorators
+namespace Derrixx.BehaviourTrees.Nodes
 {
 	public class InverterNode : DecoratorNode
 	{

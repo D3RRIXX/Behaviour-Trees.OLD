@@ -1,5 +1,5 @@
 using Derrixx.BehaviourTrees;
-using Derrixx.BehaviourTrees.Nodes.Actions;
+using Derrixx.BehaviourTrees.Nodes;
 using UnityEngine;
 using UnityEngine.AI;
 

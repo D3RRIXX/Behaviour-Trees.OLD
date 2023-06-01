@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Derrixx.BehaviourTrees.Nodes;
-using Derrixx.BehaviourTrees.Nodes.Decorators;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Nodes.Actions
+namespace Derrixx.BehaviourTrees.Nodes
 {
 	public class ReturnResultNode : ActionNode
 	{

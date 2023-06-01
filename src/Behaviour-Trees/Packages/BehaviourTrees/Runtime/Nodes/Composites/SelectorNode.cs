@@ -1,4 +1,4 @@
-namespace Derrixx.BehaviourTrees.Nodes.Composites
+namespace Derrixx.BehaviourTrees.Nodes
 {
     public class SelectorNode : CompositeNode
     {

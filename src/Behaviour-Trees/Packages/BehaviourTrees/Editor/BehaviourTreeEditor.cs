@@ -2,6 +2,7 @@ using System.Reflection;
 using Derrixx.BehaviourTrees.Editor.ViewScripts;
 using Derrixx.BehaviourTrees;
 using Derrixx.BehaviourTrees.Editor;
+using Derrixx.BehaviourTrees.Nodes;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;

@@ -5,7 +5,6 @@ using Derrixx.BehaviourTrees.Editor.ViewScripts;
 using Derrixx.BehaviourTrees;
 using Derrixx.BehaviourTrees.Editor;
 using Derrixx.BehaviourTrees.Nodes;
-using Derrixx.BehaviourTrees.Nodes.Decorators;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -83,13 +82,6 @@ namespace Derrixx.BehaviourTrees.Editor
 			AssetDatabase.Refresh();
 		}
 		
-		private NodeSearchWindow SetupSearchWindow()
-		{
-			var searchWindow = ScriptableObject.CreateInstance<NodeSearchWindow>();
-			searchWindow.Initialize(null, this);
-			return searchWindow;
-		}
-
 		public void UpdateNodeStates()
 		{
 			foreach (StackNodeView nodeView in _tree.Select(FindNodeStack))

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Nodes.Composites
+namespace Derrixx.BehaviourTrees.Nodes
 {
 	public class SequenceNode : CompositeNode
 	{

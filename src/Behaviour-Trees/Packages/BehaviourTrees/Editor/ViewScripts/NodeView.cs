@@ -1,7 +1,5 @@
 using System;
-using Derrixx.BehaviourTrees.Nodes.Actions;
-using Derrixx.BehaviourTrees.Nodes.Composites;
-using Derrixx.BehaviourTrees.Nodes.Decorators;
+using Derrixx.BehaviourTrees.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;

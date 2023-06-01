@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Derrixx.BehaviourTrees.Editor;
-using Derrixx.BehaviourTrees.Nodes.Actions;
-using Derrixx.BehaviourTrees.Nodes.Composites;
-using Derrixx.BehaviourTrees.Nodes.Decorators;
+using Derrixx.BehaviourTrees.Editor.ViewScripts;
+using Derrixx.BehaviourTrees.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Node = Derrixx.BehaviourTrees.Nodes.Node;
 
 namespace Derrixx.BehaviourTrees.Editor
