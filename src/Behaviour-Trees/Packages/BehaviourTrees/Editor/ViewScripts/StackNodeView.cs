@@ -54,11 +54,11 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 		public override string ToString()
 		{
-			var stringBuilder = new StringBuilder("StackNodeView (");
-			stringBuilder.AppendJoin(", ", NodeViews.Select(x => x.Node.name));
-			stringBuilder.Append(")");
+			var builder = new StringBuilder("StackNodeView (");
+			builder.AppendJoin(", ", NodeViews.Select(x => x.Node.name));
+			builder.Append(")");
 
-			return stringBuilder.ToString();
+			return builder.ToString();
 		}
 
 		public override void SetPosition(Rect newPos)
@@ -84,72 +84,6 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			}));
 		}
 
-		public override bool DragPerform(DragPerformEvent evt, IEnumerable<ISelectable> selection, IDropTarget dropTarget, ISelection dragSource)
-		{
-			Node FindParentNode(int nodeIndex, out StackNodeView parentStack)
-			{
-				if (nodeIndex != 0)
-				{
-					parentStack = this;
-					return NodeViews[nodeIndex - 1].Node;
-				}
-
-				var stackNodeViews = _behaviourTreeView.nodes.OfType<StackNodeView>().ToList();
-				parentStack = stackNodeViews.First(x => x.LastNode.GetChildren().Contains(NodeViews[nodeIndex + 1].Node));
-
-				return parentStack.LastNode;
-			}
-
-			var selectables = selection.ToList();
-
-			var first = (NodeView)selectables[0];
-			var draggedDecorator = (DecoratorNode)first.Node;
-
-			base.DragPerform(evt, selectables, dropTarget, dragSource);
-
-			int newIndex = IndexOf(first);
-			first.CachedIndex = newIndex;
-
-			Node parentNode = FindParentNode(newIndex, out StackNodeView parentStack);
-			parentNode.InsertNodeBeforeChild(NodeViews[newIndex + 1].Node, draggedDecorator);
-
-			parentStack.UpdateNodeViews();
-			UpdateNodeViews();
-
-			_behaviourTreeView.UpdateNodesActiveState();
-			
-			Debug.Log("Drag performed");
-
-			return true;
-		}
-		
-		public override void OnStartDragging(GraphElement ge)
-		{
-			Node FindParentNode(int i)
-			{
-				if (i != 0)
-				{
-					return NodeViews[i - 1].Node;
-				}
-
-				var stackNodeViews = _behaviourTreeView.nodes.OfType<StackNodeView>().ToList();
-				var parentStack = stackNodeViews.First(x => x.LastNode.GetChildren().Contains(NodeViews[i].Node));
-
-				return parentStack.LastNode;
-			}
-
-			var nodeView = (NodeView)ge;
-			
-			int index = IndexOf(nodeView);
-
-			Node parentNode = FindParentNode(index);
-
-			parentNode.RemoveChild(nodeView.Node);
-			parentNode.AddChild(NodeViews[index + 1].Node);
-			
-			base.OnStartDragging(nodeView);
-		}
-
 		public void InsertNodeView(NodeView nodeView, int index, bool updateHierarchy = false)
 		{
 			nodeView.CachedIndex = index;
@@ -157,11 +91,6 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			InsertElement(index, nodeView);
 			
 			UpdateNodeViews();
-		}
-
-		public void AddNodeView(NodeView nodeView, bool updateHierarchy = false)
-		{
-			InsertNodeView(nodeView, index: 0, updateHierarchy);
 		}
 
 		private void UpdateNodeViews()
