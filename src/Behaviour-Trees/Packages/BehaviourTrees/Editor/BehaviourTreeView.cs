@@ -105,13 +105,14 @@ namespace Derrixx.BehaviourTrees.Editor
 				AssetDatabase.SaveAssets();
 			}
 
-			var stackNodeViews = new HashSet<StackNodeView>();
-			foreach (IEnumerable<Node> nodeGroup in GetNodeGroups())
-			{
-				StackNodeView nodeStack = CreateNodeStack(nodeGroup.Select(x => new NodeView(x)));
-				stackNodeViews.Add(nodeStack);
-			}
+			HashSet<StackNodeView> stackNodeViews = SetupStackNodes();
 
+			ConnectStackNodes(stackNodeViews);
+			UpdateNodesActiveState();
+		}
+
+		private void ConnectStackNodes(HashSet<StackNodeView> stackNodeViews)
+		{
 			foreach (StackNodeView parentStack in stackNodeViews.Where(x => x.Output != null))
 			{
 				List<Node> children = parentStack.LastNode.GetChildren();
@@ -123,8 +124,18 @@ namespace Derrixx.BehaviourTrees.Editor
 					AddElement(edge);
 				}
 			}
+		}
 
-			UpdateNodesActiveState();
+		private HashSet<StackNodeView> SetupStackNodes()
+		{
+			var stackNodeViews = new HashSet<StackNodeView>();
+			foreach (IEnumerable<Node> nodeGroup in GetNodeGroups())
+			{
+				StackNodeView nodeStack = CreateNodeStack(nodeGroup.Select(x => new NodeView(x)));
+				stackNodeViews.Add(nodeStack);
+			}
+
+			return stackNodeViews;
 		}
 
 		private IEnumerable<IEnumerable<Node>> GetNodeGroups()

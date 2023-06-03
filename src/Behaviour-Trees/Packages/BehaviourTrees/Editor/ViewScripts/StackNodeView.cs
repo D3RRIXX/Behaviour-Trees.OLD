@@ -73,31 +73,6 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			EditorUtility.SetDirty(LastNode);
 		}
 
-		public void SetIsConnectedToRoot(bool value)
-		{
-			const string className = StyleClassNames.INACTIVE_NODE;
-
-			void SetNodeInactive(VisualElement nodeView)
-			{
-				if (!nodeView.ClassListContains(className))
-					nodeView.AddToClassList(className);
-			}
-
-			void SetNodeActive(VisualElement nodeView)
-			{
-				if (nodeView.ClassListContains(className))
-					nodeView.RemoveFromClassList(className);
-			}
-			
-			foreach (NodeView nodeView in NodeViews)
-			{
-				if (value)
-					SetNodeActive(nodeView);
-				else
-					SetNodeInactive(nodeView);
-			}
-		}
-
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			base.BuildContextualMenu(evt);
@@ -213,10 +188,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			if (firstNode is RootNode)
 				return;
 
-			if (!TryInstantiatePort(Direction.Input, Port.Capacity.Single, FlexDirection.ColumnReverse, out Port input))
-				return;
-
-			Input = input;
+			Input = this.InstantiatePort(Direction.Input, Port.Capacity.Single, FlexDirection.ColumnReverse);
 			inputContainer.Add(Input);
 		}
 
@@ -232,23 +204,8 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 				_ => throw new ArgumentOutOfRangeException(nameof(Node))
 			};
 
-			if (!TryInstantiatePort(Direction.Output, capacity, FlexDirection.Column, out Port output))
-				return;
-
-			Output = output;
+			Output = this.InstantiatePort(Direction.Output, capacity, FlexDirection.Column);
 			outputContainer.Add(Output);
-		}
-		
-		private bool TryInstantiatePort(Direction direction, Port.Capacity capacity, FlexDirection flexDirection, out Port port)
-		{
-			port = InstantiatePort(Orientation.Vertical, direction, capacity, typeof(Node));
-			if (port == null)
-				return false;
-
-			port.style.flexDirection = flexDirection;
-			port.portName = string.Empty;
-
-			return true;
 		}
 
 		private void SetupCapabilities(Node node)
