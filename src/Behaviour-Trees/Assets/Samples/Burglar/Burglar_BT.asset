@@ -1,5 +1,26 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-826071093627182416
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 505736a48783902418da8f7f064489da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Sequence
+  executionOrder: 1
+  _cachedTypeName: Sequence
+  Guid: 46eaa9e3a3cbace4195cda89570abaa5
+  Position: {x: -20, y: 122}
+  behaviourTree: {fileID: 11400000}
+  Children:
+  - {fileID: 4235494197731574452}
+  _dynamic: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,6 +36,7 @@ MonoBehaviour:
   nodes:
   - {fileID: 1885043006334008932}
   - {fileID: 4235494197731574452}
+  - {fileID: -826071093627182416}
   rootNode: {fileID: 1885043006334008932}
   blackboard: {fileID: 11400000, guid: d192307810625444b9bbd55a99504bb7, type: 2}
 --- !u!114 &1885043006334008932
@@ -35,7 +57,7 @@ MonoBehaviour:
   Guid: d4bb06ff768bda84396561b7edf7005e
   Position: {x: 0, y: 0}
   behaviourTree: {fileID: 11400000}
-  _child: {fileID: 4235494197731574452}
+  _child: {fileID: -826071093627182416}
 --- !u!114 &4235494197731574452
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -49,7 +71,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Run Tree
-  executionOrder: 1
+  executionOrder: 2
   _cachedTypeName: Run Tree
   Guid: 5cd6551f4dae0554ba8fb12f4467c5be
   Position: {x: -102, y: 255}

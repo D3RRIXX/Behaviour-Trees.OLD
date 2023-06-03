@@ -131,7 +131,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			var stackNodeViews = new HashSet<StackNodeView>();
 			foreach (IEnumerable<Node> nodeGroup in GetNodeGroups())
 			{
-				StackNodeView nodeStack = CreateNodeStack(nodeGroup.Select(x => new NodeView(x)));
+				StackNodeView nodeStack = CreateNodeStack(nodeGroup.Select(x => new NodeView(x)).ToArray());
 				stackNodeViews.Add(nodeStack);
 			}
 
@@ -189,10 +189,6 @@ namespace Derrixx.BehaviourTrees.Editor
 			if (graphViewChange.movedElements != null)
 			{
 				SortChildNodesByXPos();
-				foreach (var nodeView in graphViewChange.movedElements.Cast<NodeView>())
-				{
-					Debug.Log($"Node view: {nodeView}; Cached Stack: {nodeView.Stack}");
-				}
 			}
 
 			UpdateNodesActiveState();
@@ -276,10 +272,9 @@ namespace Derrixx.BehaviourTrees.Editor
 			return nodeView;
 		}
 
-		public StackNodeView CreateNodeStack(NodeView node) => CreateNodeStack(new[] { node });
-
-		public StackNodeView CreateNodeStack(IEnumerable<NodeView> nodeViews)
+		public StackNodeView CreateNodeStack(params NodeView[] nodeViews)
 		{
+			Debug.Log("Creating node stack");
 			var stackNodeView = new StackNodeView(nodeViews.ToList(), this);
 			AddElement(stackNodeView);
 			
