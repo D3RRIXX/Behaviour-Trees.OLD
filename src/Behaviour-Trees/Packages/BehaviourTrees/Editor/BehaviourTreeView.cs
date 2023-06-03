@@ -41,21 +41,8 @@ namespace Derrixx.BehaviourTrees.Editor
 				
 				SearchWindow.Open(new SearchWindowContext(ctx.screenMousePosition), searchWindow);
 			};
-
-			elementsRemovedFromStackNode = (node, elements) =>
-			{
-				EditorApplication.update += OnUpdate;
-				Debug.Log("Elements removed");
-			};
 			
 			Undo.undoRedoPerformed += OnUndoRedo;
-		}
-
-		private void OnUpdate()
-		{
-			EditorApplication.update -= OnUpdate;
-			int count = nodes.OfType<NodeView>().ToList().Count;
-			Debug.Log($"Total nodes: {nodes.Count()}; With no stack: {count}");
 		}
 
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -116,10 +103,13 @@ namespace Derrixx.BehaviourTrees.Editor
 			foreach (StackNodeView parentStack in stackNodeViews.Where(x => x.Output != null))
 			{
 				List<Node> children = parentStack.LastNode.GetChildren();
-				IEnumerable<StackNodeView> childStacks = children.Select(x => stackNodeViews.First(stack => stack.FirstNode == x));
+				IEnumerable<StackNodeView> childStacks = children.Select(x => stackNodeViews.FirstOrDefault(stack => stack.FirstNode == x));
 
 				foreach (StackNodeView childStack in childStacks)
 				{
+					if (childStack == null)
+						continue;
+					
 					Edge edge = parentStack.Output.ConnectTo(childStack.Input);
 					AddElement(edge);
 				}
@@ -140,35 +130,35 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		private IEnumerable<IEnumerable<Node>> GetNodeGroups()
 		{
-			var nodeGroups = new List<IEnumerable<Node>> { new[] { _tree.RootNode } };
-			CreateStacksFromChildren(_tree.RootNode, nodeGroups);
+			var output = new List<HashSet<Node>>();
 
-			return nodeGroups;
-		}
-
-		private static void CreateStacksFromChildren(Node parent, List<IEnumerable<Node>> list)
-		{
-			foreach (Node child in parent.GetChildren())
+			foreach (Node node in _tree.Nodes)
 			{
-				var subGroup = new List<Node>();
-				FillGroup(child);
+				if (output.Any(set => set.Contains(node)))
+					continue;
 
-				list.Add(subGroup);
-
-				void FillGroup(Node node)
+				var hashSet = new HashSet<Node> { node };
+				if (node is DecoratorNode decoratorNode)
 				{
-					subGroup.Add(node);
-					switch (node)
+					if (node is RootNode)
 					{
-						case DecoratorNode decoratorNode:
-							FillGroup(decoratorNode.Child);
-							break;
-						case CompositeNode compositeNode:
-							CreateStacksFromChildren(compositeNode, list);
-							break;
+						AddToOutput();
+						continue;
+					}
+					
+					var current = decoratorNode;
+					while (current.Child is not (null or not DecoratorNode))
+					{
+						current = (DecoratorNode)current.Child;
+						
 					}
 				}
+
+				void AddToOutput() => output.Add(hashSet);
 			}
+			
+
+			return output;
 		}
 
 		private NodeView FindNodeView(Node node) => (NodeView)GetNodeByGuid(node.Guid);
@@ -254,6 +244,7 @@ namespace Derrixx.BehaviourTrees.Editor
 		public NodeView CreateNode(Type type, Vector2 mousePosition)
 		{
 			Node node = _tree.CreateNode(type);
+			Debug.Log($"Created node of type {type}");
 			
 			NodeView CreateNodeView()
 			{

@@ -27,6 +27,7 @@ namespace Derrixx.BehaviourTrees
 		}
 		
 		public Blackboard Blackboard => blackboard;
+		public IReadOnlyList<Node> Nodes => nodes;
 
 		internal Node.State Update()
 		{
