@@ -135,7 +135,7 @@ namespace Derrixx.BehaviourTrees.Editor
             }
             else
             {
-	            _treeView.CreateNodeStack(nodeView);
+	            _treeView.CreateStackNode(nodeView, true);
             }
 
             return true;

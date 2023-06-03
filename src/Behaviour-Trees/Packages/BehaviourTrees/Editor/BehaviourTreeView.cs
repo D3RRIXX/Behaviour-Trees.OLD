@@ -131,7 +131,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			var stackNodeViews = new HashSet<StackNodeView>();
 			foreach (IEnumerable<Node> nodeGroup in GetNodeGroups())
 			{
-				StackNodeView nodeStack = CreateNodeStack(nodeGroup.Select(x => new NodeView(x)).ToArray());
+				StackNodeView nodeStack = CreateStackNode(nodeGroup.Select(x => new NodeView(x)).ToArray(), false);
 				stackNodeViews.Add(nodeStack);
 			}
 
@@ -265,17 +265,23 @@ namespace Derrixx.BehaviourTrees.Editor
 			NodeView nodeView = CreateNodeView();
 			nodeView.SetPosition(new Rect(mousePosition, Vector2.zero));
 			nodeView.UpdatePresenterPosition();
-			nodeView.Select(this, false);
 
 			UpdateNodesActiveState();
 
 			return nodeView;
 		}
 
-		public StackNodeView CreateNodeStack(params NodeView[] nodeViews)
+		public StackNodeView CreateStackNode(NodeView nodeView, bool select) => CreateStackNode(new[] { nodeView }, select);
+		
+		public StackNodeView CreateStackNode(IEnumerable<NodeView> nodeViews, bool select)
 		{
 			Debug.Log("Creating node stack");
+			
 			var stackNodeView = new StackNodeView(nodeViews.ToList(), this);
+
+			if (select)
+				stackNodeView.Select(this, false);
+			
 			AddElement(stackNodeView);
 			
 			return stackNodeView;
