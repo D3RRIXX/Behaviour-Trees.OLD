@@ -69,6 +69,19 @@ namespace Derrixx.BehaviourTrees
 		{
 			int executionOrder = 0;
 			RootNode.SetExecutionOrder(ref executionOrder);
+			
+			nodes.Sort((a, b) =>
+			{
+				if (a.ExecutionOrder == -1)
+				{
+					return b.ExecutionOrder != -1 ? 1 : 0;
+				}
+
+				if (a.ExecutionOrder < b.ExecutionOrder)
+					return -1;
+				
+				return a.ExecutionOrder > b.ExecutionOrder ? 1 : 0;
+			});
 		}
 
 		public Node CreateNode(Type type)

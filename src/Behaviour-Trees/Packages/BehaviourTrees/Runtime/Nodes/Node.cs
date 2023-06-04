@@ -7,7 +7,7 @@ namespace Derrixx.BehaviourTrees.Nodes
     public abstract partial class Node : ScriptableObject
     {
         [SerializeField] private string nodeName;
-        [SerializeField, HideInInspector] private int executionOrder;
+        [SerializeField, HideInInspector] private int executionOrder = -1;
         
         public enum State
         {

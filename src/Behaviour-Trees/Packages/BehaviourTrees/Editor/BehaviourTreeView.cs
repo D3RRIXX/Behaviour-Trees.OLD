@@ -107,7 +107,7 @@ namespace Derrixx.BehaviourTrees.Editor
 
 				foreach (StackNodeView childStack in childStacks)
 				{
-					if (childStack == null)
+					if (childStack == null) 
 						continue;
 					
 					Edge edge = parentStack.Output.ConnectTo(childStack.Input);
@@ -115,7 +115,7 @@ namespace Derrixx.BehaviourTrees.Editor
 				}
 			}
 		}
-
+ 
 		private HashSet<StackNodeView> SetupStackNodes()
 		{
 			var stackNodeViews = new HashSet<StackNodeView>();
@@ -137,28 +137,33 @@ namespace Derrixx.BehaviourTrees.Editor
 				if (output.Any(set => set.Contains(node)))
 					continue;
 
-				var hashSet = new HashSet<Node> { node };
-				if (node is DecoratorNode decoratorNode)
-				{
-					if (node is RootNode)
-					{
-						AddToOutput();
-						continue;
-					}
-					
-					var current = decoratorNode;
-					while (current.Child is not (null or not DecoratorNode))
-					{
-						current = (DecoratorNode)current.Child;
-						
-					}
-				}
+				var hashSet = new HashSet<Node>();
+				AddDecoratorChildren(hashSet, node);
+				AddToOutput();
 
 				void AddToOutput() => output.Add(hashSet);
 			}
 			
-
 			return output;
+		}
+
+		private static void AddDecoratorChildren(HashSet<Node> hashSet, Node node)
+		{
+			hashSet.Add(node);
+			if (node is not DecoratorNode decoratorNode)
+				return;
+			
+			if (node is RootNode)
+				return;
+
+			DecoratorNode current = decoratorNode;
+			while (current.Child is DecoratorNode child)
+			{
+				current = child;
+				hashSet.Add(current);
+			}
+			
+			hashSet.Add(current.Child);
 		}
 
 		private NodeView FindNodeView(Node node) => (NodeView)GetNodeByGuid(node.Guid);
