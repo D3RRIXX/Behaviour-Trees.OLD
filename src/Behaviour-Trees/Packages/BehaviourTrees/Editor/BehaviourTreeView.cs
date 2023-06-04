@@ -296,10 +296,10 @@ namespace Derrixx.BehaviourTrees.Editor
 				ConnectDecoratorParentAndChild(decoratorNode);
 
 				_tree.UpdateExecutionOrder();
-				SortChildNodesByXPos();
 			}
 
 			_tree.DeleteNode(nodeView.Node);
+			SortChildNodesByXPos();
 		}
 
 		private void CreateEdges(GraphViewChange graphViewChange)
