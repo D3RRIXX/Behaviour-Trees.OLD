@@ -93,11 +93,6 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			InsertElement(index, nodeView);
 
 			IEnumerable<VisualElement> children = Children();
-			Debug.Log("=================");
-			foreach (VisualElement child in children)
-			{
-				Debug.Log(child);
-			}
 
 			Count++;
 

@@ -295,6 +295,10 @@ namespace Derrixx.BehaviourTrees.Editor
 				switch (graphElement)
 				{
 					case NodeView nodeView:
+						
+						if (nodeView.Node is DecoratorNode decoratorNode)
+							ConnectDecoratorParentAndChild(decoratorNode);
+						
 						_tree.DeleteNode(nodeView.Node);
 						break;
 					case Edge edge:
@@ -304,6 +308,14 @@ namespace Derrixx.BehaviourTrees.Editor
 						break;
 				}
 			}
+		}
+
+		private void ConnectDecoratorParentAndChild(DecoratorNode decoratorNode)
+		{
+			if (!NeedToUpdateHierarchy(decoratorNode, out Node nodeParent))
+				return;
+
+			nodeParent.ReplaceChild(decoratorNode, decoratorNode.Child);
 		}
 	}
 }

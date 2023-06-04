@@ -90,5 +90,30 @@ namespace Derrixx.BehaviourTrees.Editor.Extensions
 				child.Traverse(visitor);
 			}
 		}
+
+		public static void ReplaceChild(this Node parent, Node currentChild, Node newChild)
+		{
+			if (parent is ActionNode)
+				throw new ArgumentException($"'{parent.name}' is an Action Node, and thus has no children", nameof(parent));
+
+			if (!parent.GetChildren().Contains(currentChild))
+				throw new ArgumentException($"'{currentChild.name}' isn't a direct child of '{parent.name}'", nameof(currentChild));
+
+			switch (parent)
+			{
+				case DecoratorNode decoratorNode:
+				{
+					decoratorNode.Child = newChild;
+					break;
+				}
+				case CompositeNode compositeNode:
+				{
+					int index = compositeNode.Children.IndexOf(currentChild);
+					compositeNode.Children.Remove(compositeNode);
+					compositeNode.Children.Insert(index, newChild);
+					break;
+				}
+			}
+		}
 	}
 }
