@@ -24,10 +24,6 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		private VisualElement GetNodeInspector(NodeView nodeView)
 		{
-			VisualElement inspectorGUI = _editor.CreateInspectorGUI();
-			if (inspectorGUI != null)
-				return inspectorGUI;
-			
 			var container = new IMGUIContainer(() =>
 			{
 				if (!_editor.target)
