@@ -59,7 +59,7 @@ MonoBehaviour:
   executionOrder: 6
   _cachedTypeName: Return Result
   Guid: 94737f8ba24fd0543b71b6bb19a11a31
-  Position: {x: 133, y: 320}
+  Position: {x: 92, y: 340}
   behaviourTree: {fileID: 11400000}
   _output: 0
 --- !u!114 &-826071093627182416

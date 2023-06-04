@@ -9,7 +9,7 @@ namespace Derrixx.BehaviourTrees.Editor.Extensions
 	{
 		public static void AddChild(this Node parent, Node child)
 		{
-			bool changeHappened = !(parent is ActionNode);
+			bool changeHappened = parent is not ActionNode;
 			if (!changeHappened)
 				return;
 			
