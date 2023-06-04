@@ -38,9 +38,8 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 		public Node Node { get; }
 		
 		public StackNodeView Stack { get; set; }
-		public int CachedIndex { get; set; }
 
-		public override string ToString() => $"NodeView ({Node.name})";
+		public override string ToString() => $"{Node.name} ({GetType()})";
 
 		private void SetupCapabilities()
 		{

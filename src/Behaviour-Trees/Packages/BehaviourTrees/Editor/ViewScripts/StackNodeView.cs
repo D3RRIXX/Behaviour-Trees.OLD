@@ -43,6 +43,8 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 		public Node FirstNode => NodeViews[0].Node;
 		public Node LastNode => NodeViews[^1].Node;
+		
+		public int Count { get; private set; }
 
 		public sealed override string title
 		{
@@ -87,10 +89,18 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 		public void InsertNodeView(NodeView nodeView, int index)
 		{
-			nodeView.CachedIndex = index;
 			nodeView.Stack = this;
 			InsertElement(index, nodeView);
-			
+
+			IEnumerable<VisualElement> children = Children();
+			Debug.Log("=================");
+			foreach (VisualElement child in children)
+			{
+				Debug.Log(child);
+			}
+
+			Count++;
+
 			UpdateNodeViews();
 		}
 
@@ -109,7 +119,9 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			if (nodeView.Node is not DecoratorNode or RootNode)
 				return childCount == 0;
 
-			proposedIndex = Mathf.Clamp(proposedIndex, 0, maxIndex - 1);
+			proposedIndex = Mathf.Clamp(proposedIndex, 0, maxIndex);
+			proposedIndex = Count - proposedIndex;
+			
 			return base.AcceptsElement(element, ref proposedIndex, maxIndex);
 		}
 		

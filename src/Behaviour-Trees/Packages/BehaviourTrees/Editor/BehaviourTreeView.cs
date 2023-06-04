@@ -135,8 +135,6 @@ namespace Derrixx.BehaviourTrees.Editor
 		
 		public StackNodeView CreateStackNode(IEnumerable<NodeView> nodeViews, bool select)
 		{
-			Debug.Log("Creating node stack");
-			
 			var stackNodeView = new StackNodeView(nodeViews.ToList(), this);
 
 			if (select)
@@ -157,7 +155,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			if (NeedToUpdateHierarchy(firstNode, out Node nodeParent))
 				nodeParent.InsertNodeBeforeChild( firstNode, decoratorView.Node);
 			
-			stackNode.AddNodeView(decoratorView);
+			stackNode.InsertNodeView(decoratorView, index: stackNode.Count);
 			
 			UpdateNodesActiveState();
 			SortChildNodesByXPos();

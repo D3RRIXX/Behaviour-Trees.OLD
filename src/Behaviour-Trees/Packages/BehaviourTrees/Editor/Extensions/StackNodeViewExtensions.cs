@@ -41,7 +41,7 @@ namespace Derrixx.BehaviourTrees.Editor.Extensions
 			return port;
 		}
 
-		public static void AddNodeView(this StackNodeView stackNodeView, NodeView nodeView, bool updateHierarchy = false)
+		public static void AddNodeView(this StackNodeView stackNodeView, NodeView nodeView)
 		{
 			stackNodeView.InsertNodeView(nodeView, index: 0);
 		}
