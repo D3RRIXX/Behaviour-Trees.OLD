@@ -1,12 +1,12 @@
 using System;
-using System.Collections.Generic;
+using System.Linq;
+using Derrixx.BehaviourTrees.Nodes;
 using UnityEditor;
 
-namespace Derrixx.BehaviourTrees.Nodes
+namespace Derrixx.BehaviourTrees.Editor.Extensions
 {
 	public static class NodeEditorExtensions
 	{
-#if UNITY_EDITOR
 		public static void AddChild(this Node parent, Node child)
 		{
 			bool changeHappened = !(parent is ActionNode);
@@ -47,6 +47,11 @@ namespace Derrixx.BehaviourTrees.Nodes
 			EditorUtility.SetDirty(parent);
 		}
 
+		public static Node GetParent(this Node node, BehaviourTree behaviourTree)
+		{
+			return behaviourTree.Nodes.FirstOrDefault(n => n.GetChildren().Contains(node));
+		}
+
 		public static void InsertNodeBeforeChild(this Node parent, Node child, Node toInsert)
 		{
 			if (parent is ActionNode)
@@ -85,14 +90,5 @@ namespace Derrixx.BehaviourTrees.Nodes
 				child.Traverse(visitor);
 			}
 		}
-#endif
-
-		public static List<Node> GetChildren(this Node node) => node switch
-		{
-			null => new List<Node>(),
-			DecoratorNode decorator when decorator.Child != null => new List<Node> { decorator.Child },
-			CompositeNode composite => composite.Children,
-			_ => new List<Node>()
-		};
 	}
 }

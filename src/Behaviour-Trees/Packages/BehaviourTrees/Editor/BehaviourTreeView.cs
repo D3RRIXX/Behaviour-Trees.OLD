@@ -4,6 +4,7 @@ using System.Linq;
 using Derrixx.BehaviourTrees.Editor.ViewScripts;
 using Derrixx.BehaviourTrees;
 using Derrixx.BehaviourTrees.Editor;
+using Derrixx.BehaviourTrees.Editor.Extensions;
 using Derrixx.BehaviourTrees.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -98,6 +99,76 @@ namespace Derrixx.BehaviourTrees.Editor
 			UpdateNodesActiveState();
 		}
 
+		public void UpdateNodesActiveState()
+		{
+			foreach (var stackNodeView in nodes.OfType<StackNodeView>())
+			{
+				bool isConnected = _tree.RootNode.IsConnectedWith(stackNodeView.FirstNode);
+				stackNodeView.SetIsConnectedToRoot(isConnected);
+			}
+
+			_tree.UpdateExecutionOrder();
+		}
+		
+		public NodeView CreateNode(Type type, Vector2 mousePosition)
+		{
+			Node node = _tree.CreateNode(type);
+			Debug.Log($"Created node of type {type}");
+			
+			NodeView CreateNodeView()
+			{
+				var nodeView = new NodeView(node) { OnNodeSelected = OnNodeSelected };
+				nodeView.AddToClassList(StyleClassNames.INACTIVE_NODE);
+				return nodeView;
+			}
+
+			NodeView nodeView = CreateNodeView();
+			nodeView.SetPosition(new Rect(mousePosition, Vector2.zero));
+			nodeView.UpdatePresenterPosition();
+
+			UpdateNodesActiveState();
+
+			return nodeView;
+		}
+
+		public StackNodeView CreateStackNode(NodeView nodeView, bool select) => CreateStackNode(new[] { nodeView }, select);
+		
+		public StackNodeView CreateStackNode(IEnumerable<NodeView> nodeViews, bool select)
+		{
+			Debug.Log("Creating node stack");
+			
+			var stackNodeView = new StackNodeView(nodeViews.ToList(), this);
+
+			if (select)
+				stackNodeView.Select(this, false);
+			
+			AddElement(stackNodeView);
+			
+			return stackNodeView;
+		}
+
+		public void AddDecoratorTo<T>(StackNodeView stackNode) where T : DecoratorDrawer => AddDecoratorTo(typeof(T), stackNode);
+
+		public void AddDecoratorTo(Type decoratorType, StackNodeView stackNode)
+		{
+			NodeView decoratorView = CreateNode(decoratorType, Vector2.zero);
+
+			Node firstNode = stackNode.FirstNode;
+			if (NeedToUpdateHierarchy(firstNode, out Node nodeParent))
+				nodeParent.InsertNodeBeforeChild( firstNode, decoratorView.Node);
+			
+			stackNode.AddNodeView(decoratorView);
+			
+			UpdateNodesActiveState();
+			SortChildNodesByXPos();
+		}
+
+		private bool NeedToUpdateHierarchy(Node node, out Node nodeParent)
+		{
+			nodeParent = node.GetParent(_tree);
+			return nodeParent is not null;
+		}
+
 		private void ConnectStackNodes(HashSet<StackNodeView> stackNodeViews)
 		{
 			foreach (StackNodeView parentStack in stackNodeViews.Where(x => x.Output != null))
@@ -115,7 +186,7 @@ namespace Derrixx.BehaviourTrees.Editor
 				}
 			}
 		}
- 
+
 		private HashSet<StackNodeView> SetupStackNodes()
 		{
 			var stackNodeViews = new HashSet<StackNodeView>();
@@ -167,6 +238,7 @@ namespace Derrixx.BehaviourTrees.Editor
 		}
 
 		private NodeView FindNodeView(Node node) => (NodeView)GetNodeByGuid(node.Guid);
+
 		private StackNodeView FindNodeStack(Node node) => FindNodeView(node).Stack;
 
 		public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
@@ -233,54 +305,6 @@ namespace Derrixx.BehaviourTrees.Editor
 						break;
 				}
 			}
-		}
-
-		public void UpdateNodesActiveState()
-		{
-			foreach (var stackNodeView in nodes.OfType<StackNodeView>())
-			{
-				bool isConnected = _tree.RootNode.IsConnectedWith(stackNodeView.FirstNode);
-				stackNodeView.SetIsConnectedToRoot(isConnected);
-			}
-
-			_tree.UpdateExecutionOrder();
-		}
-		
-		public NodeView CreateNode(Type type, Vector2 mousePosition)
-		{
-			Node node = _tree.CreateNode(type);
-			Debug.Log($"Created node of type {type}");
-			
-			NodeView CreateNodeView()
-			{
-				var nodeView = new NodeView(node) { OnNodeSelected = OnNodeSelected };
-				nodeView.AddToClassList(StyleClassNames.INACTIVE_NODE);
-				return nodeView;
-			}
-
-			NodeView nodeView = CreateNodeView();
-			nodeView.SetPosition(new Rect(mousePosition, Vector2.zero));
-			nodeView.UpdatePresenterPosition();
-
-			UpdateNodesActiveState();
-
-			return nodeView;
-		}
-
-		public StackNodeView CreateStackNode(NodeView nodeView, bool select) => CreateStackNode(new[] { nodeView }, select);
-		
-		public StackNodeView CreateStackNode(IEnumerable<NodeView> nodeViews, bool select)
-		{
-			Debug.Log("Creating node stack");
-			
-			var stackNodeView = new StackNodeView(nodeViews.ToList(), this);
-
-			if (select)
-				stackNodeView.Select(this, false);
-			
-			AddElement(stackNodeView);
-			
-			return stackNodeView;
 		}
 	}
 }

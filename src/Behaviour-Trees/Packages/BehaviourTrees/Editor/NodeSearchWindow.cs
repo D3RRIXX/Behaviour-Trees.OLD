@@ -126,15 +126,16 @@ namespace Derrixx.BehaviourTrees.Editor
         public bool OnSelectEntry(SearchTreeEntry entry, SearchWindowContext context)
         {
             Vector2 position = Vector2.zero;
-            NodeView nodeView = _treeView.CreateNode((Type)entry.userData, position);
+            var nodeType = (Type)entry.userData;
             
             if (_createDecorator)
             {
 	            var stackNodeView = (StackNodeView)CreationTarget;
-	            stackNodeView.AddElement(nodeView);
+				_treeView.AddDecoratorTo(nodeType, stackNodeView);
             }
             else
             {
+	            NodeView nodeView = _treeView.CreateNode(nodeType, position);
 	            _treeView.CreateStackNode(nodeView, true);
             }
 

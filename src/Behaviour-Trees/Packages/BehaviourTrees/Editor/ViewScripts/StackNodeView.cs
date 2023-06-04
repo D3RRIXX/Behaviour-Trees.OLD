@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Derrixx.BehaviourTrees.Editor.Extensions;
 using Derrixx.BehaviourTrees.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -84,7 +85,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			}));
 		}
 
-		public void InsertNodeView(NodeView nodeView, int index, bool updateHierarchy = false)
+		public void InsertNodeView(NodeView nodeView, int index)
 		{
 			nodeView.CachedIndex = index;
 			nodeView.Stack = this;

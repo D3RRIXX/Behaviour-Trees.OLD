@@ -1,7 +1,8 @@
-﻿using UnityEditor.Experimental.GraphView;
+﻿using Derrixx.BehaviourTrees.Editor.ViewScripts;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-namespace Derrixx.BehaviourTrees.Editor.ViewScripts
+namespace Derrixx.BehaviourTrees.Editor.Extensions
 {
 	public static class StackNodeViewExtensions
 	{
@@ -40,9 +41,9 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			return port;
 		}
 
-		public static void AddNodeView(StackNodeView stackNodeView, NodeView nodeView, bool updateHierarchy = false)
+		public static void AddNodeView(this StackNodeView stackNodeView, NodeView nodeView, bool updateHierarchy = false)
 		{
-			stackNodeView.InsertNodeView(nodeView, index: 0, updateHierarchy);
+			stackNodeView.InsertNodeView(nodeView, index: 0);
 		}
 	}
 }
