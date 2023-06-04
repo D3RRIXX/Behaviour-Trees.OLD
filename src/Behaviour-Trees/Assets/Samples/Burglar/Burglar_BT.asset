@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8294172061495592541
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffe7c44feb91feb41b7182295c377435, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Are Equal
+  executionOrder: 6
+  _cachedTypeName: Are Equal
+  Guid: 1478dd8c5ec9d6a4bb1db8ca662c7ebc
+  Position: {x: 0, y: 0}
+  behaviourTree: {fileID: 11400000}
+  _child: {fileID: -1028251434324691659}
+  _propertyA: {fileID: 0}
+  _propertyB: {fileID: 0}
+  _operator: 0
+--- !u!114 &-7588068784101800555
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8c097b5037e2014d87fb7a8ad087aa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Inverter
+  executionOrder: 4
+  _cachedTypeName: Inverter
+  Guid: 39d1253a0b24a0c44b2f14399605af09
+  Position: {x: 0, y: 0}
+  behaviourTree: {fileID: 11400000}
+  _child: {fileID: -1801478340249426653}
+--- !u!114 &-1801478340249426653
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68c6742c0011c2e4cadb49ac7b89cca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Blackboard Condition
+  executionOrder: 5
+  _cachedTypeName: Blackboard Condition
+  Guid: 34df91186b2f8284483ede4ff16f6dc2
+  Position: {x: 0, y: 0}
+  behaviourTree: {fileID: 11400000}
+  _child: {fileID: -8294172061495592541}
+  _condition: {fileID: 0}
+  _shouldBeTrue: 1
 --- !u!114 &-1028251434324691659
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13,7 +75,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Return Result
-  executionOrder: 4
+  executionOrder: 7
   _cachedTypeName: Return Result
   Guid: 94737f8ba24fd0543b71b6bb19a11a31
   Position: {x: 133, y: 320}
@@ -58,6 +120,9 @@ MonoBehaviour:
   - {fileID: -826071093627182416}
   - {fileID: 4235494197731574452}
   - {fileID: 1558816365267087319}
+  - {fileID: -7588068784101800555}
+  - {fileID: -1801478340249426653}
+  - {fileID: -8294172061495592541}
   - {fileID: -1028251434324691659}
   rootNode: {fileID: 1885043006334008932}
   blackboard: {fileID: 11400000, guid: d192307810625444b9bbd55a99504bb7, type: 2}
@@ -80,7 +145,7 @@ MonoBehaviour:
   Position: {x: 133, y: 223}
   behaviourTree: {fileID: 11400000}
   Children:
-  - {fileID: -1028251434324691659}
+  - {fileID: -7588068784101800555}
 --- !u!114 &1885043006334008932
 MonoBehaviour:
   m_ObjectHideFlags: 1

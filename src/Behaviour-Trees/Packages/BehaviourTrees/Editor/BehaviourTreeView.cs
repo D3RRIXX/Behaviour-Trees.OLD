@@ -291,6 +291,7 @@ namespace Derrixx.BehaviourTrees.Editor
 
 			foreach (GraphElement graphElement in graphViewChange.elementsToRemove)
 			{
+				Debug.Log(graphElement);
 				switch (graphElement)
 				{
 					case NodeView nodeView:
