@@ -297,7 +297,12 @@ namespace Derrixx.BehaviourTrees.Editor
 					case NodeView nodeView:
 						
 						if (nodeView.Node is DecoratorNode decoratorNode)
+						{
 							ConnectDecoratorParentAndChild(decoratorNode);
+							
+							_tree.UpdateExecutionOrder();
+							UpdateNodesActiveState();
+						}
 						
 						_tree.DeleteNode(nodeView.Node);
 						break;

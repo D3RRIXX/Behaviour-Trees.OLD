@@ -109,7 +109,7 @@ namespace Derrixx.BehaviourTrees.Editor.Extensions
 				case CompositeNode compositeNode:
 				{
 					int index = compositeNode.Children.IndexOf(currentChild);
-					compositeNode.Children.Remove(compositeNode);
+					compositeNode.Children.Remove(currentChild);
 					compositeNode.Children.Insert(index, newChild);
 					break;
 				}
