@@ -255,33 +255,10 @@ namespace Derrixx.BehaviourTrees.Editor
 			{
 				SortChildNodesByXPos();
 			}
-
+			
 			UpdateNodesActiveState();
 
 			return graphViewChange;
-		}
-
-		private void SortChildNodesByXPos()
-		{
-			foreach (NodeView nodeView in _tree.Select(FindNodeView))
-			{
-				nodeView.SortChildren();
-			}
-		}
-
-		private void CreateEdges(GraphViewChange graphViewChange)
-		{
-			if (graphViewChange.edgesToCreate == null)
-				return;
-
-			foreach (Edge edge in graphViewChange.edgesToCreate)
-			{
-				var parentView = (StackNodeView)edge.output.node;
-				var childView = (StackNodeView)edge.input.node;
-				parentView.LastNode.AddChild(childView.FirstNode);
-			}
-
-			SortChildNodesByXPos();
 		}
 
 		private void RemoveElementsFromGraph(GraphViewChange graphViewChange)
@@ -295,16 +272,7 @@ namespace Derrixx.BehaviourTrees.Editor
 				switch (graphElement)
 				{
 					case NodeView nodeView:
-						
-						if (nodeView.Node is DecoratorNode decoratorNode)
-						{
-							ConnectDecoratorParentAndChild(decoratorNode);
-							
-							_tree.UpdateExecutionOrder();
-							UpdateNodesActiveState();
-						}
-						
-						_tree.DeleteNode(nodeView.Node);
+						RemoveNodeView(nodeView);
 						break;
 					case Edge edge:
 						var parentView = (StackNodeView)edge.output.node;
@@ -312,6 +280,42 @@ namespace Derrixx.BehaviourTrees.Editor
 						parentView.LastNode.RemoveChild(childView.FirstNode);
 						break;
 				}
+			}
+		}
+
+		private void RemoveNodeView(NodeView nodeView)
+		{
+			nodeView.Stack.Remove(nodeView);
+			
+			if (nodeView.Node is DecoratorNode decoratorNode)
+			{
+				ConnectDecoratorParentAndChild(decoratorNode);
+
+				_tree.UpdateExecutionOrder();
+				SortChildNodesByXPos();
+			}
+
+			_tree.DeleteNode(nodeView.Node);
+		}
+
+		private void CreateEdges(GraphViewChange graphViewChange)
+		{
+			if (graphViewChange.edgesToCreate == null)
+				return;
+
+			foreach (Edge edge in graphViewChange.edgesToCreate)
+			{
+				var parentView = (StackNodeView)edge.output.node;
+				var childView = (StackNodeView)edge.input.node;
+				parentView.LastNode.AddChild(childView.FirstNode);
+			}
+		}
+
+		private void SortChildNodesByXPos()
+		{
+			foreach (NodeView nodeView in _tree.Select(FindNodeView))
+			{
+				nodeView.SortChildren();
 			}
 		}
 
