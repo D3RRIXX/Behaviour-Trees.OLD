@@ -45,7 +45,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 		{
 			Capabilities capabilitiesToRemove = Node switch
 			{
-				ActionNode or CompositeNode => Capabilities.Movable,
+				ActionNode or CompositeNode => Capabilities.Deletable | Capabilities.Movable,
 				RootNode => Capabilities.Deletable | Capabilities.Copiable,
 				DecoratorNode => Capabilities.Droppable,
 				_ => 0
