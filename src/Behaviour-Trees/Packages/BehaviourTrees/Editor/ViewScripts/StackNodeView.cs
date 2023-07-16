@@ -89,14 +89,54 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 		public void InsertNodeView(NodeView nodeView, int index)
 		{
-			nodeView.Stack = this;
 			InsertElement(index, nodeView);
 
-			IEnumerable<VisualElement> children = Children();
+			OnAddedNode(nodeView);
+			UpdateNodeViews();
+		}
 
-			Count++;
+		public override void OnStartDragging(GraphElement ge)
+		{
+			int index = IndexOf(ge);
+			base.OnStartDragging(ge);
+			
+			//Decrease Node count when starting to drag child nodes
+			Count--;
+		}
+
+		protected override bool AcceptsElement(GraphElement element, ref int proposedIndex, int maxIndex)
+		{
+			var nodeView = (NodeView)element;
+			
+			// There can be only one non-decorator node in the stack
+			if (nodeView.Node is not DecoratorNode or RootNode)
+				return childCount == 0;
+
+			// Decorator nodes can't be first the stack
+			proposedIndex = Mathf.Clamp(proposedIndex, 1, maxIndex);
+			proposedIndex = Count - proposedIndex;
+			
+			return base.AcceptsElement(element, ref proposedIndex, maxIndex);
+		}
+
+		public override bool DragPerform(DragPerformEvent evt, IEnumerable<ISelectable> selection, IDropTarget dropTarget, ISelection dragSource)
+		{
+			List<ISelectable> list = selection.ToList();
+			
+			foreach (NodeView nodeView in list.Cast<NodeView>())
+			{
+				OnAddedNode(nodeView);
+			}
 
 			UpdateNodeViews();
+			
+			return base.DragPerform(evt, list, dropTarget, dragSource);
+		}
+
+		private void OnAddedNode(NodeView nodeView)
+		{
+			nodeView.Stack = this;
+			Count++;
 		}
 
 		private void UpdateNodeViews()
@@ -108,18 +148,6 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			}
 		}
 
-		protected override bool AcceptsElement(GraphElement element, ref int proposedIndex, int maxIndex)
-		{
-			var nodeView = (NodeView)element;
-			if (nodeView.Node is not DecoratorNode or RootNode)
-				return childCount == 0;
-
-			proposedIndex = Mathf.Clamp(proposedIndex, 0, maxIndex);
-			proposedIndex = Count - proposedIndex;
-			
-			return base.AcceptsElement(element, ref proposedIndex, maxIndex);
-		}
-		
 		private void CreateInputPorts(Node firstNode)
 		{
 			if (firstNode is RootNode)
