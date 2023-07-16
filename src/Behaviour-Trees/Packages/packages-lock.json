@@ -9,14 +9,14 @@
       }
     },
     "com.singularitygroup.hotreload": {
-      "version": "git+https://gitlab.hotreload.net/root/hot-reload-releases.git#1.10.12",
+      "version": "git+https://gitlab.hotreload.net/root/hot-reload-releases.git#1.12.2",
       "depth": 0,
       "source": "git",
       "dependencies": {
         "com.unity.ugui": "1.0.0",
         "com.unity.modules.unitywebrequest": "1.0.0"
       },
-      "hash": "1d3d193d19bede02de04ae4115c6791aeb216dcb"
+      "hash": "afc36b236c8b4ad2aef25dae3dd0c8d381e264f9"
     },
     "com.unity.ai.navigation": {
       "version": "1.1.3",
