@@ -60,7 +60,7 @@ MonoBehaviour:
   Position: {x: -20, y: 122}
   behaviourTree: {fileID: 11400000}
   Children:
-  - {fileID: 4235494197731574452}
+  - {fileID: 7585696260490145968}
   - {fileID: 1558816365267087319}
   _dynamic: 0
 --- !u!114 &11400000
@@ -78,9 +78,9 @@ MonoBehaviour:
   nodes:
   - {fileID: 1885043006334008932}
   - {fileID: -826071093627182416}
+  - {fileID: 7585696260490145968}
   - {fileID: 4235494197731574452}
   - {fileID: 1558816365267087319}
-  - {fileID: 7585696260490145968}
   - {fileID: -8294172061495592541}
   - {fileID: -1028251434324691659}
   rootNode: {fileID: 1885043006334008932}
@@ -98,13 +98,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Selector
-  executionOrder: 3
+  executionOrder: 4
   _cachedTypeName: Selector
   Guid: c842b89fa99cab342a91f753bb0a3b65
   Position: {x: 133, y: 223}
   behaviourTree: {fileID: 11400000}
   Children:
-  - {fileID: 7585696260490145968}
+  - {fileID: -8294172061495592541}
 --- !u!114 &1885043006334008932
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Run Tree
-  executionOrder: 2
+  executionOrder: 3
   _cachedTypeName: Run Tree
   Guid: 5cd6551f4dae0554ba8fb12f4467c5be
   Position: {x: -265, y: 287}
@@ -156,9 +156,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Inverter
-  executionOrder: 4
+  executionOrder: 2
   _cachedTypeName: Inverter
   Guid: f0bcad099f6e50e43bd9a0dfd9473c7b
   Position: {x: 216, y: 305.76}
   behaviourTree: {fileID: 11400000}
-  _child: {fileID: -8294172061495592541}
+  _child: {fileID: 4235494197731574452}

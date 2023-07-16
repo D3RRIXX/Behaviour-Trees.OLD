@@ -100,17 +100,49 @@ namespace Derrixx.BehaviourTrees.Editor
 			foreach (StackNodeView stackNodeView in stackNodeViews)
 			{
 				stackNodeView.StartedDecoratorDrag += OnStartedDecoratorDrag;
+				stackNodeView.OnDragPerform += OnDragPerform;
 				
 				// Add the unsubscribe callback to call when we need to redraw graph
-				_onGraphClear += () => stackNodeView.StartedDecoratorDrag -= OnStartedDecoratorDrag;
+				_onGraphClear += () =>
+				{
+					stackNodeView.OnDragPerform -= OnDragPerform;
+					stackNodeView.StartedDecoratorDrag -= OnStartedDecoratorDrag;
+				};
 			}
 
 			UpdateNodesActiveState();
 		}
 
-		private void OnStartedDecoratorDrag(NodeView obj)
+		private void OnDragPerform(NodeView nodeView)
 		{
-			var dragTarget = (DecoratorNode)obj.Node;
+			var decoratorNode = (DecoratorNode)nodeView.Node;
+
+			List<NodeView> nodeViews = nodeView.Stack.GetNodeViews().Reverse().ToList();
+			int index = nodeViews.IndexOf(nodeView);
+			Debug.Log(0);
+			Node parentNode;
+			if (index == 0)
+			{
+				parentNode = nodes.OfType<StackNodeView>()
+				                  .Select(x => x.GetLastNode())
+				                  .OfType<CompositeNode>()
+				                  .FirstOrDefault(composite => composite.Children.Contains(nodeViews[1].Node));
+			}
+			else
+			{
+				parentNode = nodeViews[index - 1].Node;
+			}
+
+			Node child = nodeViews[index + 1].Node;
+			
+			nodeView.SetExecutionOrderVisible(true);
+
+			parentNode.InsertNodeBeforeChild(child, toInsert: decoratorNode);
+		}
+
+		private void OnStartedDecoratorDrag(NodeView nodeView)
+		{
+			var dragTarget = (DecoratorNode)nodeView.Node;
 			var parentNode = dragTarget.GetParent(_tree);
 			
 			if (parentNode == null)
@@ -118,7 +150,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			
 			parentNode.ReplaceChild(dragTarget, dragTarget.Child);
 			
-			obj.SetExecutionOrderVisible(false);
+			nodeView.SetExecutionOrderVisible(false);
 			_tree.UpdateExecutionOrder();
 		}
 
@@ -133,7 +165,7 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			foreach (var stackNodeView in nodes.OfType<StackNodeView>())
 			{
-				bool isConnected = _tree.RootNode.IsConnectedWith(stackNodeView.FirstNode);
+				bool isConnected = _tree.RootNode.IsConnectedWith(stackNodeView.GetFirstNode());
 				stackNodeView.SetIsConnectedToRoot(isConnected);
 			}
 
@@ -174,11 +206,11 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			NodeView decoratorView = CreateNodeView(decoratorType);
 
-			Node firstNode = stackNode.FirstNode;
+			Node firstNode = stackNode.GetFirstNode();
 			if (NeedToUpdateHierarchy(firstNode, out Node nodeParent))
 				nodeParent.InsertNodeBeforeChild( firstNode, decoratorView.Node);
 			
-			stackNode.InsertNodeView(decoratorView, index: stackNode.Count);
+			stackNode.InsertNodeView(decoratorView, index: stackNode.GetNodeViews().Count());
 			decoratorView.Select(this, false);
 
 			UpdateNodesActiveState();
@@ -195,8 +227,8 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			foreach (StackNodeView parentStack in stackNodeViews.Where(x => x.Output != null))
 			{
-				List<Node> children = parentStack.LastNode.GetChildren();
-				IEnumerable<StackNodeView> childStacks = children.Select(x => stackNodeViews.FirstOrDefault(stack => stack.FirstNode == x));
+				List<Node> children = parentStack.GetLastNode().GetChildren();
+				IEnumerable<StackNodeView> childStacks = children.Select(x => stackNodeViews.FirstOrDefault(stack => stack.GetFirstNode() == x));
 
 				foreach (StackNodeView childStack in childStacks)
 				{
@@ -308,7 +340,7 @@ namespace Derrixx.BehaviourTrees.Editor
 					case Edge edge:
 						var parentView = (StackNodeView)edge.output.node;
 						var childView = (StackNodeView)edge.input.node;
-						parentView.LastNode.RemoveChild(childView.FirstNode);
+						parentView.GetLastNode().RemoveChild(childView.GetFirstNode());
 						break;
 				}
 			}
@@ -338,7 +370,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			{
 				var parentView = (StackNodeView)edge.output.node;
 				var childView = (StackNodeView)edge.input.node;
-				parentView.LastNode.AddChild(childView.FirstNode);
+				parentView.GetLastNode().AddChild(childView.GetFirstNode());
 			}
 		}
 

@@ -22,7 +22,7 @@ namespace Derrixx.BehaviourTrees.Editor.Extensions
 					nodeView.RemoveFromClassList(className);
 			}
 			
-			foreach (NodeView nodeView in stackNodeView.NodeViews)
+			foreach (NodeView nodeView in stackNodeView.GetNodeViews())
 			{
 				if (value)
 					SetNodeActive(nodeView);
