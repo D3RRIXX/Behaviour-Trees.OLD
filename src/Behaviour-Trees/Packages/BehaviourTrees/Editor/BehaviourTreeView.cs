@@ -135,9 +135,10 @@ namespace Derrixx.BehaviourTrees.Editor
 
 			Node child = nodeViews[index + 1].Node;
 			
-			nodeView.SetExecutionOrderVisible(true);
-
 			parentNode.InsertNodeBeforeChild(child, toInsert: decoratorNode);
+			nodeView.SetExecutionOrderVisible(true);
+			
+			_tree.UpdateExecutionOrder();
 		}
 
 		private void OnStartedDecoratorDrag(NodeView nodeView)
