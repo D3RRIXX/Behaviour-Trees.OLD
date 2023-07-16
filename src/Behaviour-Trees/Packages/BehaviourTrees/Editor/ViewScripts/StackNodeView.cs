@@ -15,12 +15,17 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 	public class StackNodeView : StackNode
 	{
 		private readonly BehaviourTreeView _behaviourTreeView;
+		private readonly List<NodeView> _nodeViews;
 
 		public event Action<NodeView> StartedDecoratorDrag; 
 
 		public StackNodeView(IReadOnlyList<NodeView> nodeViews, BehaviourTreeView behaviourTreeView)
 		{
 			_behaviourTreeView = behaviourTreeView;
+			_nodeViews = new List<NodeView>(nodeViews);
+			
+			// Temp fix? Reverse column view might fix something
+			this.Q("stackNodeContentContainer").style.flexDirection = new StyleEnum<FlexDirection>(FlexDirection.ColumnReverse);
 
 			style.paddingLeft = style.paddingRight = 7;
 
@@ -41,7 +46,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			title = lastNode.name;
 		}
 
-		public IReadOnlyList<NodeView> NodeViews => Children().OfType<NodeView>().ToList();
+		public IReadOnlyList<NodeView> NodeViews => _nodeViews;
 
 		public Node FirstNode => NodeViews[0].Node;
 		public Node LastNode => NodeViews[^1].Node;
@@ -117,9 +122,9 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			if (nodeView.Node is not DecoratorNode or RootNode)
 				return childCount == 0;
 
-			// Decorator nodes can't be first the stack
-			proposedIndex = Mathf.Clamp(proposedIndex, 1, maxIndex);
-			proposedIndex = Count - proposedIndex;
+			// Decorator nodes can't be first in the stack
+			// proposedIndex = Mathf.Clamp(proposedIndex, 0, maxIndex);
+			// proposedIndex = Count - proposedIndex;
 			
 			return base.AcceptsElement(element, ref proposedIndex, maxIndex);
 		}
