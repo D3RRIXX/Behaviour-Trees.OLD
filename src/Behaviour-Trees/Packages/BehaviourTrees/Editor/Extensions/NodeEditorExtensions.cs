@@ -100,6 +100,7 @@ namespace Derrixx.BehaviourTrees.Editor.Extensions
 			if (!parent.GetChildren().Contains(currentChild))
 				throw new ArgumentException($"'{currentChild.name}' isn't a direct child of '{parent.name}'", nameof(currentChild));
 
+			Undo.RecordObject(parent, "Behaviour Tree (Replace Child)");
 			switch (parent)
 			{
 				case DecoratorNode decoratorNode:
@@ -115,6 +116,8 @@ namespace Derrixx.BehaviourTrees.Editor.Extensions
 					break;
 				}
 			}
+			
+			EditorUtility.SetDirty(parent);
 		}
 	}
 }
