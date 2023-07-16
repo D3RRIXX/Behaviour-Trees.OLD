@@ -109,6 +109,11 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			_executionOrderLabel.text = order.ToString();
 		}
 
+		public void SetExecutionOrderVisible(bool value)
+		{
+			_executionOrderLabel.visible = value;
+		}
+
 		private void SetupClass()
 		{
 			string className = Node switch

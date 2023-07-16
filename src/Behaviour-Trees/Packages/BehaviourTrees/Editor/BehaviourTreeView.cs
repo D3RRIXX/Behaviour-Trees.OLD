@@ -19,6 +19,7 @@ namespace Derrixx.BehaviourTrees.Editor
 		private BehaviourTree _tree;
 
 		public Action<NodeView> OnNodeSelected;
+		private Action _onGraphClear;
 
 		public BehaviourTreeView()
 		{
@@ -81,7 +82,11 @@ namespace Derrixx.BehaviourTrees.Editor
 			_tree = tree;
 			
 			graphViewChanged -= OnGraphViewChanged;
+			
+			// Unsubscribe from all callbacks and clear graph
+			_onGraphClear?.Invoke();
 			DeleteElements(graphElements.ToList());
+			
 			graphViewChanged += OnGraphViewChanged;
 
 			if (tree.RootNode == null)
@@ -90,9 +95,31 @@ namespace Derrixx.BehaviourTrees.Editor
 			}
 
 			HashSet<StackNodeView> stackNodeViews = SetupStackNodes();
-
 			ConnectStackNodes(stackNodeViews);
+
+			foreach (StackNodeView stackNodeView in stackNodeViews)
+			{
+				stackNodeView.StartedDecoratorDrag += OnStartedDecoratorDrag;
+				
+				// Add the unsubscribe callback to call when we need to redraw graph
+				_onGraphClear += () => stackNodeView.StartedDecoratorDrag -= OnStartedDecoratorDrag;
+			}
+
 			UpdateNodesActiveState();
+		}
+
+		private void OnStartedDecoratorDrag(NodeView obj)
+		{
+			var dragTarget = (DecoratorNode)obj.Node;
+			var parentNode = dragTarget.GetParent(_tree);
+			
+			if (parentNode == null)
+				return;
+			
+			parentNode.ReplaceChild(dragTarget, dragTarget.Child);
+			
+			obj.SetExecutionOrderVisible(false);
+			_tree.UpdateExecutionOrder();
 		}
 
 		private static void CreateRootNode(BehaviourTree tree)

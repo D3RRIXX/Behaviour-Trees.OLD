@@ -16,6 +16,8 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 	{
 		private readonly BehaviourTreeView _behaviourTreeView;
 
+		public event Action<NodeView> StartedDecoratorDrag; 
+
 		public StackNodeView(IReadOnlyList<NodeView> nodeViews, BehaviourTreeView behaviourTreeView)
 		{
 			_behaviourTreeView = behaviourTreeView;
@@ -98,9 +100,12 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 		public override void OnStartDragging(GraphElement ge)
 		{
 			int index = IndexOf(ge);
+			// Invoke event that we started dragging out NodeView at specific index
+			StartedDecoratorDrag?.Invoke(NodeViews[index]);
+			
 			base.OnStartDragging(ge);
 			
-			//Decrease Node count when starting to drag child nodes
+			// Decrease Node count when starting to drag child nodes
 			Count--;
 		}
 

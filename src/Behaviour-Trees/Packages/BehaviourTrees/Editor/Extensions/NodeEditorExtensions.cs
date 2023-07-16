@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Derrixx.BehaviourTrees.Nodes;
+using JetBrains.Annotations;
 using UnityEditor;
 
 namespace Derrixx.BehaviourTrees.Editor.Extensions
@@ -47,7 +48,7 @@ namespace Derrixx.BehaviourTrees.Editor.Extensions
 			EditorUtility.SetDirty(parent);
 		}
 
-		public static Node GetParent(this Node node, BehaviourTree behaviourTree)
+		public static Node GetParent(this Node node, [NotNull] BehaviourTree behaviourTree)
 		{
 			return behaviourTree.Nodes.FirstOrDefault(n => n.GetChildren().Contains(node));
 		}
