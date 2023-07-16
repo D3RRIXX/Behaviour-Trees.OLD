@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Are Equal
-  executionOrder: 4
+  executionOrder: 5
   _cachedTypeName: Are Equal
   Guid: 1478dd8c5ec9d6a4bb1db8ca662c7ebc
-  Position: {x: 0, y: 0}
+  Position: {x: 114, y: 327.56}
   behaviourTree: {fileID: 11400000}
   _child: {fileID: -1028251434324691659}
   _propertyA: {fileID: 0}
@@ -35,10 +35,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeName: Return Result
-  executionOrder: 5
+  executionOrder: 6
   _cachedTypeName: Return Result
   Guid: 94737f8ba24fd0543b71b6bb19a11a31
-  Position: {x: 92, y: 340}
+  Position: {x: 133, y: 323}
   behaviourTree: {fileID: 11400000}
   _output: 0
 --- !u!114 &-826071093627182416
@@ -80,6 +80,7 @@ MonoBehaviour:
   - {fileID: -826071093627182416}
   - {fileID: 4235494197731574452}
   - {fileID: 1558816365267087319}
+  - {fileID: 7585696260490145968}
   - {fileID: -8294172061495592541}
   - {fileID: -1028251434324691659}
   rootNode: {fileID: 1885043006334008932}
@@ -103,7 +104,7 @@ MonoBehaviour:
   Position: {x: 133, y: 223}
   behaviourTree: {fileID: 11400000}
   Children:
-  - {fileID: -8294172061495592541}
+  - {fileID: 7585696260490145968}
 --- !u!114 &1885043006334008932
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -139,6 +140,25 @@ MonoBehaviour:
   executionOrder: 2
   _cachedTypeName: Run Tree
   Guid: 5cd6551f4dae0554ba8fb12f4467c5be
-  Position: {x: -102, y: 255}
+  Position: {x: -265, y: 287}
   behaviourTree: {fileID: 11400000}
   _behaviourTree: {fileID: 0}
+--- !u!114 &7585696260490145968
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8c097b5037e2014d87fb7a8ad087aa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Inverter
+  executionOrder: 4
+  _cachedTypeName: Inverter
+  Guid: f0bcad099f6e50e43bd9a0dfd9473c7b
+  Position: {x: 0, y: 0}
+  behaviourTree: {fileID: 11400000}
+  _child: {fileID: -8294172061495592541}
