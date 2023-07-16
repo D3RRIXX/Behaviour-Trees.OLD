@@ -159,6 +159,6 @@ MonoBehaviour:
   executionOrder: 4
   _cachedTypeName: Inverter
   Guid: f0bcad099f6e50e43bd9a0dfd9473c7b
-  Position: {x: 0, y: 0}
+  Position: {x: 216, y: 305.76}
   behaviourTree: {fileID: 11400000}
   _child: {fileID: -8294172061495592541}
