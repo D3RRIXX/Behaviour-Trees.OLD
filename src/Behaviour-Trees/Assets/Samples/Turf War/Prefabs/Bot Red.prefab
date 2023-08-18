@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4046779943292746407}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.44, z: 0.45}
   m_LocalScale: {x: 0.61631, y: 0.35387, z: 0.30595}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5101013131117705823}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7541428190228509131
 MeshFilter:
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 5101013131117705821}
   - component: {fileID: 5101013131117705820}
   - component: {fileID: 5101013131117705808}
-  - component: {fileID: 5101013131117705809}
+  - component: {fileID: 730290721296978149}
   m_Layer: 3
   m_Name: Bot Red
   m_TagString: Untagged
@@ -111,6 +111,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5101013131117705819}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -118,7 +119,6 @@ Transform:
   m_Children:
   - {fileID: 4408568346012191055}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5101013131117705822
 MeshFilter:
@@ -178,8 +178,17 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5101013131117705819}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
+  serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
@@ -206,7 +215,7 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &5101013131117705809
+--- !u!114 &730290721296978149
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -215,30 +224,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 5101013131117705819}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 263bb4dbe17ecfb4dace632c970f7803, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a68e6a32ef548dfb67607fd8cc7152c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _behaviourTree: {fileID: 11400000, guid: e4cad82a637231843930882def246c60, type: 2}
   _propertyReferences:
-  - rid: 5445142295214292994
-  - rid: 5445142295214292995
+  - rid: 3018522669254967297
   _cachedBlackboard: {fileID: 11400000, guid: eba0a8a80b65fc74c85baa3138bc65f4, type: 2}
-  team: 1
-  fovDistance: 5
-  fovAngle: 90
-  visionMask:
-    serializedVersion: 2
-    m_Bits: 9
   references:
     version: 2
     RefIds:
-    - rid: 5445142295214292994
-      type: {class: Vector3PropertyReference, ns: Derrixx.BehaviourTrees.Runtime.PropertyReferences, asm: Derrixx.BehaviourTrees}
-      data:
-        _blackboardProperty: {fileID: 8186038928769464853, guid: eba0a8a80b65fc74c85baa3138bc65f4, type: 2}
-        _value: {x: 0, y: 0, z: 0}
-    - rid: 5445142295214292995
-      type: {class: ObjectPropertyReference, ns: Derrixx.BehaviourTrees.Runtime.PropertyReferences, asm: Derrixx.BehaviourTrees}
+    - rid: 3018522669254967297
+      type: {class: ObjectPropertyReference, ns: Derrixx.BehaviourTrees, asm: Derrixx.BehaviourTrees}
       data:
         _blackboardProperty: {fileID: -6739194452388081382, guid: eba0a8a80b65fc74c85baa3138bc65f4, type: 2}
         _value: {fileID: 5101013131117705808}

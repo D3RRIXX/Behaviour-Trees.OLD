@@ -12,6 +12,7 @@ Key features:
 - [Installation](#installation)
 - [Quickstart Guide](#quickstart-guide)
 - [Blackboards & Blackboard Properties](#blackboards--blackboard-properties)
+- [Zenject Integration](#zenject-integration)
 
 ## Introduction
 ### What are Behaviour Trees?
@@ -86,8 +87,20 @@ After a field is created, open your select your node in the Editor and you will 
 
 ![](Documentation/Images/dropdown.png)
 
+### Exposing Blackboard Properties & overriding default values
+If you need to set a default value for every instance of your Runner GameObject (e.g. to assign a component reference or override a parameter), you have to check the *Is Exposed* toggle on your Blackboard Property (note: works only with not instanced synced Properties).
+
+![](Documentation/Images/exposed_properties.png)
+
+After that, go to your BehaviourTreeRunner object and you'll see a field appear, waiting for you to assign something.
+
+![](Documentation/Images/assigned_exposed.png)
+
 ### Instance Syncing
 While using Blackboard Properties you've propbably noticed 'Instance Synced' checkbox that is available for every property type. It basically marks this property as `static` so its value is shared between all runtime instances of that Blackboard.
 
 ### Blackboard Inheritance
 You can set one Blackboard as a parent of another, thus making the child inherit all properties from its parent.
+
+## Zenject Integration
+If you'd like to use [Zenject](https://github.com/modesttree/Zenject)'s `[Inject]` attribute inside your custom nodes, simply add `BTREE_ADD_ZENJECT` to your define symbols.

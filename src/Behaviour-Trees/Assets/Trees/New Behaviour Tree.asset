@@ -16,7 +16,7 @@ MonoBehaviour:
   executionOrder: 2
   _cachedTypeName: Run Tree
   Guid: dab4f3903d040de42b505fa4c92009ac
-  Position: {x: -20, y: 299}
+  Position: {x: 0, y: 207}
   behaviourTree: {fileID: 11400000}
   _behaviourTree: {fileID: 0}
 --- !u!114 &11400000
@@ -72,7 +72,7 @@ MonoBehaviour:
   executionOrder: 1
   _cachedTypeName: Blackboard Condition
   Guid: 7ec7cb333dcb49e45aeca08ddd5f64f3
-  Position: {x: -39, y: 183}
+  Position: {x: 0, y: 104}
   behaviourTree: {fileID: 11400000}
   _child: {fileID: -1603425391949636301}
   _condition: {fileID: 0}
