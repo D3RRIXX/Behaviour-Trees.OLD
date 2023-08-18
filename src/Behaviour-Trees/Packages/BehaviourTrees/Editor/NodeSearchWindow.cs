@@ -82,7 +82,7 @@ namespace Derrixx.BehaviourTrees.Editor
 		        int level = pathDepth + 1;
 		        var guiContent = new GUIContent(title);
 
-		        Debug.Log($"Path length: {pair.Value.Length}; Depth: {pathDepth}; Title: {title}");
+		        // Debug.Log($"Path length: {pair.Value.Length}; Depth: {pathDepth}; Title: {title}");
 
 		        if (pathDepth == pair.Value.Length - 1)
 		        {

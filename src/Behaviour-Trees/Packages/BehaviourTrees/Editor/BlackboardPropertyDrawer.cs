@@ -31,9 +31,9 @@ namespace Derrixx.BehaviourTrees.Editor
 			
 			if (!blackboard || blackboard.Properties.Count == 0)
 			{
-				GUIContent content = new GUIContent("Blackboard is unassigned or empty!");
+				var content = new GUIContent("Blackboard is unassigned or empty!");
 
-				Rect labelRect = new Rect(position);
+				var labelRect = new Rect(position);
 				labelRect.height = style.CalcHeight(content, labelRect.width);
 				EditorGUI.LabelField(labelRect, label, content, style);
 				
@@ -91,9 +91,18 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		private BlackboardProperty[] GetPropertyOptions(Blackboard blackboard)
 		{
+			var propertyTypesAttributes = fieldInfo.GetCustomAttributes<AllowedPropertyTypesAttribute>().ToList();
+			if (propertyTypesAttributes.Count == 0)
+			{
+				return (from property in blackboard.Properties
+				        where fieldInfo.FieldType.IsInstanceOfType(property)
+				        select property).ToArray();
+			}
+
+			var allowedTypes = new HashSet<Type>(propertyTypesAttributes.SelectMany(x => x.GetBlackboardPropertyTypes()));
 			return (from property in blackboard.Properties
-				where fieldInfo.FieldType.IsInstanceOfType(property)
-				select property).ToArray();
+			        where allowedTypes.Contains(property.GetType())
+			        select property).ToArray();
 		}
 	}
 }

@@ -1,11 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Derrixx.BehaviourTrees
 {
@@ -13,11 +15,17 @@ namespace Derrixx.BehaviourTrees
 	/// A Behaviour Tree asset. To actually use Behaviour Trees, use <see cref="BehaviourTreeRunner"/>
 	/// </summary>
 	[CreateAssetMenu(fileName = "New Behaviour Tree", menuName = Utils.SO_CREATION_PATH + "Behaviour Tree")]
-	public sealed class BehaviourTree : ScriptableObject, IEnumerable<Node>
+	public sealed class BehaviourTree : ScriptableObject
 	{
 		[SerializeField, HideInInspector] private List<Node> nodes = new();
 		[SerializeField, HideInInspector] private RootNode rootNode;
 		[SerializeField] private Blackboard blackboard;
+
+		public List<Node> Nodes
+		{
+			get => nodes;
+			internal set => nodes = value;
+		}
 		
 		public RootNode RootNode
 		{
@@ -25,39 +33,20 @@ namespace Derrixx.BehaviourTrees
 			set => rootNode = value;
 		}
 		
-		public Blackboard Blackboard => blackboard;
+		public Blackboard Blackboard
+		{
+			get => blackboard;
+			internal set => blackboard = value;
+		}
 
 		internal Node.State Update()
 		{
 			return RootNode.Update();
 		}
 
-		internal BehaviourTree Clone(BehaviourTreeRunner runner, Action<Blackboard> processBlackboardCloning = null, Action<Node> traverseNodeAction = null)
+		internal BehaviourTreeCloneBuilder Clone(BehaviourTreeRunner runner)
 		{
-			BehaviourTree tree = Instantiate(this);
-			tree.name = $"{name} (Runtime)";
-			
-			tree.RootNode = (RootNode)tree.RootNode.Clone(runner);
-			tree.nodes = new List<Node>();
-
-			if (blackboard != null)
-			{
-				tree.blackboard = blackboard.Clone();
-				processBlackboardCloning?.Invoke(tree.blackboard);
-			}
-			
-			TraverseNodes(tree.RootNode, node =>
-			{
-				tree.nodes.Add(node);
-#if UNITY_EDITOR
-				node.BehaviourTree = tree;
-#endif
-				traverseNodeAction?.Invoke(node);
-				ReassignBlackboardPropertyReferences(node, tree.blackboard);
-				node.OnCreate();
-			});
-			
-			return tree;
+			return new BehaviourTreeCloneBuilder(this, runner);
 		}
 		
 #if UNITY_EDITOR
@@ -102,33 +91,5 @@ namespace Derrixx.BehaviourTrees
 			EditorUtility.SetDirty(this);
 		}
 #endif
-
-		private static void ReassignBlackboardPropertyReferences(Node node, Blackboard blackboard)
-		{
-			IEnumerable<FieldInfo> fieldInfos = node.GetType()
-				.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-				.Where(x => x.FieldType.IsSubclassOf(typeof(BlackboardProperty)));
-
-			foreach (FieldInfo fieldInfo in fieldInfos)
-			{
-				BlackboardProperty blackboardProperty = (BlackboardProperty)fieldInfo.GetValue(node);
-				fieldInfo.SetValue(node, blackboard.FindProperty(blackboardProperty.Key));
-			}
-		}
-
-		private static void TraverseNodes(Node node, Action<Node> visitor)
-		{
-			if (!node)
-				return;
-			
-			visitor.Invoke(node);
-			foreach (Node child in node.GetChildren())
-			{
-				TraverseNodes(child, visitor);
-			}
-		}
-
-		public IEnumerator<Node> GetEnumerator() => nodes.GetEnumerator();
-		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 	}
 }

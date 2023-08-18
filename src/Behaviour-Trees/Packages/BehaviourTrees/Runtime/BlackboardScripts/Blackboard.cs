@@ -15,9 +15,37 @@ namespace Derrixx.BehaviourTrees
 
 		public IReadOnlyList<BlackboardProperty> Properties => _parent != null ? _parent.Properties.Concat(_properties).ToList() : _properties;
 
-		public BlackboardProperty FindProperty(string key) => Properties.FirstOrDefault(x => x.Key == key);
+		public BlackboardProperty FindProperty(string key)
+		{
+			return Properties.FirstOrDefault(x => x.Key == key);
+		}
+
 		public T FindProperty<T>(string key) where T : BlackboardProperty
-			=> Properties.FirstOrDefault(x => x.Key == key && x.GetType() == typeof(T)) as T;
+		{
+			return Properties.FirstOrDefault(x => x.Key == key && x.GetType() == typeof(T)) as T;
+		}
+
+		public bool TryFindProperty<T>(string key, out T property) where T : BlackboardProperty
+		{
+			foreach (BlackboardProperty blackboardProperty in Properties)
+			{
+				if (blackboardProperty.Key != key)
+					continue;
+
+				if (blackboardProperty is T concreteProperty)
+				{
+					property = concreteProperty;
+					return true;
+				}
+
+				property = null;
+				Debug.LogWarning($"Blackboard Property '{key}' exists, but is of type {blackboardProperty.GetValueType}");
+				return false;
+			}
+
+			property = null;
+			return false;
+		}
 
 		internal Blackboard Clone()
 		{

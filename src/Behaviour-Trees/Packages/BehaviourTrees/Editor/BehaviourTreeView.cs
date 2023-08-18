@@ -55,7 +55,7 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		public void UpdateNodeStates()
 		{
-			foreach (NodeView nodeView in _tree.Select(FindNodeView))
+			foreach (NodeView nodeView in _tree.Nodes.Select(FindNodeView))
 			{
 				nodeView.UpdateState();
 			}
@@ -76,12 +76,12 @@ namespace Derrixx.BehaviourTrees.Editor
 				AssetDatabase.SaveAssets();
 			}
 
-			foreach (Node node in _tree)
+			foreach (Node node in _tree.Nodes)
 			{
 				CreateNodeView(node);
 			}
 
-			foreach (Node node in _tree)
+			foreach (Node node in _tree.Nodes)
 			foreach (Node child in node.GetChildren())
 			{
 				NodeView parentView = FindNodeView(node);
@@ -118,7 +118,7 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		private void SortChildNodesByXPos()
 		{
-			foreach (NodeView nodeView in _tree.Select(FindNodeView))
+			foreach (NodeView nodeView in _tree.Nodes.Select(FindNodeView))
 			{
 				nodeView.SortChildren();
 			}
@@ -177,7 +177,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			}
 
 			List<NodeView> activeViews = new List<NodeView>();
-			foreach (NodeView nodeView in _tree.Select(FindNodeView))
+			foreach (NodeView nodeView in _tree.Nodes.Select(FindNodeView))
 			{
 				bool isConnected = _tree.RootNode.IsConnectedWith(nodeView.Node);
 				if (isConnected)
