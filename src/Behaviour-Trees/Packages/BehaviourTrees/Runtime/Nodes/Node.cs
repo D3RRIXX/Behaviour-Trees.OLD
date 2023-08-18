@@ -8,6 +8,7 @@ namespace Derrixx.BehaviourTrees
     {
         [SerializeField] private string nodeName;
         [SerializeField, HideInInspector] private int executionOrder;
+        [SerializeField, HideInInspector] private BehaviourTree behaviourTree;
         
         public enum State
         {
@@ -32,6 +33,12 @@ namespace Derrixx.BehaviourTrees
 
                 return nodeName;
             }
+        }
+        
+        public BehaviourTree BehaviourTree
+        {
+	        get => behaviourTree;
+	        internal set => behaviourTree = value;
         }
 
         public State CurrentState { get; private set; } = State.Running;
@@ -79,6 +86,9 @@ namespace Derrixx.BehaviourTrees
 
         protected internal virtual void ResetState()
         {
+            if (Started)
+                OnDeactivate();
+            
             Started = false;
             CurrentState = State.Running;
         }

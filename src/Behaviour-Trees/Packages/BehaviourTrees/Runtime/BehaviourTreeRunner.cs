@@ -28,7 +28,7 @@ namespace Derrixx.BehaviourTrees
 		/// <summary>
 		/// Returns this runner's Behaviour Tree
 		/// </summary>
-		private BehaviourTree BehaviourTree
+		public BehaviourTree BehaviourTree
 		{
 			get
 			{
@@ -53,18 +53,27 @@ namespace Derrixx.BehaviourTrees
 			void OnTraverseNodes(Node node)
 			{
 #if BTREE_ADD_ZENJECT
-				_container.Inject(node);
+				_container?.Inject(node);
 #endif
 			}
 			
-			BehaviourTree cloneTree = _behaviourTree.Clone(this, blackboard =>
+			// BehaviourTree cloneTree = _behaviourTree.Clone(this, blackboard =>
+			// {
+			// 	foreach (var propertyReference in _propertyReferences)
+			// 		propertyReference.AssignPropertyValue(blackboard);
+			// }, OnTraverseNodes);
+
+			BehaviourTree cloneTree = _behaviourTree.Clone(this)
+			                                        .WithBlackboardCloningAction(OnBlackboardCloning)
+			                                        .WithTraverseNodeAction(OnTraverseNodes)
+			                                        .Build();
+			return cloneTree;
+
+			void OnBlackboardCloning(Blackboard blackboard)
 			{
 				foreach (var propertyReference in _propertyReferences)
 					propertyReference.AssignPropertyValue(blackboard);
-			}, OnTraverseNodes);
-
-			
-			return cloneTree;
+			}
 		}
 
 		private void SyncBlackboards()
