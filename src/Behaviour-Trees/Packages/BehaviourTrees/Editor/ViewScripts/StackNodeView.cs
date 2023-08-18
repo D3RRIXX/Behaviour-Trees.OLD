@@ -24,7 +24,7 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			_behaviourTreeView = behaviourTreeView;
 			
 			// Temp fix? Reverse column view might fix something
-			this.Q("stackNodeContentContainer").style.flexDirection = new StyleEnum<FlexDirection>(FlexDirection.ColumnReverse);
+			// this.Q("stackNodeContentContainer").style.flexDirection = new StyleEnum<FlexDirection>(FlexDirection.ColumnReverse);
 
 			style.paddingLeft = style.paddingRight = 7;
 
