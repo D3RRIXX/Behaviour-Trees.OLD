@@ -6,6 +6,7 @@ namespace Derrixx.BehaviourTrees
 	{
 		[SerializeField, Min(0)] private int timesToRepeat = 1;
 		[SerializeField] private bool repeatInfinitely;
+		[SerializeField] private bool _resetOnDeactivate;
 
 		private int _repeatsPassed;
 		
@@ -15,15 +16,27 @@ namespace Derrixx.BehaviourTrees
 				return "Repeat infinitely";
 			
 			string times = timesToRepeat != 1 ? "times" : "time";
-			return $"Repeat {timesToRepeat} {times}";
+			return $"Repeat {timesToRepeat.ToString()} {times}";
+		}
+
+		protected override void OnDeactivate()
+		{
+			if (_resetOnDeactivate)
+				_repeatsPassed = 0;
 		}
 
 		protected override State OnUpdate()
 		{
-			if (repeatInfinitely || _repeatsPassed++ < timesToRepeat)
+			if (repeatInfinitely || _repeatsPassed < timesToRepeat)
 			{
-				Child.Update();
-				return State.Running;
+				State childState = Child.Update();
+				if (childState == State.Success)
+				{
+					_repeatsPassed++;
+					return State.Running;
+				}
+                
+				return childState;
 			}
 
 			return State.Success;
