@@ -1,14 +1,56 @@
 # Change Log
 All notable changes will be listed in this file
 
+## [1.3.3] - 2022-08-18
+### Added
+* Added custom asset icons
+* Behaviour Tree Editor now displays an asterisk(*) if the tree is dirty
+
+### Changed
+* `Decorator` nodes now log a warning instead of throwing if they don't have a child
+* Removed `.Runtime` from the namespace
+* Renamed the Zenject define symbol to `BTREE_ADD_ZENJECT`
+
 ## [1.3.2] - 2022-05-05
 ### Added
-* Zenject Support (Add `BTREE_INTEGRATE_ZENJECT` to define symbols)
-* Parent blackboard properties in the behaviour tree editor
-* Attribute for custom node creation paths
+* Added Zenject Support (Add `BTREE_INTEGRATE_ZENJECT` to define symbols)
+* Blackboard Editor now displays inherited properties
+* Added attribute for custom node creation paths
 
 ### Changed
 * Search window is now like ShaderGraph's
+
+## [1.3.1] - 2022-04-05
+### Fixed
+* Fixed property reference list filtering
+
+## [1.3.0] - 2022-04-05
+### Changed
+* Reworked the Blackboard Editor. Now it shows more useful info.
+* Blackboard Properties now have to be exposed in the Editor if you need to override them
+
+### Fixed
+* Fixed `OnCreate()` call execution order
+
+## [1.2.0] - 2022-02-27
+### Changed
+* Changed the minimum required Unity version to 2021.*+
+
+## [1.1.2] - 2022-02-27
+### Added
+* You can now override default values of BehaviourTreeRunners for every Runner instance
+* Blackboard Editor now displays a message if a key is defined multiple times
+
+## [1.1.1] - 2022-02-22
+### Added
+* Added `Wait` and `WaitBlackboardTime` nodes to the standard library
+
+## [1.1.0] - 2022-02-22
+### Added
+* `BehaviourTreeRunner` can now be inherited from
+
+### Changed
+* Nodes now take `BehaviourTreeRunner` as a parameter
 
 ## [1.0.2] - 2022-02-21
 ### Added
