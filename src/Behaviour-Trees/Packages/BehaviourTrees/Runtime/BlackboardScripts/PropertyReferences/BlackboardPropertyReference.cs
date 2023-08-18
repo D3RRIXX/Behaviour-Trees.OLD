@@ -7,14 +7,17 @@ namespace Derrixx.BehaviourTrees.PropertyReferences
     public abstract class BlackboardPropertyReference
     {
         [SerializeField, HideInInspector] private BlackboardProperty _blackboardProperty;
+
+        protected BlackboardPropertyReference() { }
+
+        protected BlackboardPropertyReference(BlackboardProperty property)
+        {
+	        _blackboardProperty = property;
+        }
         
         public string Key => _blackboardProperty.Key;
 
-        public BlackboardProperty Property
-        {
-	        get => _blackboardProperty;
-	        set => _blackboardProperty = value;
-        }
+        public BlackboardProperty Property => _blackboardProperty;
 
         public abstract void AssignPropertyValue(Blackboard blackboard);
 
@@ -22,18 +25,17 @@ namespace Derrixx.BehaviourTrees.PropertyReferences
         {
 	        BlackboardPropertyReference propertyReference = property switch
 	        {
-		        BoolBlackboardProperty => new BoolPropertyReference(),
-		        FloatBlackboardProperty => new FloatPropertyReference(),
-		        IntBlackboardProperty => new IntPropertyReference(),
-		        ObjectBlackboardProperty => new ObjectPropertyReference(),
-		        StringBlackboardProperty => new StringPropertyReference(),
-		        Vector2BlackboardProperty => new Vector2PropertyReference(),
-		        Vector2IntBlackboardProperty => new Vector2IntPropertyReference(),
-		        Vector3BlackboardProperty => new Vector3PropertyReference(),
+		        BoolBlackboardProperty x => new BoolPropertyReference(x),
+		        FloatBlackboardProperty x => new FloatPropertyReference(x),
+		        IntBlackboardProperty x => new IntPropertyReference(x),
+		        ObjectBlackboardProperty x => new ObjectPropertyReference(x),
+		        StringBlackboardProperty x => new StringPropertyReference(x),
+		        Vector2BlackboardProperty x => new Vector2PropertyReference(x),
+		        Vector2IntBlackboardProperty x => new Vector2IntPropertyReference(x),
+		        Vector3BlackboardProperty x => new Vector3PropertyReference(x),
 		        _ => throw new ArgumentOutOfRangeException(nameof(property))
 	        };
 
-	        propertyReference.Property = property;
 	        return propertyReference;
         }
     }
@@ -42,6 +44,11 @@ namespace Derrixx.BehaviourTrees.PropertyReferences
     public abstract class BlackboardPropertyReference<T> : BlackboardPropertyReference
     {
         [SerializeField] private T _value;
+
+        protected BlackboardPropertyReference(BlackboardProperty<T> blackboardProperty) : base(blackboardProperty)
+        {
+	        _value = blackboardProperty.Value;
+        }
         
         public T Value
         {
