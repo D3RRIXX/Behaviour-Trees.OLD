@@ -46,6 +46,12 @@ namespace Derrixx.BehaviourTrees
 			BehaviourTree.Update();
 		}
 
+		protected virtual void OnDestroy()
+		{
+			Destroy(BehaviourTree);
+			Destroy(Blackboard);
+		}
+
 		private BehaviourTree CloneTree()
 		{
 			_createdClone = true;
