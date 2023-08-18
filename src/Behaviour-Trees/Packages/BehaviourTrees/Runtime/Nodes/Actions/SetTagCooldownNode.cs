@@ -12,7 +12,7 @@ namespace Derrixx.BehaviourTrees.Nodes.Actions
 		
 		private int _cooldownHash;
 
-		public override string GetDescription() => $"Set cooldown {_cooldownTag} for {_cooldownDuration.ToString(CultureInfo.CurrentCulture)}s";
+		public override string GetDescription() => $"Set cooldown {_cooldownTag} to {_cooldownDuration.ToString(CultureInfo.CurrentCulture)}s";
 
 		public override void OnCreate()
 		{
