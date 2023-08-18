@@ -8,7 +8,7 @@ namespace Derrixx.BehaviourTrees
 		[SerializeField] private bool _dynamic;
 		
 		private int _currentChildIndex;
-		protected virtual State FinalState => State.Success;
+		private int _lastDynamicChildIndex;
 
 		public override string GetDescription()
 		{
@@ -27,7 +27,13 @@ namespace Derrixx.BehaviourTrees
 				State updateResult = currentChild.Update();
 
 				if (updateResult != State.Success)
+				{
+					if (_dynamic && _lastDynamicChildIndex != _currentChildIndex)
+						Children[_lastDynamicChildIndex].ResetState();
+					
+					_lastDynamicChildIndex = _currentChildIndex;
 					return updateResult;
+				}
 			}
 
 			return State.Success;
