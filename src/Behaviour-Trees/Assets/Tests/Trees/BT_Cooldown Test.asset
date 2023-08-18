@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6426700095294827653
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 188bce1d72e543338662a2a3d5cad4a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Tag Cooldown
+  executionOrder: 2
+  behaviourTree: {fileID: 11400000}
+  _cachedTypeName: Tag Cooldown
+  Guid: 0d28fca29a155eb4ca3598fbd708952b
+  Position: {x: -196.72, y: 231}
+  _child: {fileID: -2393510301112785491}
+  _cooldownTag: TestCooldown
+--- !u!114 &-2393510301112785491
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b99fcdff8f284b52bfd913c014278e70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Log
+  executionOrder: 3
+  behaviourTree: {fileID: 11400000}
+  _cachedTypeName: Log
+  Guid: b448ce62c19e302409202cb2f554c12f
+  Position: {x: -163, y: 349.76}
+  _message: Log works!
+--- !u!114 &-895042852650180902
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4c85e0eeac50614587a90edc5f206e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Set Tag Cooldown
+  executionOrder: 4
+  behaviourTree: {fileID: 11400000}
+  _cachedTypeName: Set Tag Cooldown
+  Guid: 77d17e733db9c764293d569cb919d11e
+  Position: {x: 111, y: 231}
+  _cooldownTag: TestCooldown
+  _cooldownDuration: 5
+  _addToExistingDuration: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9972f18520af88479f216431679237a, type: 3}
+  m_Name: BT_Cooldown Test
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 7885751989711822070}
+  - {fileID: -895042852650180902}
+  - {fileID: 8283646674958527174}
+  - {fileID: -6426700095294827653}
+  - {fileID: -2393510301112785491}
+  rootNode: {fileID: 7885751989711822070}
+  blackboard: {fileID: 0}
+--- !u!114 &7885751989711822070
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d5071c66c9f52644b6da255ff5fe082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Root
+  executionOrder: 0
+  behaviourTree: {fileID: 11400000}
+  _cachedTypeName: Root
+  Guid: d2909151ffdbe674695010b6e31b93e8
+  Position: {x: 0, y: 0}
+  _child: {fileID: 8283646674958527174}
+--- !u!114 &8283646674958527174
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 505736a48783902418da8f7f064489da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Sequence
+  executionOrder: 1
+  behaviourTree: {fileID: 11400000}
+  _cachedTypeName: Sequence
+  Guid: b2cdc7131b4d5f441a0bb49e76974dcc
+  Position: {x: -0.000008583069, y: 100.05}
+  Children:
+  - {fileID: -6426700095294827653}
+  - {fileID: -895042852650180902}
+  _dynamic: 0

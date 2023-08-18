@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Derrixx.BehaviourTrees.PropertyReferences;
+using Derrixx.BehaviourTrees.TimerSystem;
 using UnityEngine;
 
 #if BTREE_ADD_ZENJECT
@@ -39,6 +40,8 @@ namespace Derrixx.BehaviourTrees
 			}
 		}
 
+		internal CooldownHandler CooldownHandler { get; private set; }
+		
 		public Blackboard Blackboard => BehaviourTree.Blackboard;
 
 		public void RunBehaviourTree()
@@ -55,6 +58,7 @@ namespace Derrixx.BehaviourTrees
 		private BehaviourTree CloneTree()
 		{
 			_createdClone = true;
+			CooldownHandler = new CooldownHandler(this);
 
 			void OnTraverseNodes(Node node)
 			{
