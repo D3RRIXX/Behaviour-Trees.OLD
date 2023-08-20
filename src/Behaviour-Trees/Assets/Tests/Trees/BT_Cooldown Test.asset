@@ -17,7 +17,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 11400000}
   _cachedTypeName: Tag Cooldown
   Guid: 0d28fca29a155eb4ca3598fbd708952b
-  Position: {x: -241, y: 249}
+  Position: {x: -238, y: 250}
   _child: {fileID: -2393510301112785491}
   _cooldownTag: TestCooldown
   _setCooldownOnDeactivate: 1
@@ -40,7 +40,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 11400000}
   _cachedTypeName: Log
   Guid: b448ce62c19e302409202cb2f554c12f
-  Position: {x: -188, y: 359}
+  Position: {x: -179, y: 356}
   _message: Log works!
 --- !u!114 &11400000
 MonoBehaviour:
@@ -97,7 +97,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 11400000}
   _cachedTypeName: Sequence
   Guid: b2cdc7131b4d5f441a0bb49e76974dcc
-  Position: {x: -0.000008583069, y: 100.05}
+  Position: {x: 0, y: 103}
   Children:
   - {fileID: -6426700095294827653}
   _dynamic: 0

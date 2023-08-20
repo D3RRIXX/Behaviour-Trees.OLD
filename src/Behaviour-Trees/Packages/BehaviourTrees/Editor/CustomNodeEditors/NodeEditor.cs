@@ -25,8 +25,14 @@ namespace Derrixx.BehaviourTrees.Editor
 			{
 				bindingPath = "nodeName"
 			});
-			
-			CreateInspectorGUI_Implementation(root);
+
+			var childGUI = CreateInspectorGUI_Implementation();
+			root.Add(childGUI ?? new IMGUIContainer(() =>
+			{
+				serializedObject.Update();
+				OnInspectorGUI_Implementation();
+				serializedObject.ApplyModifiedProperties();
+			}));
 			
 			root.Bind(serializedObject);
 			
@@ -52,20 +58,24 @@ namespace Derrixx.BehaviourTrees.Editor
 			DrawPropertiesExcluding(serializedObject, "m_Script", "nodeName");
 		}
 
-		protected virtual void CreateInspectorGUI_Implementation(VisualElement root)
+		protected virtual VisualElement CreateInspectorGUI_Implementation()
 		{
-			var currentProperty = _nameProperty;
-			while (_nameProperty.NextVisible(false))
-			{
-				root.Add(new PropertyField(currentProperty)
-				{
-					bindingPath = currentProperty.propertyPath,
-					style =
-					{
-						height = EditorGUIUtility.singleLineHeight
-					}
-				});
-			}
+			// var childRoot = new VisualElement();
+			// var currentProperty = _nameProperty;
+			// while (_nameProperty.NextVisible(false))
+			// {
+			// 	childRoot.Add(new PropertyField(currentProperty)
+			// 	{
+			// 		bindingPath = currentProperty.propertyPath,
+			// 		style =
+			// 		{
+			// 			height = EditorGUIUtility.singleLineHeight
+			// 		}
+			// 	});
+			// }
+			//
+			// return childRoot;
+			return null;
 		}
 	}
 }
