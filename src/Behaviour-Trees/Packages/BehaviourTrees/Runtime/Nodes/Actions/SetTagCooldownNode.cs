@@ -12,8 +12,13 @@ namespace Derrixx.BehaviourTrees.Nodes.Actions
 		
 		private int _cooldownHash;
 
-		public override string GetDescription() => $"Set cooldown {_cooldownTag} to {_cooldownDuration.ToString(CultureInfo.CurrentCulture)}s";
+		public override string GetDescription()
+		{
+			var duration = $"{_cooldownDuration.ToString(CultureInfo.CurrentCulture)}s";
+			return _addToExistingDuration ? $"Add {duration} to {_cooldownTag}" : $"Set {_cooldownTag} to {duration}";
+		}
 
+		//TODO: Add runtime editing support
 		public override void OnCreate()
 		{
 			_cooldownHash = Animator.StringToHash(_cooldownTag);

@@ -37,13 +37,13 @@ namespace Derrixx.BehaviourTrees.TimerSystem
 			{
 				cooldown = new Cooldown { RemainingDuration = cooldownParams.Duration };
 				cooldown.Coroutine = _runner.StartCoroutine(CooldownRoutine(timerHash, cooldown));
+				
+				_cooldownMap.Add(timerHash, cooldown);
 			}
 		}
 
 		private IEnumerator CooldownRoutine(int key, Cooldown cooldown)
 		{
-			_cooldownMap.Add(key, cooldown);
-
 			while (cooldown.RemainingDuration > 0)
 			{
 				cooldown.RemainingDuration -= Time.deltaTime;

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Derrixx.BehaviourTrees.TimerSystem
 {
-	public struct Cooldown
+	public class Cooldown
 	{
 		public float RemainingDuration { get; set; }
 		public Coroutine Coroutine { get; set; }
