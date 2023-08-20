@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
 namespace Derrixx.BehaviourTrees.Editor
@@ -11,61 +13,58 @@ namespace Derrixx.BehaviourTrees.Editor
 	[CustomPropertyDrawer(typeof(BlackboardProperty), true)]
 	public class BlackboardPropertyDrawer : PropertyDrawer
 	{
-		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+		public override VisualElement CreatePropertyGUI(SerializedProperty property)
 		{
 			Object targetObject = property.serializedObject.targetObject;
 
 			if (targetObject is not Node node)
-			{
-				EditorGUI.PropertyField(position, property, label);
-				return;
-			}
-
-			BlackboardProperty targetProperty = (BlackboardProperty)property.objectReferenceValue;
-			Blackboard blackboard = node.BehaviourTree.Blackboard;
-
-			GUIStyle style = new GUIStyle(GUI.skin.label)
-			{
-				// wordWrap = true
-			};
+				return new PropertyField(property);
 			
-			if (!blackboard || blackboard.Properties.Count == 0)
-			{
-				var content = new GUIContent("Blackboard is unassigned or empty!");
+			var targetProperty = (BlackboardProperty)property.objectReferenceValue;
+			var blackboard = node.BehaviourTree.Blackboard;
 
-				var labelRect = new Rect(position);
-				labelRect.height = style.CalcHeight(content, labelRect.width);
-				EditorGUI.LabelField(labelRect, label, content, style);
-				
-				return;
-			}
+			if (!blackboard || blackboard.Properties.Count == 0)
+				return new Label("Blackboard is unassigned or empty!");
 
 			BlackboardProperty[] options = GetPropertyOptions(blackboard);
-			int indexOf = Array.IndexOf(options, targetProperty);
-			bool valueIsUnassigned = indexOf < 0;
 
 			if (options.Length == 0)
+				return new Label($"Found no properties of type {fieldInfo.FieldType.Name}!");
+
+			return SetupDropdownField(property, options, targetProperty, targetObject);
+		}
+
+		private DropdownField SetupDropdownField(SerializedProperty property, BlackboardProperty[] options, BlackboardProperty targetProperty, Object targetObject)
+		{
+			int defaultIndex = Mathf.Max(0, Array.IndexOf(options, targetProperty));
+			var keys = (from option in options select option.Key).ToList();
+
+			var dropdownField = new DropdownField(property.displayName, keys, defaultIndex)
 			{
-				EditorGUI.LabelField(position, label, new GUIContent($"Found no properties of type {fieldInfo.FieldType.Name}!"), style);
-				return;
-			}
+				name = "blackboard-property__dropdown",
+				style =
+				{
+					height = EditorGUIUtility.singleLineHeight
+				}
+			};
+			dropdownField.RegisterValueChangedCallback(evt => SetBlackboardProperty(targetObject, options[dropdownField.index]));
+			
+			return dropdownField;
+		}
 
-			int index = Mathf.Max(0, indexOf);
-			BlackboardProperty value = GetPopupValue(position, label, options, index);
-
-			if (!valueIsUnassigned && value == targetProperty)
-				return;
-
-			FieldInfo field = targetObject.GetType().GetField(property.name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-			field!.SetValue(targetObject, value);
-
+		private void SetBlackboardProperty(Object targetObject, BlackboardProperty propertyFromPopup)
+		{
+			// var field = targetObject.GetType().GetField(property.name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+			fieldInfo!.SetValue(targetObject, propertyFromPopup);
+			
 			EditorUtility.SetDirty(targetObject);
 		}
 
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
 			if (property.serializedObject.targetObject is not Blackboard)
-				return EditorGUIUtility.singleLineHeight;
+				// return EditorGUIUtility.singleLineHeight;
+				return base.GetPropertyHeight(property, label);
 
 			const int baseFieldCount = 6;
 			int fieldCount = baseFieldCount;
@@ -79,14 +78,6 @@ namespace Derrixx.BehaviourTrees.Editor
 			serializedObject.Dispose();
 
 			return EditorGUIUtility.singleLineHeight * fieldCount;
-		}
-
-		private static BlackboardProperty GetPopupValue(Rect position, GUIContent label, IReadOnlyList<BlackboardProperty> options, int index)
-		{
-			string[] keys = (from option in options select option.Key).ToArray();
-			int i = EditorGUI.Popup(position, label.text, index, keys);
-
-			return options[i];
 		}
 
 		private BlackboardProperty[] GetPropertyOptions(Blackboard blackboard)
