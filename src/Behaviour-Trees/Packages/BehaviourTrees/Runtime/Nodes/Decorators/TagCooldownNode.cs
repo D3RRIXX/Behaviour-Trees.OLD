@@ -1,9 +1,9 @@
 ﻿using Derrixx.BehaviourTrees.TimerSystem;
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Nodes.Decorators
+namespace Derrixx.BehaviourTrees.Nodes
 {
-	public class TagCooldownNode : ConditionalNode
+	public class TagCooldownNode : DecoratorNode
 	{
 		[SerializeField] private string _cooldownTag;
 		[SerializeField] private bool _setCooldownOnDeactivate;
@@ -23,12 +23,25 @@ namespace Derrixx.BehaviourTrees.Nodes.Decorators
 			_cooldownHash = Animator.StringToHash(_cooldownTag);
 		}
 
-		protected override void OnDeactivate()
+		protected override State OnUpdate()
+		{
+			if (Runner.CooldownHandler.IsCooldownActive(_cooldownHash))
+				return State.Failure;
+
+			var childState = Child.Update();
+			if (childState == State.Running)
+				return State.Running;
+			
+			if (_setCooldownOnDeactivate)
+				SetCooldown();
+
+			return childState;
+		}
+
+		private void SetCooldown()
 		{
 			if (_setCooldownOnDeactivate)
 				Runner.CooldownHandler.SetCooldown(_cooldownHash, new SetCooldownParams { AddToExistingDuration = _addToExistingDuration, Duration = _cooldownDuration });
 		}
-
-		protected override bool ConditionValue() => !Runner.CooldownHandler.IsCooldownActive(_cooldownHash);
 	}
 }

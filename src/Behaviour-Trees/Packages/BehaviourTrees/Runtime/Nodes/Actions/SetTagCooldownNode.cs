@@ -2,7 +2,7 @@ using System.Globalization;
 using Derrixx.BehaviourTrees.TimerSystem;
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Nodes.Actions
+namespace Derrixx.BehaviourTrees.Nodes
 {
 	public class SetTagCooldownNode : ActionNode
 	{

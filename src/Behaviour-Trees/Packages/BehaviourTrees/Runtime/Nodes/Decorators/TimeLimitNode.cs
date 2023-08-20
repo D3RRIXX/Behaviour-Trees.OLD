@@ -1,7 +1,7 @@
 using System.Globalization;
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Nodes.Decorators
+namespace Derrixx.BehaviourTrees.Nodes
 {
 	public class TimeLimitNode : DecoratorNode
 	{

@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-using Derrixx.BehaviourTrees.Nodes.Actions;
+using Derrixx.BehaviourTrees.Nodes;
 using UnityEditor;
 
 namespace Derrixx.BehaviourTrees.Editor
