@@ -1,6 +1,8 @@
 using Derrixx.BehaviourTrees.Nodes;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Derrixx.BehaviourTrees.Editor
 {
@@ -14,6 +16,21 @@ namespace Derrixx.BehaviourTrees.Editor
 		{
 			_nameProperty = serializedObject.FindProperty("nodeName");
 			_scriptProperty = serializedObject.FindProperty("m_Script");
+		}
+
+		public override VisualElement CreateInspectorGUI()
+		{
+			var root = new VisualElement();
+			root.Add(new TextField("Node Name")
+			{
+				bindingPath = "nodeName"
+			});
+			
+			CreateInspectorGUI_Implementation(root);
+			
+			root.Bind(serializedObject);
+			
+			return root;
 		}
 
 		public sealed override void OnInspectorGUI()
@@ -33,6 +50,22 @@ namespace Derrixx.BehaviourTrees.Editor
 		protected virtual void OnInspectorGUI_Implementation()
 		{
 			DrawPropertiesExcluding(serializedObject, "m_Script", "nodeName");
+		}
+
+		protected virtual void CreateInspectorGUI_Implementation(VisualElement root)
+		{
+			var currentProperty = _nameProperty;
+			while (_nameProperty.NextVisible(false))
+			{
+				root.Add(new PropertyField(currentProperty)
+				{
+					bindingPath = currentProperty.propertyPath,
+					style =
+					{
+						height = EditorGUIUtility.singleLineHeight
+					}
+				});
+			}
 		}
 	}
 }

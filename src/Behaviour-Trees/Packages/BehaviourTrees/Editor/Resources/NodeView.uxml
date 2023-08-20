@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <Style src="NodeViewStyle.uss" />
+    <Style src="project://database/Packages/com.derrixx.behaviourtrees/Editor/Resources/NodeViewStyle.uss?fileID=7433441132597879392&amp;guid=bf2a6f39832fbff459aa8163d94ee839&amp;type=3#NodeViewStyle" />
     <ui:VisualElement name="node-state" />
     <ui:VisualElement name="node-border" style="overflow: visible;">
         <ui:VisualElement name="contents">

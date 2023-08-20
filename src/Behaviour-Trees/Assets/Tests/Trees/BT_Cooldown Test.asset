@@ -17,11 +17,11 @@ MonoBehaviour:
   behaviourTree: {fileID: 11400000}
   _cachedTypeName: Tag Cooldown
   Guid: 0d28fca29a155eb4ca3598fbd708952b
-  Position: {x: -196.72, y: 231}
+  Position: {x: -241, y: 249}
   _child: {fileID: -2393510301112785491}
   _cooldownTag: TestCooldown
   _setCooldownOnDeactivate: 1
-  _cooldownDuration: 5
+  _cooldownDuration: 100.23
   _addToExistingDuration: 0
 --- !u!114 &-2393510301112785491
 MonoBehaviour:

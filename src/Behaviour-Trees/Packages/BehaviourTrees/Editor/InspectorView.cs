@@ -1,4 +1,6 @@
 using Derrixx.BehaviourTrees.Editor.ViewScripts;
+using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -17,15 +19,20 @@ namespace Derrixx.BehaviourTrees.Editor
 			Object.DestroyImmediate(_editor);
 
 			_editor = UnityEditor.Editor.CreateEditor(nodeView.Node);
-			var container = new IMGUIContainer(() =>
-			{
-				if (!_editor.target)
-					return;
-
-				_editor.OnInspectorGUI();
-				nodeView.Update();
-			});
-			Add(container);
+			var inspectorGUI = _editor.CreateInspectorGUI();
+			
+			Add(inspectorGUI);
+			
+			MarkDirtyRepaint();
+			// var container = new IMGUIContainer(() =>
+			// {
+			// 	if (!_editor.target)
+			// 		return;
+			//
+			// 	_editor.OnInspectorGUI();
+			// 	nodeView.Update();
+			// });
+			// Add(container);
 		}
 	}
 }
