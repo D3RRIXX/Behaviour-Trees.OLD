@@ -1,33 +1,44 @@
 using Derrixx.BehaviourTrees.Nodes;
 using UnityEditor;
+using UnityEditor.UIElements;
+using UnityEngine.UIElements;
 
 namespace Derrixx.BehaviourTrees.Editor
 {
 	[CustomEditor(typeof(RepeatNode), true)]
 	public class RepeatNodeEditor : NodeEditor
 	{
-		private SerializedProperty _timesProperty;
-		private SerializedProperty _repeatInfinitelyProperty;
-		private SerializedProperty _resetProperty;
+		// protected override void OnInspectorGUI_Implementation()
+		// {
+		// 	var repeatInfinitelyProperty = serializedObject.FindProperty("repeatInfinitely");
+		// 	EditorGUILayout.PropertyField(repeatInfinitelyProperty);
+		// 	
+		// 	if (repeatInfinitelyProperty.boolValue)
+		// 		return;
+		//
+		// 	EditorGUILayout.PropertyField(serializedObject.FindProperty("timesToRepeat"));
+		// 	EditorGUILayout.PropertyField(serializedObject.FindProperty("_resetOnDeactivate"));
+		// }
 
-		protected override void OnEnable()
+		protected override VisualElement CreateInspectorGUI_Implementation()
 		{
-			base.OnEnable();
+			var root = new VisualElement();
 
-			_timesProperty = serializedObject.FindProperty("timesToRepeat");
-			_repeatInfinitelyProperty = serializedObject.FindProperty("repeatInfinitely");
-			_resetProperty = serializedObject.FindProperty("_resetOnDeactivate");
-		}
-
-		protected override void OnInspectorGUI_Implementation()
-		{
-			EditorGUILayout.PropertyField(_repeatInfinitelyProperty);
+			var repeatInfinitelyField = new PropertyField(serializedObject.FindProperty("repeatInfinitely"));
 			
-			if (_repeatInfinitelyProperty.boolValue)
-				return;
+			var subContainer = new VisualElement();
+			subContainer.Add(new PropertyField(serializedObject.FindProperty("timesToRepeat")));
+			subContainer.Add(new PropertyField(serializedObject.FindProperty("_resetOnDeactivate")));
+			
+			repeatInfinitelyField.RegisterValueChangeCallback(evt =>
+			{
+				subContainer.SetActive(evt.changedProperty.boolValue);
+			});
 
-			EditorGUILayout.PropertyField(_timesProperty);
-			EditorGUILayout.PropertyField(_resetProperty);
+			root.Add(repeatInfinitelyField);
+			root.Add(subContainer);
+
+			return root;
 		}
 	}
 }

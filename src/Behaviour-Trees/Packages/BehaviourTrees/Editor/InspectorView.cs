@@ -1,6 +1,4 @@
 using Derrixx.BehaviourTrees.Editor.ViewScripts;
-using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,7 +12,6 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		public void UpdateSelection(NodeView nodeView)
 		{
-			Debug.Log(nodeView);
 			Clear();
 
 			Object.DestroyImmediate(_editor);

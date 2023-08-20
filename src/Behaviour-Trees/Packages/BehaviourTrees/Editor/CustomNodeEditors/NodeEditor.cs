@@ -9,16 +9,9 @@ namespace Derrixx.BehaviourTrees.Editor
 	[CustomEditor(typeof(Node), true, isFallback = true)]
 	public class NodeEditor : UnityEditor.Editor
 	{
-		private SerializedProperty _nameProperty;
-		private SerializedProperty _scriptProperty;
+		protected virtual void OnEnable() { }
 
-		protected virtual void OnEnable()
-		{
-			_nameProperty = serializedObject.FindProperty("nodeName");
-			_scriptProperty = serializedObject.FindProperty("m_Script");
-		}
-
-		public override VisualElement CreateInspectorGUI()
+		public sealed override VisualElement CreateInspectorGUI()
 		{
 			var root = new VisualElement();
 			root.Add(new TextField("Node Name")
@@ -39,20 +32,6 @@ namespace Derrixx.BehaviourTrees.Editor
 			return root;
 		}
 
-		public sealed override void OnInspectorGUI()
-		{
-			serializedObject.Update();
-			
-			GUI.enabled = false;
-			EditorGUILayout.PropertyField(_scriptProperty, true);
-			GUI.enabled = true;
-			EditorGUILayout.PropertyField(_nameProperty);
-			
-			OnInspectorGUI_Implementation();
-
-			serializedObject.ApplyModifiedProperties();
-		}
-
 		protected virtual void OnInspectorGUI_Implementation()
 		{
 			DrawPropertiesExcluding(serializedObject, "m_Script", "nodeName");
@@ -60,21 +39,21 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		protected virtual VisualElement CreateInspectorGUI_Implementation()
 		{
-			// var childRoot = new VisualElement();
-			// var currentProperty = _nameProperty;
-			// while (_nameProperty.NextVisible(false))
-			// {
-			// 	childRoot.Add(new PropertyField(currentProperty)
-			// 	{
-			// 		bindingPath = currentProperty.propertyPath,
-			// 		style =
-			// 		{
-			// 			height = EditorGUIUtility.singleLineHeight
-			// 		}
-			// 	});
-			// }
-			//
-			// return childRoot;
+			var childRoot = new VisualElement();
+			var currentProperty = serializedObject.FindProperty("nodeName");
+			while (currentProperty.NextVisible(false))
+			{
+				childRoot.Add(new PropertyField(currentProperty)
+				{
+					bindingPath = currentProperty.propertyPath,
+					style =
+					{
+						height = EditorGUIUtility.singleLineHeight
+					}
+				});
+			}
+			
+			return childRoot;
 			return null;
 		}
 	}

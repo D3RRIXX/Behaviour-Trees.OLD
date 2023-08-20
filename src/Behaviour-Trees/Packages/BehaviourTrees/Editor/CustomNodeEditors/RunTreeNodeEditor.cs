@@ -14,7 +14,6 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		protected override void OnEnable()
 		{
-			base.OnEnable();
 			_runTreeNode = target as RunTreeNode;
 		}
 
@@ -24,7 +23,7 @@ namespace Derrixx.BehaviourTrees.Editor
 			
 			var subTreeField = new ObjectField("Sub Tree") { bindingPath = "_behaviourTree", objectType = typeof(BehaviourTree) };
 			subTreeField.RegisterValueChangedCallback(OnSubtreeChanged);
-
+			
 			_helpBox = new HelpBox(string.Empty, HelpBoxMessageType.Error);
 			
 			root.Add(subTreeField);

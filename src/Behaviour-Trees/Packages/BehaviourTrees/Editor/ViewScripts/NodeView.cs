@@ -1,6 +1,7 @@
 using System;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Node = Derrixx.BehaviourTrees.Node;
@@ -27,10 +28,16 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 
 			style.left = node.Position.x;
 			style.top = node.Position.y;
+			
+			this.TrackSerializedObjectValue(new SerializedObject(node), o =>
+			{
+				Update();
+			});
 
 			SetupClass();
 			CreateInputPorts();
 			CreateOutputPorts();
+			
 			Update();
 		}
 
@@ -64,9 +71,14 @@ namespace Derrixx.BehaviourTrees.Editor.ViewScripts
 			EditorUtility.SetDirty(Node);
 		}
 
-		public void Update()
+		private void Update()
 		{
 			title = Node.name;
+			UpdateDescription();
+		}
+
+		private void UpdateDescription()
+		{
 			_description.text = Node.GetDescription();
 		}
 
