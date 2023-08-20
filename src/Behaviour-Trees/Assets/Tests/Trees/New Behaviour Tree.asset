@@ -35,11 +35,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeName: Run Tree
   executionOrder: 2
+  behaviourTree: {fileID: 11400000}
   _cachedTypeName: Run Tree
   Guid: dab4f3903d040de42b505fa4c92009ac
-  Position: {x: 0, y: 207}
-  behaviourTree: {fileID: 11400000}
-  _behaviourTree: {fileID: 0}
+  Position: {x: 0, y: 215}
+  _behaviourTree: {fileID: 11400000, guid: 08bdeb4cfdf80c74c8585034de5fc0a3, type: 2}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,10 +73,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeName: Root
   executionOrder: 0
+  behaviourTree: {fileID: 11400000}
   _cachedTypeName: Root
   Guid: 2b93f9a6b96a16f4c8fa962eacfe4117
   Position: {x: 0, y: 0}
-  behaviourTree: {fileID: 11400000}
   _child: {fileID: 3968280747058448885}
 --- !u!114 &3968280747058448885
 MonoBehaviour:
@@ -92,10 +92,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeName: Blackboard Condition
   executionOrder: 1
+  behaviourTree: {fileID: 11400000}
   _cachedTypeName: Blackboard Condition
   Guid: 7ec7cb333dcb49e45aeca08ddd5f64f3
   Position: {x: 0, y: 104}
-  behaviourTree: {fileID: 11400000}
   _child: {fileID: -1603425391949636301}
   _condition: {fileID: 0}
   _shouldBeTrue: 1

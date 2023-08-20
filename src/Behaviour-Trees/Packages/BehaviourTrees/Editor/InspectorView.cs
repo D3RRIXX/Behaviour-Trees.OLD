@@ -14,6 +14,7 @@ namespace Derrixx.BehaviourTrees.Editor
 
 		public void UpdateSelection(NodeView nodeView)
 		{
+			Debug.Log(nodeView);
 			Clear();
 
 			Object.DestroyImmediate(_editor);

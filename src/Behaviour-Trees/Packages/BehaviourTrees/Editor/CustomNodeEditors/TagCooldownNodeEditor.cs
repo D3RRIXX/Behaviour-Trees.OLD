@@ -7,7 +7,7 @@ namespace Derrixx.BehaviourTrees.Editor
 	[CustomEditor(typeof(TagCooldownNode))]
 	public class TagCooldownNodeEditor : NodeEditor
 	{
-		private SerializedProperty _setCooldownOnDeactivateProperty;
+		/*private SerializedProperty _setCooldownOnDeactivateProperty;
 		private SerializedProperty _cooldownDurationProperty;
 		private SerializedProperty _addToDurationProperty;
 		private SerializedProperty _cooldownTagProperty;
@@ -32,7 +32,7 @@ namespace Derrixx.BehaviourTrees.Editor
 				EditorGUILayout.PropertyField(_cooldownDurationProperty);
 				EditorGUILayout.PropertyField(_addToDurationProperty);
 			}
-		}
+		}*/
 
 		protected override VisualElement CreateInspectorGUI_Implementation()
 		{

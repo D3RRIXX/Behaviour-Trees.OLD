@@ -1,35 +1,60 @@
-#if UNITY_EDITOR
 using Derrixx.BehaviourTrees.Nodes;
 using UnityEditor;
+using UnityEditor.UIElements;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Derrixx.BehaviourTrees.Editor
 {
 	[CustomEditor(typeof(RunTreeNode), true)]
 	public class RunTreeNodeEditor : NodeEditor
 	{
+		private HelpBox _helpBox;
 		private RunTreeNode _runTreeNode;
-		private SerializedProperty _behaviourTreeProperty;
 
 		protected override void OnEnable()
 		{
 			base.OnEnable();
 			_runTreeNode = target as RunTreeNode;
-			_behaviourTreeProperty = serializedObject.FindProperty("_behaviourTree");
 		}
 
-		protected override void OnInspectorGUI_Implementation()
+		protected override VisualElement CreateInspectorGUI_Implementation()
 		{
-			EditorGUILayout.PropertyField(_behaviourTreeProperty);
+			var root = new VisualElement();
 			
-			if (_behaviourTreeProperty.objectReferenceValue is not BehaviourTree subTree)
+			var subTreeField = new ObjectField("Sub Tree") { bindingPath = "_behaviourTree", objectType = typeof(BehaviourTree) };
+			subTreeField.RegisterValueChangedCallback(OnSubtreeChanged);
+
+			_helpBox = new HelpBox(string.Empty, HelpBoxMessageType.Error);
+			
+			root.Add(subTreeField);
+			root.Add(_helpBox);
+			
+			return root;
+		}
+
+		private void OnSubtreeChanged(ChangeEvent<Object> evt)
+		{
+			if (evt.newValue is not BehaviourTree subTree)
+			{
+				_helpBox.SetActive(false);
 				return;
-			
-			if (subTree.Blackboard != _runTreeNode.BehaviourTree.Blackboard)
-				EditorGUILayout.HelpBox("This node will not run because it uses a different Blackboard!", MessageType.Error);
-            
+			}
+
 			if (subTree == _runTreeNode.BehaviourTree)
-				EditorGUILayout.HelpBox($"You've assigned '{subTree.name}' as a subtree of self. This will lead to stack overflow!", MessageType.Error);
+			{
+				_helpBox.text = $"You've assigned '{subTree.name}' as a subtree of self. This will lead to stack overflow!";
+				_helpBox.SetActive(true);
+			}
+			else if (subTree.Blackboard != _runTreeNode.BehaviourTree.Blackboard)
+			{
+				_helpBox.text = "This node will not run because it uses a different Blackboard!";
+				_helpBox.SetActive(true);
+			}
+			else
+			{
+				_helpBox.SetActive(false);
+			}
 		}
 	}
 }
-#endif
