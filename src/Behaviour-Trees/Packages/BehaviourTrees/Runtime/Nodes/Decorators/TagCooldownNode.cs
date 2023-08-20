@@ -1,4 +1,6 @@
-﻿using Derrixx.BehaviourTrees.TimerSystem;
+﻿using System.Globalization;
+using System.Text;
+using Derrixx.BehaviourTrees.TimerSystem;
 using UnityEngine;
 
 namespace Derrixx.BehaviourTrees.Nodes
@@ -14,7 +16,11 @@ namespace Derrixx.BehaviourTrees.Nodes
 
 		public override string GetDescription()
 		{
-			return $"Run if {_cooldownTag} isn't active";
+			var builder = new StringBuilder($"Run if {_cooldownTag} isn't active");
+			if (_setCooldownOnDeactivate)
+				builder.Append($" and lock for {_cooldownDuration.ToString(CultureInfo.CurrentCulture)}s");
+			
+			return builder.ToString();
 		}
 
 		//TODO: Add runtime editing support
