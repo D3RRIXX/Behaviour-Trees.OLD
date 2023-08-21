@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Derrixx.BehaviourTrees.Nodes;
+using Derrixx.BehaviourTrees.PropertyReferences;
 using UnityEngine;
 
 #if BTREE_ADD_ZENJECT

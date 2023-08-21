@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Nodes.Composites
+namespace Derrixx.BehaviourTrees
 {
 	public abstract class CompositeNode : Node
 	{

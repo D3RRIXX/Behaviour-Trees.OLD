@@ -2,7 +2,7 @@ using System;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Nodes
+namespace Derrixx.BehaviourTrees
 {
     public abstract partial class Node : ScriptableObject
     {

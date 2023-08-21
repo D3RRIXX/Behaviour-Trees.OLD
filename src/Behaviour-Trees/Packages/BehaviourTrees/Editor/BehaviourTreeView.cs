@@ -1,17 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Derrixx.BehaviourTrees.Editor.ViewScripts;
-using Derrixx.BehaviourTrees;
-using Derrixx.BehaviourTrees.Editor;
-using Derrixx.BehaviourTrees.Nodes;
-using Derrixx.BehaviourTrees.Nodes.Decorators;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Node = Derrixx.BehaviourTrees.Nodes.Node;
 
 namespace Derrixx.BehaviourTrees.Editor
 {

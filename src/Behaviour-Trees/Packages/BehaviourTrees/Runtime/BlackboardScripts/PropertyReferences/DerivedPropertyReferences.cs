@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees
+namespace Derrixx.BehaviourTrees.PropertyReferences
 {
 	public class BoolPropertyReference : BlackboardPropertyReference<bool>
 	{

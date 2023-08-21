@@ -1,6 +1,6 @@
 using System;
 
-namespace Derrixx.BehaviourTrees
+namespace Derrixx.BehaviourTrees.Attributes
 {
 	[AttributeUsage(AttributeTargets.Class)]
 	public class NodeCreationPathAttribute : Attribute

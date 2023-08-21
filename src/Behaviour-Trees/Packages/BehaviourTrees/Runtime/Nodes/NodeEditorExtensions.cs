@@ -1,10 +1,7 @@
 using System.Collections.Generic;
-using Derrixx.BehaviourTrees.Nodes.Actions;
-using Derrixx.BehaviourTrees.Nodes.Composites;
-using Derrixx.BehaviourTrees.Nodes.Decorators;
 using UnityEditor;
 
-namespace Derrixx.BehaviourTrees.Nodes
+namespace Derrixx.BehaviourTrees
 {
 	public static class NodeEditorExtensions
 	{

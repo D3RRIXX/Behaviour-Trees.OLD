@@ -1,4 +1,5 @@
 using Derrixx.BehaviourTrees;
+using Derrixx.BehaviourTrees.PropertyReferences;
 using UnityEditor;
 using UnityEngine;
 

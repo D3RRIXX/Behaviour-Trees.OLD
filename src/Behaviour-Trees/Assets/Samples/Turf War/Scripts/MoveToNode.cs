@@ -1,5 +1,4 @@
 using Derrixx.BehaviourTrees;
-using Derrixx.BehaviourTrees.Nodes.Actions;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,7 +6,10 @@ namespace DefaultNamespace
 {
 	public class MoveToNode : ActionNode
 	{
-		[SerializeField] private Vector3BlackboardProperty _destination;
+		[SerializeField] private float _a;
+
+		
+		/*[SerializeField] private Vector3BlackboardProperty _destination;
 		[SerializeField] private ObjectBlackboardProperty _agentProperty;
 		[SerializeField] private float _stoppingDistance = 2f;
 		
@@ -28,6 +30,7 @@ namespace DefaultNamespace
 			float distance = Vector3.Distance(_agent.transform.position, _destination.Value);
 			float stoppingDistance = _stoppingDistance;
 			return distance <= stoppingDistance ? State.Success : State.Running;
-		}
+		}*/
+		protected override State OnUpdate() => State.Running;
 	}
 }

@@ -1,7 +1,7 @@
 using System.Globalization;
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Nodes.Actions
+namespace Derrixx.BehaviourTrees
 {
 	public class WaitNode : ActionNode
 	{

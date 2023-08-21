@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Derrixx.BehaviourTrees;
-using Derrixx.BehaviourTrees.Nodes;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
