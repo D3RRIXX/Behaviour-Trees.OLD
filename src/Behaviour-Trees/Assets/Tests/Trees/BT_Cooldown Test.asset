@@ -40,7 +40,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 11400000}
   _cachedTypeName: Log
   Guid: b448ce62c19e302409202cb2f554c12f
-  Position: {x: -179, y: 356}
+  Position: {x: -178, y: 373.8}
   _message: Log works!
 --- !u!114 &11400000
 MonoBehaviour:
@@ -60,7 +60,7 @@ MonoBehaviour:
   - {fileID: -6426700095294827653}
   - {fileID: -2393510301112785491}
   rootNode: {fileID: 7885751989711822070}
-  blackboard: {fileID: 0}
+  blackboard: {fileID: 11400000, guid: e19591d2c007c6e4dac78045295d0f61, type: 2}
 --- !u!114 &7885751989711822070
 MonoBehaviour:
   m_ObjectHideFlags: 1
