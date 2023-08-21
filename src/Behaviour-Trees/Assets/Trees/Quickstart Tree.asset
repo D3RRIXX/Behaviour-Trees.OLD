@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7167560638176253124
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 505736a48783902418da8f7f064489da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Sequence
+  executionOrder: 1
+  _cachedTypeName: Sequence
+  Guid: 1f705831d847efa4192fba4cbe416ec6
+  Position: {x: 0, y: 109}
+  behaviourTree: {fileID: 11400000}
+  Children:
+  - {fileID: -6334399261416889661}
+  - {fileID: -4645598855834608710}
+  _dynamic: 0
+--- !u!114 &-6334399261416889661
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8fa93ebad9043d88c883e002c3a1fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Set Random Destination
+  executionOrder: 2
+  _cachedTypeName: Set Random Destination
+  Guid: b684e851102468c4bb975a42e743a267
+  Position: {x: -122, y: 242}
+  behaviourTree: {fileID: 11400000}
+  _radius: 0
+  _destination: {fileID: -3684370452076606289, guid: 60c2a473e2fdd6949a5e856a510f27ef, type: 2}
+--- !u!114 &-5781527481298448847
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d5071c66c9f52644b6da255ff5fe082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Root
+  executionOrder: 0
+  _cachedTypeName: Root
+  Guid: b2df5f90c24365848a98c47158968fbc
+  Position: {x: 0, y: 0}
+  behaviourTree: {fileID: 11400000}
+  _child: {fileID: -7167560638176253124}
+--- !u!114 &-4645598855834608710
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e3170b549014e078f6517915e21e375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Move To
+  executionOrder: 3
+  _cachedTypeName: Move To
+  Guid: 708e0e350267fec43b20c8839daae20d
+  Position: {x: 106, y: 242}
+  behaviourTree: {fileID: 11400000}
+  _destination: {fileID: -3684370452076606289, guid: 60c2a473e2fdd6949a5e856a510f27ef, type: 2}
+  _agentProperty: {fileID: -8402797044506125293, guid: 60c2a473e2fdd6949a5e856a510f27ef, type: 2}
+  _stoppingDistance: 2
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9972f18520af88479f216431679237a, type: 3}
+  m_Name: Quickstart Tree
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: -5781527481298448847}
+  - {fileID: -7167560638176253124}
+  - {fileID: -6334399261416889661}
+  - {fileID: -4645598855834608710}
+  rootNode: {fileID: -5781527481298448847}
+  blackboard: {fileID: 11400000, guid: 60c2a473e2fdd6949a5e856a510f27ef, type: 2}

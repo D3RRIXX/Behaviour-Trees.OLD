@@ -1,5 +1,26 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4444460686064816413
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e3170b549014e078f6517915e21e375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeName: Move To
+  executionOrder: 0
+  _cachedTypeName: Move To
+  Guid: 85e99360293f5234aaf2d944eb23df4a
+  Position: {x: 370, y: 145}
+  behaviourTree: {fileID: 11400000}
+  _destination: {fileID: 8186038928769464853, guid: eba0a8a80b65fc74c85baa3138bc65f4, type: 2}
+  _agentProperty: {fileID: -6739194452388081382, guid: eba0a8a80b65fc74c85baa3138bc65f4, type: 2}
+  _stoppingDistance: 2
 --- !u!114 &-1603425391949636301
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -35,8 +56,9 @@ MonoBehaviour:
   - {fileID: 1726270520886130760}
   - {fileID: -1603425391949636301}
   - {fileID: 3968280747058448885}
+  - {fileID: -4444460686064816413}
   rootNode: {fileID: 1726270520886130760}
-  blackboard: {fileID: 11400000, guid: f7280c2c6bf797640a6c2f94a484fcd7, type: 2}
+  blackboard: {fileID: 11400000, guid: eba0a8a80b65fc74c85baa3138bc65f4, type: 2}
 --- !u!114 &1726270520886130760
 MonoBehaviour:
   m_ObjectHideFlags: 1

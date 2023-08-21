@@ -56,6 +56,9 @@ After you've created and set up your Behaviour Tree, you'll most likely want to 
 
 ![Final result](Documentation/Images/runner.png "Final result")
 
+### Creating a custom Node script: Making our AI move
+[This section got too big so I moved it to a separate file](Documentation/Quickstart.md).
+
 ## Blackboards & Blackboard Properties
 A Behaviour Tree uses a **Blackboard** to store and share data across all of its nodes, while a Blackboard by itself is a **ScriptableObject** that contains a list of **Blackboard Properties**.
 
