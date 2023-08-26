@@ -1,4 +1,4 @@
-﻿using Derrixx.BehaviourTrees.Nodes;
+﻿using Derrixx.BehaviourTrees;
 using UnityEngine;
 
 namespace Tests.Trees
