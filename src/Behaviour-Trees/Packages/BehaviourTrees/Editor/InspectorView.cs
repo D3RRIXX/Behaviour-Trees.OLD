@@ -1,4 +1,6 @@
+using System.Text;
 using Derrixx.BehaviourTrees.Editor.ViewScripts;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -18,6 +20,8 @@ namespace Derrixx.BehaviourTrees.Editor
 
 			_editor = UnityEditor.Editor.CreateEditor(nodeView.Node);
 			var inspectorGUI = _editor.CreateInspectorGUI();
+
+			LogSerializedObject(new SerializedObject(nodeView.Node));
 			
 			Add(inspectorGUI);
 			
@@ -31,6 +35,18 @@ namespace Derrixx.BehaviourTrees.Editor
 			// 	nodeView.Update();
 			// });
 			// Add(container);
+		}
+
+		private static void LogSerializedObject(SerializedObject serializedObject)
+		{
+			var iterator = serializedObject.GetIterator();
+			var builder = new StringBuilder();
+			do
+			{
+				builder.AppendLine(iterator.ToString());
+			} while (iterator.Next(true));
+
+			Debug.Log(builder.ToString());
 		}
 	}
 }

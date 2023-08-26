@@ -30,8 +30,20 @@ namespace Derrixx.BehaviourTrees.Editor
 			styleSheets.Add(styleSheet);
 			
 			nodeCreationRequest = ctx => SearchWindow.Open(new SearchWindowContext(ctx.screenMousePosition), SetupSearchWindow());
+			serializeGraphElements = OnCopyCut;
+			unserializeAndPaste = OnPaste;
 
 			Undo.undoRedoPerformed += OnUndoRedo;
+		}
+
+		private void OnPaste(string operationname, string data)
+		{
+			
+		}
+
+		private string OnCopyCut(IEnumerable<GraphElement> elements)
+		{
+			return null;
 		}
 
 		private void OnUndoRedo()

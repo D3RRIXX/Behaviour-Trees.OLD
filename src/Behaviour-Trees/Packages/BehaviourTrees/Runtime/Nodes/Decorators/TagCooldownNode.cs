@@ -3,7 +3,7 @@ using System.Text;
 using Derrixx.BehaviourTrees.TimerSystem;
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Nodes
+namespace Derrixx.BehaviourTrees
 {
 	public class TagCooldownNode : DecoratorNode
 	{

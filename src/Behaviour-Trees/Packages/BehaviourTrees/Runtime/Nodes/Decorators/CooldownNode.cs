@@ -2,7 +2,7 @@
 using System.Globalization;
 using UnityEngine;
 
-namespace Derrixx.BehaviourTrees.Nodes
+namespace Derrixx.BehaviourTrees
 {
 	public class CooldownNode : DecoratorNode
 	{

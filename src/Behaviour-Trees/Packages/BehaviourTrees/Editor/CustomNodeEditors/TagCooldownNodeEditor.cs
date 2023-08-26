@@ -1,5 +1,4 @@
-﻿using Derrixx.BehaviourTrees.Nodes;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine.UIElements;
 
 namespace Derrixx.BehaviourTrees.Editor

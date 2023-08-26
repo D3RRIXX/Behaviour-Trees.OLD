@@ -1,7 +1,5 @@
-using Derrixx.BehaviourTrees.Nodes;
 using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Derrixx.BehaviourTrees.Editor
@@ -54,7 +52,6 @@ namespace Derrixx.BehaviourTrees.Editor
 			}
 			
 			return childRoot;
-			return null;
 		}
 	}
 }
